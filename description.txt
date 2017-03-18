@@ -1,0 +1,13 @@
+﻿ModdersToolkit is a toolkit for modders, hence the name.
+
+Current Tools
+-C# REPL, exaluate and run code interactively
+-Hitbox visualizer
+
+Planned Tools
+-Projectile spawner
+-WorldGen tools
+-Player layer viewer.
+-Dust tool
+-Sound explorer/tester
+-Item defaults tweaker.
