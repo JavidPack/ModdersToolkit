@@ -41,6 +41,7 @@ namespace ModdersToolkit.REPL
 			keyboardPanel.BackgroundColor = new Color(73, 94, 171);
 
 			codeTextBox = new NewUITextBox("Type code here", 1f);
+			codeTextBox.SetUnfocusKeys(false, false);
 			codeTextBox.BackgroundColor = Color.Transparent;
 			codeTextBox.BorderColor = Color.Transparent;
 			codeTextBox.Left.Pixels = 0;

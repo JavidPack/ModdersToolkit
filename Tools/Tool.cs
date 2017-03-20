@@ -13,6 +13,8 @@ namespace ModdersToolkit.Tools
 		internal bool visible;
 		internal string toggleTooltip;
 		//internal virtual bool visible => _visible;
+		internal UserInterface userInterface;
+		//internal virtual UserInterface UserInterface => userInterface;
 
 		/// <summary>
 		/// Initializes this Tool. Called during Load.
@@ -26,15 +28,26 @@ namespace ModdersToolkit.Tools
 		/// </summary>
 		internal virtual void ClientInitialize() { }
 
-		internal virtual void ScreenResolutionChanged() { }
+		internal virtual void ScreenResolutionChanged()
+		{
+			userInterface?.Recalculate();
+		}
 
-		internal virtual void UIUpdate() { }
+		internal virtual void UIUpdate()
+		{
+			if (visible)
+			{
+				userInterface?.Update(Main._drawInterfaceGameTime);
+			}
+		}
 
 		internal virtual void UIDraw() { }
 
 		internal virtual void DrawUpdateToggle() { }
 
 		internal virtual void Toggled() { }
+
+		internal virtual void PostSetupContent() { }
 
 		//	internal virtual void UIDraw() { }
 	}

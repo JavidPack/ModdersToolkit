@@ -11,7 +11,7 @@ namespace ModdersToolkit.Tools.REPL
 	class REPLTool : Tool
 	{
 		internal static REPLBackend replBackend;
-		internal static UserInterface ModdersToolkitUserInterface;
+		//internal static UserInterface ModdersToolkitUserInterface;
 		internal static REPLUI moddersToolkitUI;
 
 		internal override void Initialize()
@@ -22,23 +22,23 @@ namespace ModdersToolkit.Tools.REPL
 
 		internal override void ClientInitialize()
 		{
-			ModdersToolkitUserInterface = new UserInterface();
-			moddersToolkitUI = new REPLUI(ModdersToolkitUserInterface);
+			userInterface = new UserInterface();
+			moddersToolkitUI = new REPLUI(userInterface);
 			moddersToolkitUI.Activate();
-			ModdersToolkitUserInterface.SetState(moddersToolkitUI);
+			userInterface.SetState(moddersToolkitUI);
 		}
 
-		internal override void ScreenResolutionChanged()
-		{
-			ModdersToolkitUserInterface.Recalculate();
-		}
-		internal override void UIUpdate()
-		{
-			if (visible)
-			{
-				ModdersToolkitUserInterface.Update(Main._drawInterfaceGameTime);
-			}
-		}
+		//internal override void ScreenResolutionChanged()
+		//{
+		//	ModdersToolkitUserInterface.Recalculate();
+		//}
+		//internal override void UIUpdate()
+		//{
+		//	if (visible)
+		//	{
+		//		userInterface.Update(Main._drawInterfaceGameTime);
+		//	}
+		//}
 		internal override void UIDraw()
 		{
 			if (visible)

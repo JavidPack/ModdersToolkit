@@ -21,6 +21,9 @@ namespace ModdersToolkit.UIElements
 		public event Action OnTabPressed;
 		public event Action OnEnterPressed;
 		public event Action OnUpPressed;
+		internal bool unfocusOnEnter = true;
+		internal bool unfocusOnTab = true;
+
 
 		public NewUITextBox(string text, float textScale = 1, bool large = false) : base("", textScale, large)
 		{
@@ -32,6 +35,12 @@ namespace ModdersToolkit.UIElements
 		{
 			Focus();
 			base.Click(evt);
+		}
+
+		public void SetUnfocusKeys(bool unfocusOnEnter, bool unfocusOnTab)
+		{
+			this.unfocusOnEnter = unfocusOnEnter;
+			this.unfocusOnTab = unfocusOnTab;
 		}
 
 		//void KeyboardInput_newKeyEvent(char obj)
@@ -120,7 +129,7 @@ namespace ModdersToolkit.UIElements
 			}
 			base.SetText(text, textScale, large);
 
-			this.MinWidth.Set(120, 0f);
+			//this.MinWidth.Set(120, 0f);
 
 			this._cursor = Math.Min(base.Text.Length, this._cursor);
 
@@ -168,11 +177,13 @@ namespace ModdersToolkit.UIElements
 		{
 			if (focused)
 			{
+				Main.editSign = true;
 				// This might work.....assuming chat isn't open
 				WriteAll(Main.GetInputText(Text));
 
 				if (JustPressed(Keys.Tab))
 				{
+					if (unfocusOnTab) Unfocus();
 					//	Main.NewText("Tab");
 					OnTabPressed?.Invoke();
 				}
@@ -180,6 +191,7 @@ namespace ModdersToolkit.UIElements
 				if (JustPressed(Keys.Enter))
 				{
 					//	Main.NewText("Enter");
+					if (unfocusOnEnter) Unfocus();
 					OnEnterPressed?.Invoke();
 				}
 				if (JustPressed(Keys.Up))

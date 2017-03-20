@@ -25,6 +25,7 @@ namespace ModdersToolkit
 			tools = new List<Tool>();
 			tools.Add(new Tools.REPL.REPLTool());
 			tools.Add(new Tools.Hitboxes.HitboxesTool());
+			tools.Add(new Tools.Dusts.DustTool());
 
 			tools.ForEach(tool => tool.Initialize());
 
@@ -32,6 +33,11 @@ namespace ModdersToolkit
 			{
 				tools.ForEach(tool => tool.ClientInitialize());
 			}
+		}
+
+		public override void PostSetupContent()
+		{
+			tools.ForEach(tool => tool.PostSetupContent());
 		}
 
 
@@ -80,6 +86,7 @@ namespace ModdersToolkit
 			int xPosition = Main.screenWidth - 190; //62; //78;
 			int yPosition = Main.screenHeight - 36 + 10;
 
+			// TODO, use UI/Settings_Toggle
 			Texture2D toggleTexture = visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
 
 			Rectangle toggleToolkitButtonRectangle = new Rectangle(xPosition, yPosition, toggleTexture.Width, toggleTexture.Height);
@@ -116,6 +123,14 @@ namespace ModdersToolkit
 						toggleToolkitButtonHover = true;
 						if (Main.mouseLeft && Main.mouseLeftRelease)
 						{
+							foreach (var otherTool in tools)
+							{
+								if(tool != otherTool && otherTool.visible)
+								{
+									otherTool.visible = false;
+									otherTool.Toggled();
+								}
+							}
 							tool.visible = !tool.visible;
 							Main.PlaySound(tool.visible ? SoundID.MenuOpen : SoundID.MenuClose);
 							tool.Toggled();

@@ -11,7 +11,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 {
 	class HitboxesTool : Tool
 	{
-		internal static UserInterface userInterface;
+		//internal static UserInterface userInterface;
 		internal static HitboxesUI hitboxesUI;
 		internal static bool showPlayerMeleeHitboxes;
 		internal static bool showNPCHitboxes;
@@ -32,17 +32,17 @@ namespace ModdersToolkit.Tools.Hitboxes
 			userInterface.SetState(hitboxesUI);
 		}
 
-		internal override void ScreenResolutionChanged()
-		{
-			userInterface.Recalculate();
-		}
-		internal override void UIUpdate()
-		{
-			if (visible)
-			{
-				userInterface.Update(Main._drawInterfaceGameTime);
-			}
-		}
+		//internal override void ScreenResolutionChanged()
+		//{
+		//	userInterface.Recalculate();
+		//}
+		//internal override void UIUpdate()
+		//{
+		//	if (visible)
+		//	{
+		//		userInterface.Update(Main._drawInterfaceGameTime);
+		//	}
+		//}
 		internal override void UIDraw()
 		{
 			if (visible)

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E555C67A-5195-412B-8BBB-E2B0F12D7396}</ProjectGuid>
+    <ProjectGuid>{7B5C574E-3759-45FE-9468-7F2A60EBB23D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ModdersToolkit</RootNamespace>
@@ -72,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModdersToolkit.cs" />
+    <Compile Include="Tools\Dusts\DataRangeProperty.cs" />
+    <Compile Include="Tools\Dusts\DustTool.cs" />
+    <Compile Include="Tools\Dusts\DustUI.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesTool.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesUI.cs" />
     <Compile Include="Tools\REPL\REPLTool.cs" />
@@ -82,6 +85,10 @@
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="UIElements\UICheckbox.cs" />
     <Compile Include="UIElements\UICodeEntry.cs" />
+    <Compile Include="UIElements\UIRadioButton.cs" />
+    <Compile Include="UIElements\UIRadioButtonGroup.cs" />
+    <Compile Include="UIElements\UIRange.cs" />
+    <Compile Include="UIElements\UISlider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build.txt" />
