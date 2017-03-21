@@ -28,6 +28,7 @@ namespace ModdersToolkit.UIElements
 		public NewUITextBox(string text, float textScale = 1, bool large = false) : base("", textScale, large)
 		{
 			hintText = text;
+			SetPadding(0);
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
 		}
 
@@ -234,7 +235,7 @@ namespace ModdersToolkit.UIElements
 			}
 			if (Text.Length == 0)
 			{
-				Vector2 hintTextSize = new Vector2(spriteFont.MeasureString(hintText.ToString()).X, IsLarge ? 32f : 16f) * TextScale;
+			Vector2 hintTextSize = new Vector2(spriteFont.MeasureString(hintText.ToString()).X, IsLarge ? 32f : 16f) * TextScale;
 				pos.X += 5;//(hintTextSize.X);
 				if (base.IsLarge)
 				{

@@ -8,7 +8,7 @@ using Terraria;
 
 namespace ModdersToolkit.Tools.Dusts
 {
-	class FloatDataRangeProperty
+	class FullFloatDataRangeProperty
 	{
 		internal float min = 0f;
 		internal float max = 5f;
@@ -23,17 +23,23 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 		}
 
-		public UIRange range;
+		public UIRange<float> range;
 
-		public FloatDataRangeProperty(string label, float defaultValue, float min, float max)
+		public FullFloatDataRangeProperty(string label, float defaultValue, float min, float max)
 		{
 			data = defaultValue;
 			this.min = min;
 			this.max = max;
-			range = new UIRange(label, () => (Data - min) / (max - min), (s) => { Data = (s * (max - min) + min); }, ValidateInput);
+			range = new UIRange<float>(label, () => (Data - min) / (max - min), (s) => { Data = (s * (max - min) + min); }, ValidateInput);
 			//range.Top.Set(top, 0f);
 			range.Width.Set(0, 1f);
 			Data = data;
+		}
+
+		public FullFloatDataRangeProperty(UIFloatRangedDataValue inData)
+		{
+			range = new UIRange<float>(inData.label, inData.GetProportion, inData.SetProportion, ValidateInput);
+			range.Width.Set(0, 1f);
 		}
 
 		private void ValidateInput()
@@ -64,13 +70,13 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 		}
 
-		public UIRange range;
+		public UIRange<int> range;
 
 		public IntDataRangeProperty(string label, int defaultValue, int max, bool fine = false)
 		{
 			data = defaultValue;
 			this.max = max;
-			range = new UIRange(label, () => (float)Data / max, (s) => { Data = (int)(s * max); }, ValidateInput, fine);
+			range = new UIRange<int>(label, () => (float)Data / max, (s) => { Data = (int)(s * max); }, ValidateInput, fine);
 			range.intDataRangeProperty = this;
 			//range.Top.Set(top, 0f);
 			range.Width.Set(0, 1f);
@@ -105,12 +111,12 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 		}
 
-		public UIRange range;
+		public UIRange<float> range;
 
 		public ColorDataRangeProperty(string label)
 		{
 			//Main.hslToRgb(amount, 1f, 0.5f)
-			range = new UIRange(label, () => Main.rgbToHsl(Data).X, (s) => { Data = Main.hslToRgb(s, 1f, 0.5f); }, ValidateInput);
+			range = new UIRange<float>(label, () => Main.rgbToHsl(Data).X, (s) => { Data = Main.hslToRgb(s, 1f, 0.5f); }, ValidateInput);
 			range.Width.Set(0, 1f);
 			range.slider.SetHueMode(true);
 			Data = data;

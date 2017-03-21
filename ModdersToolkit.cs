@@ -26,6 +26,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.REPL.REPLTool());
 			tools.Add(new Tools.Hitboxes.HitboxesTool());
 			tools.Add(new Tools.Dusts.DustTool());
+			tools.Add(new Tools.Items.ItemTool());
 
 			tools.ForEach(tool => tool.Initialize());
 

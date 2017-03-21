@@ -92,7 +92,7 @@ namespace ModdersToolkit.UIElements
 			}
 
 			return;
-
+/*
 			float num = 6f;
 			base.DrawSelf(spriteBatch);
 			int lockstate = 0;
@@ -139,7 +139,7 @@ namespace ModdersToolkit.UIElements
 			if (IngameOptions.inBar || IngameOptions.rightLock == this._sliderIDInPage)
 			{
 				rightHover = this._sliderIDInPage;
-				if (PlayerInput.Triggers.Current.MouseLeft /*&& !PlayerInput.UsingGamepad*/ && IngameOptions.rightLock == this._sliderIDInPage)
+				if (PlayerInput.Triggers.Current.MouseLeft  && IngameOptions.rightLock == this._sliderIDInPage)
 				{
 					this._SlideKeyboardAction(newPercent);
 				}
@@ -152,6 +152,7 @@ namespace ModdersToolkit.UIElements
 			//{
 			//	this._SlideGamepadAction();
 			//}
+*/
 		}
 	}
 }

@@ -35,7 +35,7 @@ namespace ModdersToolkit.Tools.Dusts
 		UIRadioButton NewDustPerfectRadioButton;
 		UIRadioButton NewDustDirectRadioButton;
 
-		UIRange widthRange;
+		UIRange<int> widthRange;
 
 		float scaleMax = 5f;
 		private float dustScale = 1f;
@@ -53,10 +53,10 @@ namespace ModdersToolkit.Tools.Dusts
 		IntDataRangeProperty typeDataProperty;
 		IntDataRangeProperty alphaDataProperty;
 		IntDataRangeProperty shaderDataProperty;
-		FloatDataRangeProperty speedXDataProperty;
-		FloatDataRangeProperty speedYDataProperty;
-		FloatDataRangeProperty fadeInDataProperty;
-		FloatDataRangeProperty spawnChanceDataProperty;
+		FullFloatDataRangeProperty speedXDataProperty;
+		FullFloatDataRangeProperty speedYDataProperty;
+		FullFloatDataRangeProperty fadeInDataProperty;
+		UIFloatRangedDataValue spawnChanceDataProperty;
 		ColorDataRangeProperty colorDataProperty;
 		// Color slider
 		// customdata?
@@ -138,14 +138,14 @@ namespace ModdersToolkit.Tools.Dusts
 			scaleInput.Top.Set(top, 0f);
 			scaleInput.SetPadding(0);
 			scaleInput.OnUnfocus += ValidateInput;
-			scaleInput.PaddingLeft = 12;
+			//scaleInput.PaddingLeft = 12;
 			//scaleInput.PaddingRight = 12;
 			scaleInput.Width.Set(0, .33f);
 			scaleInput.HAlign = 1f;
 			mainPanel.Append(scaleInput);
 
 			top += 30;
-			widthRange = new UIRange("Width", () => DustWidth / widthMax, (s) => { DustWidth = (int)(s * widthMax); }, ValidateWidth);
+			widthRange = new UIRange<int>("Width", () => DustWidth / widthMax, (s) => { DustWidth = (int)(s * widthMax); }, ValidateWidth);
 			widthRange.Top.Set(top, 0f);
 			widthRange.Width.Set(0, 1f);
 			mainPanel.Append(widthRange);
@@ -182,24 +182,35 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(shaderDataProperty.range);
 
 			top += 30;
-			speedXDataProperty = new FloatDataRangeProperty("SpeedX:", 0, -10, 10);
+			speedXDataProperty = new FullFloatDataRangeProperty("SpeedX:", 0, -10, 10);
 			speedXDataProperty.range.Top.Set(top, 0f);
 			mainPanel.Append(speedXDataProperty.range);
 
 			top += 30;
-			speedYDataProperty = new FloatDataRangeProperty("SpeedY:", 0, -10, 10);
+			speedYDataProperty = new FullFloatDataRangeProperty("SpeedY:", 0, -10, 10);
 			speedYDataProperty.range.Top.Set(top, 0f);
 			mainPanel.Append(speedYDataProperty.range);
 
 			top += 30;
-			fadeInDataProperty = new FloatDataRangeProperty("FadeIn:", 0, 0, 3);
+			fadeInDataProperty = new FullFloatDataRangeProperty("FadeIn:", 0, 0, 3);
 			fadeInDataProperty.range.Top.Set(top, 0f);
 			mainPanel.Append(fadeInDataProperty.range);
 
-						top += 30;
-			spawnChanceDataProperty = new FloatDataRangeProperty("Spawn%:", 1f, 0, 1);
-			spawnChanceDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(spawnChanceDataProperty.range);
+			top += 30;
+			spawnChanceDataProperty = new UIFloatRangedDataValue("Spawn%:", 0, 1, true, true);
+			spawnChanceDataProperty.SetValue(1f);
+			var uiRange = new UIRange<float>(spawnChanceDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
+
+
+			top += 30;
+			var testFloatDataValue = new UIFloatRangedDataValue("Test:",30f, 30f, false, true);
+			uiRange = new UIRange<float>(testFloatDataValue);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
 
 			top += 20;
 			UIRadioButtonGroup g = new UIRadioButtonGroup();

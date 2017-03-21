@@ -77,6 +77,8 @@
     <Compile Include="Tools\Dusts\DustUI.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesTool.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesUI.cs" />
+    <Compile Include="Tools\Items\ItemTool.cs" />
+    <Compile Include="Tools\Items\ItemUI.cs" />
     <Compile Include="Tools\REPL\REPLTool.cs" />
     <Compile Include="Tools\REPL\REPLUI.cs" />
     <Compile Include="UIElements\FixedUIScrollBar.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="UIElements\UICheckbox.cs" />
     <Compile Include="UIElements\UICodeEntry.cs" />
+    <Compile Include="UIElements\UIDataValue.cs" />
     <Compile Include="UIElements\UIRadioButton.cs" />
     <Compile Include="UIElements\UIRadioButtonGroup.cs" />
     <Compile Include="UIElements\UIRange.cs" />
