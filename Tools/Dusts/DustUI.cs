@@ -53,8 +53,8 @@ namespace ModdersToolkit.Tools.Dusts
 		IntDataRangeProperty typeDataProperty;
 		IntDataRangeProperty alphaDataProperty;
 		IntDataRangeProperty shaderDataProperty;
-		FullFloatDataRangeProperty speedXDataProperty;
-		FullFloatDataRangeProperty speedYDataProperty;
+		UIFloatRangedDataValue speedXDataProperty;
+		UIFloatRangedDataValue speedYDataProperty;
 		FullFloatDataRangeProperty fadeInDataProperty;
 		UIFloatRangedDataValue spawnChanceDataProperty;
 		ColorDataRangeProperty colorDataProperty;
@@ -74,6 +74,7 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 		}
 
+		// TODO, browser and Eyedropper, and Intents-Open other tool to select from it.
 		public override void OnInitialize()
 		{
 			mainPanel = new UIPanel();
@@ -181,15 +182,38 @@ namespace ModdersToolkit.Tools.Dusts
 			shaderDataProperty.range.Top.Set(top, 0f);
 			mainPanel.Append(shaderDataProperty.range);
 
-			top += 30;
-			speedXDataProperty = new FullFloatDataRangeProperty("SpeedX:", 0, -10, 10);
-			speedXDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(speedXDataProperty.range);
+			//
+			//top += 30;
+			//speedXDataProperty = new FullFloatDataRangeProperty("SpeedX:", 0, -10, 10);
+			//speedXDataProperty.range.Top.Set(top, 0f);
+			//mainPanel.Append(speedXDataProperty.range);
+			//
+			//top += 30;
+			//speedYDataProperty = new FullFloatDataRangeProperty("SpeedY:", 0, -10, 10);
+			//speedYDataProperty.range.Top.Set(top, 0f);
+			//mainPanel.Append(speedYDataProperty.range);
+			///
 
 			top += 30;
-			speedYDataProperty = new FullFloatDataRangeProperty("SpeedY:", 0, -10, 10);
-			speedYDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(speedYDataProperty.range);
+			speedXDataProperty = new UIFloatRangedDataValue("SpeedX:", -10, 10);
+			var uiRange = new UIRange<float>(speedXDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
+
+			top += 30;
+			speedYDataProperty = new UIFloatRangedDataValue("SpeedY:", -10, 10);
+			uiRange = new UIRange<float>(speedYDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
+
+			//todo, position this better? displays as well?
+	//		top += 30;
+	//		var ui2DRange = new UI2DRange<float>(speedXDataProperty, speedYDataProperty);
+	//		ui2DRange.Top.Set(top, 0f);
+	//		//ui2DRange.Width.Set(0, 1f);
+	//		mainPanel.Append(ui2DRange);
 
 			top += 30;
 			fadeInDataProperty = new FullFloatDataRangeProperty("FadeIn:", 0, 0, 3);
@@ -199,18 +223,18 @@ namespace ModdersToolkit.Tools.Dusts
 			top += 30;
 			spawnChanceDataProperty = new UIFloatRangedDataValue("Spawn%:", 0, 1, true, true);
 			spawnChanceDataProperty.SetValue(1f);
-			var uiRange = new UIRange<float>(spawnChanceDataProperty);
+			uiRange = new UIRange<float>(spawnChanceDataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 
 
-			top += 30;
-			var testFloatDataValue = new UIFloatRangedDataValue("Test:",30f, 30f, false, true);
-			uiRange = new UIRange<float>(testFloatDataValue);
-			uiRange.Top.Set(top, 0f);
-			uiRange.Width.Set(0, 1f);
-			mainPanel.Append(uiRange);
+			//top += 30;
+			//var testFloatDataValue = new UIFloatRangedDataValue("Test:", 30f, 30f, false, true);
+			//uiRange = new UIRange<float>(testFloatDataValue);
+			//uiRange.Top.Set(top, 0f);
+			//uiRange.Width.Set(0, 1f);
+			//mainPanel.Append(uiRange);
 
 			top += 20;
 			UIRadioButtonGroup g = new UIRadioButtonGroup();

@@ -26,7 +26,14 @@ namespace ModdersToolkit.REPL
 
 		public void Reset()
 		{
-			compilerContext = new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter(new MainNewTextTextWriter()));
+			if (Main.netMode == 2)
+			{
+				compilerContext = new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter(new ConsoleTextWriter()));
+			}
+			else
+			{
+				compilerContext = new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter(new MainNewTextTextWriter()));
+			}
 			evaluator = new Evaluator(compilerContext);
 			namespaces = new List<string>();
 
@@ -114,17 +121,58 @@ namespace ModdersToolkit.REPL
 				}
 				//Console.WriteLine(result);
 				//Main.NewText(result.ToString());
-				REPLTool.moddersToolkitUI.AddChunkedLine(result.ToString(), CodeType.Output);
+				if (Main.dedServ)
+				{
+					Console.WriteLine(result.ToString());
+				}
+				else
+				{
+					REPLTool.moddersToolkitUI.AddChunkedLine(result.ToString(), CodeType.Output);
+				}
 				//ModdersToolkit.instance.ModdersToolkitUI.replOutput.Add(new UICodeEntry(result.ToString(), CodeType.Output));
 			}
 			else
 			{
+				//if (Main.dedServ)
+				//{
+				//	Console.ForegroundColor = ConsoleColor.Red;
+				//	Console.WriteLine(result.ToString());
+				//}
 				//Main.NewText(line);
 			}
 
 			//var mod = ModLoader.GetMod(args[0]);
 			//var type = mod == null ? 0 : mod.NPCType(args[1]);
 			//caller.Reply(type.ToString(), Color.Yellow);
+		}
+	}
+
+	// TODO, REPL as ModCommand for server console
+	// TODO, REPL as ModCommand for server console
+	public class ConsoleTextWriter : TextWriter
+	{
+		public ConsoleTextWriter()
+		{
+		}
+
+		string buffer = "";
+		public override void Write(char value)
+		{
+			if (value == '\n')
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine(buffer);
+				buffer = "";
+			}
+			else
+			{
+				buffer += value;
+			}
+		}
+
+		public override Encoding Encoding
+		{
+			get { return System.Text.Encoding.UTF8; }
 		}
 	}
 

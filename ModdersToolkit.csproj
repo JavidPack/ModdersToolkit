@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugClient|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,16 +22,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugServer|AnyCPU'">
+    <OutputPath>bin\DebugServer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
@@ -79,12 +74,14 @@
     <Compile Include="Tools\Hitboxes\HitboxesUI.cs" />
     <Compile Include="Tools\Items\ItemTool.cs" />
     <Compile Include="Tools\Items\ItemUI.cs" />
+    <Compile Include="Tools\REPL\REPLConsoleCommand.cs" />
     <Compile Include="Tools\REPL\REPLTool.cs" />
     <Compile Include="Tools\REPL\REPLUI.cs" />
     <Compile Include="UIElements\FixedUIScrollBar.cs" />
     <Compile Include="UIElements\NewUITextBox.cs" />
     <Compile Include="Tools\REPL\REPLBackend.cs" />
     <Compile Include="Tools\Tool.cs" />
+    <Compile Include="UIElements\UI2DRange.cs" />
     <Compile Include="UIElements\UICheckbox.cs" />
     <Compile Include="UIElements\UICodeEntry.cs" />
     <Compile Include="UIElements\UIDataValue.cs" />

@@ -8,4 +8,9 @@
     <StartProgram>C:\Program Files %28x86%29\Steam\steamapps\common\Terraria\tModLoaderDebug.exe</StartProgram>
     <StartWorkingDirectory>C:\Program Files %28x86%29\Steam\steamapps\common\Terraria\</StartWorkingDirectory>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugClient|AnyCPU'">
+    <StartProgram>C:\Program Files %28x86%29\Steam\steamapps\common\Terraria\tModLoaderDebug.exe</StartProgram>
+    <StartAction>Program</StartAction>
+    <StartWorkingDirectory>C:\Program Files %28x86%29\Steam\steamapps\common\Terraria\</StartWorkingDirectory>
+  </PropertyGroup>
 </Project>

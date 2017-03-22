@@ -80,6 +80,7 @@ namespace ModdersToolkit
 			}
 		}
 
+		Tool lastVisibleTool;
 		internal void DrawUpdateToggles()
 		{
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
@@ -100,6 +101,25 @@ namespace ModdersToolkit
 				{
 					visible = !visible;
 					Main.PlaySound(visible ? SoundID.MenuOpen : SoundID.MenuClose);
+
+					if (!visible)
+					{
+						lastVisibleTool = null;
+						foreach (var otherTool in tools)
+						{
+							if (otherTool.visible)
+							{
+								lastVisibleTool = otherTool;
+								lastVisibleTool.visible = false;
+								lastVisibleTool.Toggled();
+							}
+						}
+					}
+					if (visible && lastVisibleTool != null)
+					{
+						lastVisibleTool.visible = true;
+						lastVisibleTool.Toggled();
+					}
 				}
 			}
 			Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White /** 0.7f*/);
@@ -126,7 +146,7 @@ namespace ModdersToolkit
 						{
 							foreach (var otherTool in tools)
 							{
-								if(tool != otherTool && otherTool.visible)
+								if (tool != otherTool && otherTool.visible)
 								{
 									otherTool.visible = false;
 									otherTool.Toggled();

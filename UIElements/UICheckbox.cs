@@ -9,6 +9,7 @@ using Terraria;
 
 namespace ModdersToolkit.UIElements
 {
+	// TODO, tri-state checkbox.
 	class UICheckbox : UIText
 	{
 		static Texture2D checkboxTexture = ModdersToolkit.instance.GetTexture("UIElements/checkBox");
@@ -74,6 +75,14 @@ namespace ModdersToolkit.UIElements
 		{
 			UICheckbox other = obj as UICheckbox;
 			return order.CompareTo(other.order);
+		}
+	}
+
+
+	class UICheckbox2<T> : UICheckbox2
+	{
+		public UICheckbox2(UIBoolDataValue data, float textScale = 1, bool large = false) : base(data, textScale, large)
+		{
 		}
 	}
 

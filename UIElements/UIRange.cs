@@ -23,6 +23,7 @@ namespace ModdersToolkit.UIElements
 		internal IntDataRangeProperty intDataRangeProperty;
 		//private Action validateInput;
 		private UIRangedDataValue<T> data;
+		// todo, make a UIRangedDataValue subclass?, make this generic?
 
 		public UIRange(UIRangedDataValue<T> data)
 		{

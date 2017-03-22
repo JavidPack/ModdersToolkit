@@ -29,9 +29,12 @@ namespace ModdersToolkit.Tools.Items
 		}
 		internal override void PostSetupContent()
 		{
-			itemUI = new ItemUI(userInterface);
+			if (!Main.dedServ)
+			{
+				itemUI = new ItemUI(userInterface);
 				itemUI.Activate();
 				userInterface.SetState(itemUI);
+			}
 		}
 	}
 }
