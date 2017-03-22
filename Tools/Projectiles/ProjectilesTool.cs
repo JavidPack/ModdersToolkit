@@ -8,14 +8,14 @@ using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ModdersToolkit.Tools.Items
+namespace ModdersToolkit.Tools.Projectiles
 {
-	class ItemTool : Tool
+	class ProjectilesTool : Tool
 	{
-		internal static ItemUI itemUI;
+		internal static ProjectilesUI projectileUI;
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Item Tool";
+			toggleTooltip = "Click to toggle Projectile Tool";
 		}
 		internal override void ClientInitialize()
 		{
@@ -25,16 +25,16 @@ namespace ModdersToolkit.Tools.Items
 		{
 			if (visible)
 			{
-				itemUI.Draw(Main.spriteBatch);
+				projectileUI.Draw(Main.spriteBatch);
 			}
 		}
 		internal override void PostSetupContent()
 		{
 			if (!Main.dedServ)
 			{
-				itemUI = new ItemUI(userInterface);
-				itemUI.Activate();
-				userInterface.SetState(itemUI);
+				projectileUI = new ProjectilesUI(userInterface);
+				projectileUI.Activate();
+				userInterface.SetState(projectileUI);
 			}
 		}
 	}

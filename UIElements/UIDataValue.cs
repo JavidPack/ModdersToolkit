@@ -8,7 +8,7 @@ namespace ModdersToolkit.UIElements
 	/// <summary>
 	/// Purely a data storage
 	/// </summary>
-	class UIDataValue<T> 
+	class UIDataValue<T>
 	{
 		internal string label;
 		internal Func<string> GetValueString;
@@ -86,6 +86,13 @@ namespace ModdersToolkit.UIElements
 		}
 	}
 
+	class UIBoolNDataValue : UIDataValue<bool?>
+	{
+		public UIBoolNDataValue(string label = "") : base(label)
+		{
+		}
+	}
+
 	// Add support for ranges, sliders
 	abstract class UIRangedDataValue<T> : UIDataValue<T>
 	{
@@ -98,7 +105,7 @@ namespace ModdersToolkit.UIElements
 		internal Action<string> ParseValue;
 		internal Action Increment;
 		internal Action Decrement;
-		
+
 
 		public UIRangedDataValue(string label = "", T min = default(T), T max = default(T), bool enforceMin = false, bool enforceMax = false) : base(label)
 		{
@@ -111,7 +118,7 @@ namespace ModdersToolkit.UIElements
 			ParseValue = (text) => DefaultParseValue(text);
 			Increment = () => DefaultIncrement();
 			Decrement = () => DefaultDecrement();
-			
+
 		}
 
 		protected abstract float DefaultGetProportion();
