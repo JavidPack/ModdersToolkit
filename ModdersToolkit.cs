@@ -23,7 +23,10 @@ namespace ModdersToolkit
 			instance = this;
 
 			tools = new List<Tool>();
-			tools.Add(new Tools.REPL.REPLTool());
+			if (ModLoader.windows) // REPL tool not working non-windows yet. Is this the attribute problem?
+			{
+				tools.Add(new Tools.REPL.REPLTool());
+			}
 			tools.Add(new Tools.Hitboxes.HitboxesTool());
 			tools.Add(new Tools.Dusts.DustTool());
 			tools.Add(new Tools.Items.ItemTool());

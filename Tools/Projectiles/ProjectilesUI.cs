@@ -284,6 +284,8 @@ namespace ModdersToolkit.Tools.Projectiles
 			{
 				p.aiStyle = ProjectilesUI.aiStyleDataProperty.Data;
 			}
+			// support for aitype??
+			//p.modProjectile = new ModProjectile();
 			//p.hostile = ;
 			//p.friendly = ;
 		}
