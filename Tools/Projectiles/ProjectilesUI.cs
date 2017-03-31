@@ -69,44 +69,42 @@ namespace ModdersToolkit.Tools.Projectiles
 			mainPanel.Append(searchFilter);
 			top += 20;
 
-			speedXDataProperty = new UIFloatRangedDataValue("SpeedX:", -10, 10);
-			speedYDataProperty = new UIFloatRangedDataValue("SpeedY:", -10, 10);
+			speedXDataProperty = new UIFloatRangedDataValue("SpeedX:", 0, -10, 10);
+			speedYDataProperty = new UIFloatRangedDataValue("SpeedY:", 0, -10, 10);
 			var ui2DRange = new UI2DRange<float>(speedXDataProperty, speedYDataProperty);
 			ui2DRange.Top.Set(top, 0f);
 			mainPanel.Append(ui2DRange);
 			top += 30;
 
-			ai0DataProperty = new UIFloatRangedDataValue("ai0:", -10, 10);
+			ai0DataProperty = new UIFloatRangedDataValue("ai0:", 0, -10, 10);
 			var uiRange = new UIRange<float>(ai0DataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 			top += 30;
 
-			ai1DataProperty = new UIFloatRangedDataValue("ai1:", -10, 10);
+			ai1DataProperty = new UIFloatRangedDataValue("ai1:", 0, -10, 10);
 			uiRange = new UIRange<float>(ai1DataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 			top += 30;
 
-			knockbackDataProperty = new UIFloatRangedDataValue("Knockback:", 0, 20);
+			knockbackDataProperty = new UIFloatRangedDataValue("Knockback:", 0, 0, 20);
 			uiRange = new UIRange<float>(knockbackDataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 			top += 30;
 
-			damageDataProperty = new UIIntRangedDataValue("Damage:", 0, 10);
-			damageDataProperty.SetValue(20);
+			damageDataProperty = new UIIntRangedDataValue("Damage:", 20, 0, 200);
 			var uiRangeI = new UIRange<int>(damageDataProperty);
 			uiRangeI.Top.Set(top, 0f);
 			uiRangeI.Width.Set(0, 1f);
 			mainPanel.Append(uiRangeI);
 			top += 30;
 
-			aiStyleDataProperty = new UIIntRangedDataValue("AIStyle:", -1, 145);
-			aiStyleDataProperty.SetValue(-1);
+			aiStyleDataProperty = new UIIntRangedDataValue("AIStyle:", -1, -1, 145);
 			uiRangeI = new UIRange<int>(aiStyleDataProperty);
 			uiRangeI.Top.Set(top, 0f);
 			uiRangeI.Width.Set(0, 1f);
@@ -136,7 +134,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			// this will initialize grid
 			updateneeded = true;
 
-			var projectileGridScrollbar = new FixedUIScrollbar(userInterface);
+			var projectileGridScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			projectileGridScrollbar.SetView(100f, 1000f);
 			projectileGridScrollbar.Top.Pixels = top;// + spacing;
 			projectileGridScrollbar.Height.Set(-top /*- spacing*/, 1f);
@@ -193,7 +191,6 @@ namespace ModdersToolkit.Tools.Projectiles
 			base.Update(gameTime);
 			UpdateGrid();
 		}
-
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{

@@ -49,7 +49,7 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 			// this will initialize List
 			updateneeded = true;
 
-			var interfaceLayerListScrollbar = new FixedUIScrollbar(userInterface);
+			var interfaceLayerListScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			interfaceLayerListScrollbar.SetView(100f, 1000f);
 			interfaceLayerListScrollbar.Top.Pixels = top;// + spacing;
 			interfaceLayerListScrollbar.Height.Set(-top /*- spacing*/, 1f);

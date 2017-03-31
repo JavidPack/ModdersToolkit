@@ -17,7 +17,7 @@ namespace ModdersToolkit.REPL
 	class REPLUI : UIState
 	{
 		public static bool visible = false;
-		public FixedUIScrollbar keyboardScrollbar;
+		public UIElements.FixedUIScrollbar keyboardScrollbar;
 		public UIPanel keyboardPanel;
 		public UIList replOutput;
 		public NewUITextBox codeTextBox;
@@ -61,7 +61,7 @@ namespace ModdersToolkit.REPL
 			replOutput.ListPadding = 10f;
 			keyboardPanel.Append(replOutput);
 
-			keyboardScrollbar = new FixedUIScrollbar(userInterface);
+			keyboardScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			keyboardScrollbar.SetView(100f, 1000f);
 			keyboardScrollbar.Top.Pixels = 2 * spacing;
 			keyboardScrollbar.Height.Set(-4 * spacing, 1f);

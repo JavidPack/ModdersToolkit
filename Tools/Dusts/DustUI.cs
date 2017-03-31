@@ -23,56 +23,48 @@ namespace ModdersToolkit.Tools.Dusts
 			this.userInterface = userInterface;
 		}
 
+		internal DustChooserUI dustChooserUI;
+		private bool showDustChooser;
+		public bool ShowDustChooser
+		{
+			get { return showDustChooser; }
+			set
+			{
+				if (value)
+				{
+					if (!HasChild(dustChooserUI)) Append(dustChooserUI);
+				}
+				else
+				{
+					if (HasChild(dustChooserUI)) RemoveChild(dustChooserUI);
+				}
+				showDustChooser = value;
+			}
+		}
+
 		UICheckbox noGravityCheckbox;
 		UICheckbox noLightCheckbox;
 		UICheckbox showSpawnRectangleCheckbox;
 		UICheckbox useCustomColorCheckbox;
-		UIText scaleLabel;
-		UIText scaleSlider;
-		NewUITextBox scaleInput;
 
 		UIRadioButton NewDustRadioButton;
 		UIRadioButton NewDustPerfectRadioButton;
 		UIRadioButton NewDustDirectRadioButton;
 
-		UIRange<int> widthRange;
-
-		float scaleMax = 5f;
-		private float dustScale = 1f;
-		internal float DustScale
-		{
-			get { return dustScale; }
-			set
-			{
-				dustScale = value;
-				scaleInput.SetText(dustScale.ToString("0.00"));
-			}
-		}
-
-		IntDataRangeProperty heightDataProperty;
-		IntDataRangeProperty typeDataProperty;
-		IntDataRangeProperty alphaDataProperty;
-		IntDataRangeProperty shaderDataProperty;
+		UIFloatRangedDataValue scaleDataProperty;
+		UIIntRangedDataValue widthDataProperty;
+		UIIntRangedDataValue heightDataProperty;
+		internal IntDataRangeProperty typeDataProperty;
+		UIIntRangedDataValue alphaDataProperty;
+		UIIntRangedDataValue shaderDataProperty;
 		UIFloatRangedDataValue speedXDataProperty;
 		UIFloatRangedDataValue speedYDataProperty;
-		FullFloatDataRangeProperty fadeInDataProperty;
+		UIFloatRangedDataValue fadeInDataProperty;
 		UIFloatRangedDataValue spawnChanceDataProperty;
 		ColorDataRangeProperty colorDataProperty;
 		// Color slider
 		// customdata?
 		// random jitter on all floats?
-
-		float widthMax = 200;
-		private int dustWidth = 50;
-		internal int DustWidth
-		{
-			get { return dustWidth; }
-			set
-			{
-				dustWidth = value;
-				widthRange.input.SetText(dustWidth.ToString());
-			}
-		}
 
 		// TODO, browser and Eyedropper, and Intents-Open other tool to select from it.
 		public override void OnInitialize()
@@ -93,6 +85,14 @@ namespace ModdersToolkit.Tools.Dusts
 			//text.Left.Set(12f, 0f);
 			mainPanel.Append(text);
 
+			UITextPanel<string> resetButton = new UITextPanel<string>("Reset Tool");
+			resetButton.SetPadding(4);
+			resetButton.Width.Set(-10, 0.5f);
+			resetButton.Left.Set(0, 0.5f);
+			resetButton.Top.Set(top, 0f);
+			resetButton.OnClick += ResetButton_OnClick;
+			mainPanel.Append(resetButton);
+
 			top += 20;
 			noGravityCheckbox = new UICheckbox("No Gravity", "");
 			noGravityCheckbox.Top.Set(top, 0f);
@@ -110,57 +110,42 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(showSpawnRectangleCheckbox);
 
 			top += 30;
-			scaleLabel = new UIText("Scale:", 0.85f);
-			//scaleLabel.PaddingLeft = 12;
-			//scaleLabel.PaddingRight = 12;
-			scaleLabel.Top.Set(top, 0f);
-			//scaleLabel.Width.Set(0, .33f);
-			//scaleLabel.Left.Set(12f, 0f);
-			mainPanel.Append(scaleLabel);
-
-			UISlider slider = new UISlider(null, () => DustScale / scaleMax, (s) => { DustScale = s * scaleMax; }, null, 0, Color.AliceBlue);
-			slider.Top.Set(top, 0f);
-			slider.Height.Set(16, 0f);
-			slider.Width.Set(0, .33f);
-			//slider.PaddingLeft = 12;
-			//slider.PaddingRight = 12;
-			slider.HAlign = .5f;
-			mainPanel.Append(slider);
-
-			//scaleSlider = new UIText("slider:", 0.85f);
-			//scaleSlider.Top.Set(top, 0f);
-			////scaleSlider.Left.Set(0, 0f);
-			//scaleSlider.PaddingLeft = 12;
-			//scaleSlider.PaddingRight = 12;
-			//scaleSlider.HAlign = .5f;
-			//mainPanel.Append(scaleSlider);
-
-			scaleInput = new NewUITextBox("input:", 0.85f);
-			scaleInput.Top.Set(top, 0f);
-			scaleInput.SetPadding(0);
-			scaleInput.OnUnfocus += ValidateInput;
-			//scaleInput.PaddingLeft = 12;
-			//scaleInput.PaddingRight = 12;
-			scaleInput.Width.Set(0, .33f);
-			scaleInput.HAlign = 1f;
-			mainPanel.Append(scaleInput);
+			scaleDataProperty = new UIFloatRangedDataValue("Scale:", 1f, 0, 5f);
+			UIElement uiRange = new UIRange<float>(scaleDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
 
 			top += 30;
-			widthRange = new UIRange<int>("Width", () => DustWidth / widthMax, (s) => { DustWidth = (int)(s * widthMax); }, ValidateWidth);
-			widthRange.Top.Set(top, 0f);
-			widthRange.Width.Set(0, 1f);
-			mainPanel.Append(widthRange);
+			widthDataProperty = new UIIntRangedDataValue("Width:", 30, 0, 400);
+			uiRange = new UIRange<int>(widthDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
 
 			top += 30;
-			heightDataProperty = new IntDataRangeProperty("Height:", 30, 400);
-			heightDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(heightDataProperty.range);
+			heightDataProperty = new UIIntRangedDataValue("Height:", 30, 0, 400);
+			uiRange = new UIRange<int>(heightDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
 
 			top += 30;
+			UIImageButton b = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/searchIcon"));
+			b.OnClick += (s, e) => { ShowDustChooser = !ShowDustChooser; Recalculate(); };
+			b.Top.Set(top, 0f);
+			mainPanel.Append(b);
+
 			typeDataProperty = new IntDataRangeProperty("Type:", 1, DustTool.dustCount, true); //TODO fix.
 			typeDataProperty.range.Top.Set(top, 0f);
+			typeDataProperty.range.Left.Set(20, 0f);
+			typeDataProperty.range.Width.Set(-20, 1f);
 			mainPanel.Append(typeDataProperty.range);
 
+			//top += 30;
+			//UIImageButton b = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"));
+
+			dustChooserUI = new DustChooserUI(userInterface);
 
 			top += 30;
 			useCustomColorCheckbox = new UICheckbox("Use Custom Color", "");
@@ -173,68 +158,53 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(colorDataProperty.range);
 
 			top += 30;
-			alphaDataProperty = new IntDataRangeProperty("Alpha:", 0, 255);
-			alphaDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(alphaDataProperty.range);
-
-			top += 30;
-			shaderDataProperty = new IntDataRangeProperty("Shader:", 0, DustTool.shaderCount);
-			shaderDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(shaderDataProperty.range);
-
-			//
-			//top += 30;
-			//speedXDataProperty = new FullFloatDataRangeProperty("SpeedX:", 0, -10, 10);
-			//speedXDataProperty.range.Top.Set(top, 0f);
-			//mainPanel.Append(speedXDataProperty.range);
-			//
-			//top += 30;
-			//speedYDataProperty = new FullFloatDataRangeProperty("SpeedY:", 0, -10, 10);
-			//speedYDataProperty.range.Top.Set(top, 0f);
-			//mainPanel.Append(speedYDataProperty.range);
-			///
-
-			top += 30;
-			speedXDataProperty = new UIFloatRangedDataValue("SpeedX:", -10, 10);
-			var uiRange = new UIRange<float>(speedXDataProperty);
+			alphaDataProperty = new UIIntRangedDataValue("Alpha:", 0, 0, 255);
+			uiRange = new UIRange<int>(alphaDataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 
 			top += 30;
-			speedYDataProperty = new UIFloatRangedDataValue("SpeedY:", -10, 10);
+			shaderDataProperty = new UIIntRangedDataValue("Shader:", 0, 0, DustTool.shaderCount);
+			uiRange = new UIRange<int>(shaderDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
+
+			top += 30;
+			speedXDataProperty = new UIFloatRangedDataValue("SpeedX:", 0, -10, 10);
+			uiRange = new UIRange<float>(speedXDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
+
+			top += 30;
+			speedYDataProperty = new UIFloatRangedDataValue("SpeedY:", 0, -10, 10);
 			uiRange = new UIRange<float>(speedYDataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 
 			//todo, position this better? displays as well?
-	//		top += 30;
-	//		var ui2DRange = new UI2DRange<float>(speedXDataProperty, speedYDataProperty);
-	//		ui2DRange.Top.Set(top, 0f);
-	//		//ui2DRange.Width.Set(0, 1f);
-	//		mainPanel.Append(ui2DRange);
+			//		top += 30;
+			//		var ui2DRange = new UI2DRange<float>(speedXDataProperty, speedYDataProperty);
+			//		ui2DRange.Top.Set(top, 0f);
+			//		//ui2DRange.Width.Set(0, 1f);
+			//		mainPanel.Append(ui2DRange);
 
 			top += 30;
-			fadeInDataProperty = new FullFloatDataRangeProperty("FadeIn:", 0, 0, 3);
-			fadeInDataProperty.range.Top.Set(top, 0f);
-			mainPanel.Append(fadeInDataProperty.range);
-
-			top += 30;
-			spawnChanceDataProperty = new UIFloatRangedDataValue("Spawn%:", 0, 1, true, true);
-			spawnChanceDataProperty.SetValue(1f);
-			uiRange = new UIRange<float>(spawnChanceDataProperty);
+			fadeInDataProperty = new UIFloatRangedDataValue("FadeIn:", 0, 0, 3);
+			uiRange = new UIRange<float>(fadeInDataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 
-
-			//top += 30;
-			//var testFloatDataValue = new UIFloatRangedDataValue("Test:", 30f, 30f, false, true);
-			//uiRange = new UIRange<float>(testFloatDataValue);
-			//uiRange.Top.Set(top, 0f);
-			//uiRange.Width.Set(0, 1f);
-			//mainPanel.Append(uiRange);
+			top += 30;
+			spawnChanceDataProperty = new UIFloatRangedDataValue("Spawn%:", 1f, 0, 1, true, true);
+			uiRange = new UIRange<float>(spawnChanceDataProperty);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			mainPanel.Append(uiRange);
 
 			top += 20;
 			UIRadioButtonGroup g = new UIRadioButtonGroup();
@@ -248,32 +218,32 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(g);
 			NewDustRadioButton.Selected = true;
 
-			// trigger ui update
-			DustScale = dustScale;
-			DustWidth = dustWidth;
-
 			Append(mainPanel);
 		}
 
-		private void ValidateInput()
+		private void ResetButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			float result;
-			if (float.TryParse(scaleInput.Text, out result))
-			{
-				DustScale = result;
-			}
+			noGravityCheckbox.Selected = false;
+			noLightCheckbox.Selected = false;
+			showSpawnRectangleCheckbox.Selected = false;
+			useCustomColorCheckbox.Selected = false;
+
+			NewDustRadioButton.Selected = true;
+			NewDustPerfectRadioButton.Selected = false;
+			NewDustDirectRadioButton.Selected = false;
+
+			scaleDataProperty.ResetToDefaultValue();
+			widthDataProperty.ResetToDefaultValue();
+			heightDataProperty.ResetToDefaultValue();
+			//typeDataProperty.ResetToDefaultValue();
+			alphaDataProperty.ResetToDefaultValue();
+			shaderDataProperty.ResetToDefaultValue();
+			speedXDataProperty.ResetToDefaultValue();
+			speedYDataProperty.ResetToDefaultValue();
+			fadeInDataProperty.ResetToDefaultValue();
+			spawnChanceDataProperty.ResetToDefaultValue();
+			colorDataProperty.Data = Color.White;
 		}
-
-		private void ValidateWidth()
-		{
-			int result;
-			if (int.TryParse(widthRange.input.Text, out result))
-			{
-				DustWidth = result;
-			}
-		}
-
-
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
@@ -289,7 +259,7 @@ namespace ModdersToolkit.Tools.Dusts
 		{
 			if (showSpawnRectangleCheckbox.Selected)
 			{
-				int width = dustWidth;
+				int width = widthDataProperty.Data;
 				int height = heightDataProperty.Data;
 				Vector2 position = Main.LocalPlayer.Center + new Vector2(0, -30) - new Vector2(width / 2, height / 2);
 
@@ -304,14 +274,14 @@ namespace ModdersToolkit.Tools.Dusts
 		{
 			if (Main.rand.NextFloat() >= spawnChanceDataProperty.Data) return;
 
-			int width = dustWidth;
+			int width = widthDataProperty.Data;
 			int height = heightDataProperty.Data;
 			int type = typeDataProperty.Data;
 			float speedX = speedXDataProperty.Data;
 			float speedY = speedYDataProperty.Data;
 			int alpha = alphaDataProperty.Data;
 			Color color = useCustomColorCheckbox.Selected ? colorDataProperty.Data : Color.White;
-			float scale = dustScale;
+			float scale = scaleDataProperty.Data;
 			Vector2 position = Main.LocalPlayer.Center + new Vector2(0, -30) - new Vector2(width / 2, height / 2);
 			Dust dust;
 			if (NewDustRadioButton.Selected)

@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="ModdersToolkit.cs" />
     <Compile Include="Tools\Dusts\DataRangeProperty.cs" />
+    <Compile Include="Tools\Dusts\DustChooserUI.cs" />
     <Compile Include="Tools\Dusts\DustTool.cs" />
     <Compile Include="Tools\Dusts\DustUI.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesTool.cs" />

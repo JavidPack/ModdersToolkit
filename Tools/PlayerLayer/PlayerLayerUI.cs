@@ -47,7 +47,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			// this will initialize grid
 			updateneeded = true;
 
-			var playerLayerListScrollbar = new FixedUIScrollbar(userInterface);
+			var playerLayerListScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			playerLayerListScrollbar.SetView(100f, 1000f);
 			playerLayerListScrollbar.Top.Pixels = top;// + spacing;
 			playerLayerListScrollbar.Height.Set(-top /*- spacing*/, 1f);

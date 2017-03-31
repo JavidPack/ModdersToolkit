@@ -47,7 +47,7 @@ namespace ModdersToolkit.Tools.Items
 
 			var uiRanges = new List<UIElement>();
 
-			damageData = new UIIntRangedDataValue("Damage:", 0, 200);
+			damageData = new UIIntRangedDataValue("Damage:", 0, 0, 200);
 			damageData.DataGetter = () => Main.LocalPlayer.HeldItem.damage;
 			damageData.DataSetter = (value) => Main.LocalPlayer.HeldItem.damage = value;
 			uiRanges.Add(new UIRange<int>(damageData));
@@ -62,62 +62,62 @@ namespace ModdersToolkit.Tools.Items
 			//data.DataSetter = (value) => Main.LocalPlayer.HeldItem.height = value;
 			//uiRanges.Add(new UIRange<int>(data));
 
-			var data = new UIIntRangedDataValue("UseStyle:", 0, 5);
+			var data = new UIIntRangedDataValue("UseStyle:", 0, 0, 5);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.useStyle;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.useStyle = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("UseTime:", 2, 80);
+			data = new UIIntRangedDataValue("UseTime:", 2, 2, 80);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.useTime;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.useTime = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("UseAnimation:", 2, 80);
+			data = new UIIntRangedDataValue("UseAnimation:", 2, 2, 80);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.useAnimation;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.useAnimation = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("ReuseDelay:", 2, 80);
+			data = new UIIntRangedDataValue("ReuseDelay:", 2, 2, 80);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.reuseDelay;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.reuseDelay = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Pick:", 0, 300);
+			data = new UIIntRangedDataValue("Pick:", 0, 0, 300);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.pick;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.pick = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Axe:", 0, 60);
+			data = new UIIntRangedDataValue("Axe:", 0, 0, 60);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.axe;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.axe = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Hammer:", 0, 150);
+			data = new UIIntRangedDataValue("Hammer:", 0, 0, 150);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.hammer;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.hammer = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Shoot:", 0, Main.projectileTexture.Length - 1);
+			data = new UIIntRangedDataValue("Shoot:", 0, 0, Main.projectileTexture.Length - 1);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.shoot;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.shoot = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("UseAmmo:", 0, Main.itemAnimations.Length - 1);
+			data = new UIIntRangedDataValue("UseAmmo:", 0, 0, Main.itemAnimations.Length - 1);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.useAmmo;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.useAmmo = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Crit:", 0, 100);
+			data = new UIIntRangedDataValue("Crit:", 0, 0, 100);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.crit;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.crit = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Rare:", 0, 11);
+			data = new UIIntRangedDataValue("Rare:", 0, 0, 11);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.rare;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.rare = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Value:", 0, 1000000);
+			data = new UIIntRangedDataValue("Value:", 0, 0, 1000000);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.value;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.value = value;
 			uiRanges.Add(new UIRange<int>(data));
