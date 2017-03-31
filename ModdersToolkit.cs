@@ -31,6 +31,8 @@ namespace ModdersToolkit
 			tools.Add(new Tools.Dusts.DustTool());
 			tools.Add(new Tools.Items.ItemTool());
 			tools.Add(new Tools.Projectiles.ProjectilesTool());
+			tools.Add(new Tools.PlayerLayer.PlayerLayerTool());
+			tools.Add(new Tools.InterfaceLayer.InterfaceLayerTool());
 
 			tools.ForEach(tool => tool.Initialize());
 
@@ -52,7 +54,7 @@ namespace ModdersToolkit
 			if (inventoryLayerIndex != -1)
 			{
 				layers.Insert(inventoryLayerIndex, new MethodSequenceListItem(
-					"ModdersToolkit: REPL",
+					"ModdersToolkit: Tools",
 					delegate
 					{
 						//if (Main.drawingPlayerChat)
@@ -82,6 +84,8 @@ namespace ModdersToolkit
 					null)
 				);
 			}
+
+			Tools.InterfaceLayer.InterfaceLayerTool.interfaceLayerUI.ModifyInterfaceLayers(layers);
 		}
 
 		Tool lastVisibleTool;

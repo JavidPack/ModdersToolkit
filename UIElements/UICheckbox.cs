@@ -16,7 +16,7 @@ namespace ModdersToolkit.UIElements
 		static Texture2D checkmarkTexture = ModdersToolkit.instance.GetTexture("UIElements/checkMark");
 		public event Action OnSelectedChanged;
 
-		float order = 0;
+		public float order = 0;
 		bool clickable = true;
 		string tooltip = "";
 

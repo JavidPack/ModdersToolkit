@@ -6,10 +6,11 @@ Current Tools
 -Dust tool
 -Item defaults tool
 -Projectile spawner
+-Player layer viewer
+-Interface layer viewer.
 
 Planned Tools
 -WorldGen tools
--Player layer viewer.
 -Sound explorer/tester
 -NPC Loot validator
 -NPC Spawn validator

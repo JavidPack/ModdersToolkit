@@ -72,8 +72,12 @@
     <Compile Include="Tools\Dusts\DustUI.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesTool.cs" />
     <Compile Include="Tools\Hitboxes\HitboxesUI.cs" />
+    <Compile Include="Tools\InterfaceLayer\InterfaceLayerTool.cs" />
+    <Compile Include="Tools\InterfaceLayer\InterfaceLayerUI.cs" />
     <Compile Include="Tools\Items\ItemTool.cs" />
     <Compile Include="Tools\Items\ItemUI.cs" />
+    <Compile Include="Tools\PlayerLayer\PlayerLayerTool.cs" />
+    <Compile Include="Tools\PlayerLayer\PlayerLayerUI.cs" />
     <Compile Include="Tools\Projectiles\ProjectilesTool.cs" />
     <Compile Include="Tools\Projectiles\ProjectilesUI.cs" />
     <Compile Include="Tools\REPL\REPLConsoleCommand.cs" />
