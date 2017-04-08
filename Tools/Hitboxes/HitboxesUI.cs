@@ -29,7 +29,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 			mainPanel.Left.Set(-190f, 1f);
 			mainPanel.Top.Set(-450f, 1f);
 			mainPanel.Width.Set(140f, 0f);
-			mainPanel.Height.Set(100f, 0f);
+			mainPanel.Height.Set(120f, 0f);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			UIText text = new UIText("Hitboxes:", 0.85f);
@@ -55,6 +55,12 @@ namespace ModdersToolkit.Tools.Hitboxes
 			projectileCheckbox.Left.Set(12f, 0f);
 			projectileCheckbox.OnSelectedChanged += () => HitboxesTool.showProjectileHitboxes = projectileCheckbox.Selected;
 			mainPanel.Append(projectileCheckbox);
+
+			UICheckbox teCheckbox = new UICheckbox("TE Position", "");
+			teCheckbox.Top.Set(92f, 0f);
+			teCheckbox.Left.Set(12f, 0f);
+			teCheckbox.OnSelectedChanged += () => HitboxesTool.showTEPositions = teCheckbox.Selected;
+			mainPanel.Append(teCheckbox);
 
 			Append(mainPanel);
 		}

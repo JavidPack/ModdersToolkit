@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -16,6 +17,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		internal static bool showPlayerMeleeHitboxes;
 		internal static bool showNPCHitboxes;
 		internal static bool showProjectileHitboxes;
+		internal static bool showTEPositions;
 		//internal static HitboxesGlobalItem hitboxesGlobalItem;
 
 		internal override void Initialize()
@@ -51,6 +53,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();
 				if (showNPCHitboxes) drawNPCHitboxes();
 				if (showProjectileHitboxes) drawProjectileHitboxes();
+				if (showTEPositions) drawTileEntityPositions();
 			}
 		}
 
@@ -96,11 +99,21 @@ namespace ModdersToolkit.Tools.Hitboxes
 				}
 			}
 		}
+
+		private void drawTileEntityPositions()
+		{
+			foreach (var pair in TileEntity.ByPosition)
+			{
+				Rectangle locationRectangle = new Rectangle(pair.Key.X * 16, pair.Key.Y * 16, 16, 16);
+				locationRectangle.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+				Main.spriteBatch.Draw(Main.magicPixel, locationRectangle, Color.Green * 0.6f);
+			}
+		}
 	}
 
-	class HitboxesGlobalItem: GlobalItem
+	class HitboxesGlobalItem : GlobalItem
 	{
-		internal static Rectangle?[] meleeHitbox = new Rectangle?[256]; 
+		internal static Rectangle?[] meleeHitbox = new Rectangle?[256];
 		// Is this ok to load in server?
 		public override void UseItemHitbox(Item item, Player player, ref Rectangle hitbox, ref bool noHitbox)
 		{
