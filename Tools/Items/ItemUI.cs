@@ -4,14 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
 using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
-using Terraria.Graphics.Shaders;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ModdersToolkit.Tools.Items
 {
@@ -24,17 +19,19 @@ namespace ModdersToolkit.Tools.Items
 			this.userInterface = userInterface;
 		}
 
-		//todo, iteminfo tab??
 		UIIntRangedDataValue damageData;
+		internal static UIIntRangedDataValue holdoutXData;
+		internal static UIIntRangedDataValue holdoutYData;
+		internal static UICheckbox playerMeleeCheckbox;
+
 		public override void OnInitialize()
 		{
 			mainPanel = new UIPanel();
-			//mainPanel.SetPadding(0);
 			mainPanel.Left.Set(-290f, 1f);
 			mainPanel.Top.Set(-620f, 1f);
 			mainPanel.Width.Set(240f, 0f);
 			mainPanel.Height.Set(520f, 0f);
-			mainPanel.SetPadding(12);
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.Azure * 0.7f;
 
 			int top = 0;
@@ -43,8 +40,76 @@ namespace ModdersToolkit.Tools.Items
 			text.Top.Set(top, 0f);
 			mainPanel.Append(text);
 			top += 20;
-			//var uiRange = new UIRange<int>(damageData);
 
+			UITabControl tabControl = new UITabControl();
+			tabControl.Top.Set(top, 0f);
+			tabControl.Height.Set(-top, 1f);
+			tabControl.mainPanel.BackgroundColor = Color.Magenta * 0.7f;
+
+			tabControl.AddTab("Fields", makeMainPanel());
+			tabControl.AddTab("Other", makeOtherPanel());
+			mainPanel.Append(tabControl);
+
+			Append(mainPanel);
+		}
+
+		private UIPanel makeOtherPanel()
+		{
+			UIPanel panel = new UIPanel();
+			//panel.Width = StyleDimension.Fill;
+			//panel.Height = StyleDimension.Fill;
+			//	panel.Top.Pixels = top;
+			panel.BackgroundColor = Color.LightCoral * 0.7f;
+
+			int top = 0;
+
+			playerMeleeCheckbox = new UICheckbox("Override HoldoutOffset", "Affects non-staff useStyle 5 weapons. (Guns)");
+			playerMeleeCheckbox.Top.Set(top, 0f);
+			//playerMeleeCheckbox.Left.Set(0, 0f);
+			panel.Append(playerMeleeCheckbox);
+
+			top += 20;
+
+			holdoutXData = new UIIntRangedDataValue("Holdout X:", 0, -30, 30);
+			UIElement uiRange = new UIRange<int>(holdoutXData);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			panel.Append(uiRange);
+
+			top += 20;
+
+			holdoutYData = new UIIntRangedDataValue("Holdout Y:", 0, -30, 30);
+			uiRange = new UIRange<int>(holdoutYData);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			panel.Append(uiRange);
+
+			top += 20;
+
+			var data = new UIFloatRangedDataValue("Scale:", 1f, 0f, 5f);
+			data.DataGetter = () => Main.LocalPlayer.HeldItem.scale;
+			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.scale = value;
+			uiRange = new UIRange<float>(data);
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			panel.Append(uiRange);
+
+			top += 20;
+
+			UIText printItemInfoText = new UIText("Print ItemInfo", 0.85f);
+			printItemInfoText.Top.Set(top, 0f);
+			printItemInfoText.OnClick += PrintItemInfo_OnClick;
+			panel.Append(printItemInfoText);
+
+			return panel;
+		}
+
+		private UIPanel makeMainPanel()
+		{
+			UIPanel mainPanel = new UIPanel();
+			mainPanel.BackgroundColor = Color.Green * 0.7f;
+
+			int top = 0;
 			var uiRanges = new List<UIElement>();
 
 			damageData = new UIIntRangedDataValue("Damage:", 0, 0, 200);
@@ -132,12 +197,13 @@ namespace ModdersToolkit.Tools.Items
 			check.DataSetter = (value) => Main.LocalPlayer.HeldItem.useTurn = value;
 			uiRanges.Add(new UICheckbox2(check));
 
+
 			foreach (var uiRange in uiRanges)
 			{
 				uiRange.Top.Set(top, 0f);
 				uiRange.Width.Set(0, 1f);
 				mainPanel.Append(uiRange);
-				top += 30;
+				top += 22;
 			}
 
 			UITextPanel<string> setDefaultsButton = new UITextPanel<string>("SetDefaults");
@@ -157,7 +223,7 @@ namespace ModdersToolkit.Tools.Items
 			prefixButton.OnClick += PrefixButton_OnClick;
 			mainPanel.Append(prefixButton);
 
-			Append(mainPanel);
+			return mainPanel;
 		}
 
 		private void PrefixButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -180,9 +246,39 @@ namespace ModdersToolkit.Tools.Items
 			{
 				Main.LocalPlayer.mouseInterface = true;
 			}
+		}
 
+		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			var itemInfo = ((ItemInfo[])(ItemTool.itemInfoField.GetValue(Main.LocalPlayer.HeldItem)));
 
+			for (int i = 0; i < itemInfo.Length; i++)
+			{
+				ItemInfo param = itemInfo[i];
+				if (param.Name == "MysteryGlobalItemInfo") continue;
+				Main.NewText("Object type: " + param.GetType());
+				foreach (PropertyInfo property in param.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+				{
+					Main.NewText("PROPERTY " + property.Name + " = " + property.GetValue(param, null) + "\n");
+				}
 
+				foreach (FieldInfo field in param.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+				{
+					Main.NewText("FIELD " + field.Name + " = " + (field.GetValue(param).ToString() != "" ? field.GetValue(param) : "(Field value not found)") + "\n");
+				}
+			}
+		}
+	}
+
+	class ItemUIGlobalItem : GlobalItem
+	{
+		public override Vector2? HoldoutOffset(int type)
+		{
+			if (ItemUI.playerMeleeCheckbox.Selected)
+			{
+				return new Vector2(ItemUI.holdoutXData.Data, ItemUI.holdoutYData.Data);
+			}
+			return base.HoldoutOffset(type);
 		}
 	}
 }

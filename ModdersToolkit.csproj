@@ -97,11 +97,13 @@
     <Compile Include="UIElements\UIRadioButtonGroup.cs" />
     <Compile Include="UIElements\UIRange.cs" />
     <Compile Include="UIElements\UISlider.cs" />
+    <Compile Include="UIElements\UITabControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build.txt" />
     <Content Include="description.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"C:\Program Files (x86)\Steam\steamapps\common\terraria\tModLoaderServer.exe" -build "$(ProjectDir)\" -eac "$(TargetPath)"</PostBuildEvent>
