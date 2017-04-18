@@ -21,7 +21,6 @@ namespace ModdersToolkit.REPL
 		public UIPanel keyboardPanel;
 		public UIList replOutput;
 		public NewUITextBox codeTextBox;
-		float spacing = 8f;
 		public static string filterText = "";
 		private UserInterface userInterface;
 
@@ -33,9 +32,9 @@ namespace ModdersToolkit.REPL
 		public override void OnInitialize()
 		{
 			keyboardPanel = new UIPanel();
-			keyboardPanel.SetPadding(0);
+			keyboardPanel.SetPadding(8);
 			keyboardPanel.Left.Set(-550f, 1f);
-			keyboardPanel.Top.Set(-350f, 1f);
+			keyboardPanel.Top.Set(-370f, 1f);
 			keyboardPanel.Width.Set(500f, 0f);
 			keyboardPanel.Height.Set(300f, 0f);
 			keyboardPanel.BackgroundColor = new Color(73, 94, 171);
@@ -55,23 +54,37 @@ namespace ModdersToolkit.REPL
 
 			replOutput = new UIList();
 			replOutput.Width.Set(-25f, 1f); // left spacing plus scrollbar
-			replOutput.Height.Set(-2 * spacing - codeTextBox.GetDimensions().Height, 1f);
-			replOutput.Left.Set(spacing, 0f);
-			replOutput.Top.Set(spacing + codeTextBox.GetDimensions().Height, 0f);
+			replOutput.Height.Set(-codeTextBox.GetDimensions().Height - 32, 1f);
+			replOutput.Left.Set(0, 0f);
+			replOutput.Top.Set(codeTextBox.GetDimensions().Height, 0f);
 			replOutput.ListPadding = 10f;
 			keyboardPanel.Append(replOutput);
 
 			keyboardScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			keyboardScrollbar.SetView(100f, 1000f);
-			keyboardScrollbar.Top.Pixels = 2 * spacing;
-			keyboardScrollbar.Height.Set(-4 * spacing, 1f);
+			keyboardScrollbar.Top.Pixels = codeTextBox.GetDimensions().Height;
+			keyboardScrollbar.Height.Set(-32, 1f);
 			keyboardScrollbar.Left.Set(-4, 0f);
 			keyboardScrollbar.HAlign = 1f;
 			keyboardPanel.Append(keyboardScrollbar);
 
 			replOutput.SetScrollbar(keyboardScrollbar);
 
+			UIImageButton eyeDropperButton = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"));
+			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
+			eyeDropperButton.Top.Set(-32, 1f);
+			keyboardPanel.Append(eyeDropperButton);
+
 			Append(keyboardPanel);
+		}
+
+		private void EyeDropperButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			REPLTool.EyedropperActive = !REPLTool.EyedropperActive;
+			if (REPLTool.EyedropperActive)
+			{
+				Main.NewText("Click to select an item/npc/player/dust/tile from the game world");
+			}
 		}
 
 		public void EnterAction()

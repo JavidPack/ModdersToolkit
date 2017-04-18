@@ -84,6 +84,10 @@
     <Compile Include="Tools\REPL\REPLConsoleCommand.cs" />
     <Compile Include="Tools\REPL\REPLTool.cs" />
     <Compile Include="Tools\REPL\REPLUI.cs" />
+    <Compile Include="Tools\Spawns\SpawnTool.cs" />
+    <Compile Include="Tools\Spawns\SpawnUI.cs" />
+    <Compile Include="Tools\Spawns\UINPCSlot.cs" />
+    <Compile Include="Tools\Spawns\UINPCSpawnInfo.cs" />
     <Compile Include="UIElements\FixedUIScrollBar.cs" />
     <Compile Include="UIElements\NewUITextBox.cs" />
     <Compile Include="Tools\REPL\REPLBackend.cs" />

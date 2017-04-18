@@ -1,5 +1,5 @@
 author = jopojelly
-version = 0.1.3.5
+version = 0.1.4
 displayName = Modders Toolkit
 homepage = https://forums.terraria.org/index.php?threads/modders-toolkit-a-mod-for-modders-doing-modding.55738/
 buildIgnore = .vs\*, .git\*, ignore\*, .gitignore, .gitattributes, *.MD, *.csproj, *.user, obj\*, bin\*

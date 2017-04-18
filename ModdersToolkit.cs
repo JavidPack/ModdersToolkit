@@ -33,6 +33,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.Projectiles.ProjectilesTool());
 			tools.Add(new Tools.PlayerLayer.PlayerLayerTool());
 			tools.Add(new Tools.InterfaceLayer.InterfaceLayerTool());
+			tools.Add(new Tools.Spawns.SpawnTool());
 
 			tools.ForEach(tool => tool.Initialize());
 
@@ -93,8 +94,8 @@ namespace ModdersToolkit
 		{
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
 			// calculate?
-			int xPosition = Main.screenWidth - 190; //62; //78;
-			int yPosition = Main.screenHeight - 36 + 10;
+			int xPosition = Main.screenWidth - 210; //62; //78;
+			int yPosition = Main.screenHeight - 36 + 10 - 25;
 
 			// TODO, use UI/Settings_Toggle
 			Texture2D toggleTexture = visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
