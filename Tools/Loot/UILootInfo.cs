@@ -6,37 +6,37 @@ using Terraria.UI.Chat;
 using ModdersToolkit.UIElements;
 using Terraria.GameContent.UI.Elements;
 
-namespace ModdersToolkit.Tools.Spawns
+namespace ModdersToolkit.Tools.Loot
 {
-	class UINPCSpawnInfo : UIElement
+	class UILootInfo : UIElement
 	{
-		internal UINPCSlot npcSlot;
+		internal UIItemSlot itemSlot;
 		internal UIText information;
 		internal UIText percentText;
-		internal int npcid;
+		internal int itemid;
 		internal float percent;
 
-		public UINPCSpawnInfo(int npcid, float percent)
+		public UILootInfo(int itemid, float percent)
 		{
-			this.npcid = npcid;
-			this.percent = 100 * percent;
+			this.itemid = itemid;
+			this.percent = /*100 * */percent;
 			Width = StyleDimension.Fill;
 			Height.Pixels = 32;
 
-			NPC npc = new NPC();
-			npc.SetDefaults(npcid);
+			Item item = new Item();
+			item.SetDefaults(itemid, true);
 
-			npcSlot = new UINPCSlot(npc);
-			Append(npcSlot);
-			
-			string name = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
+			itemSlot = new UIItemSlot(item);
+			Append(itemSlot);
+
+			string name = item.Name + (item.modItem != null ? " [" + item.modItem.mod.Name + "]" : "");
 
 			information = new UIText(name, 0.8f);
 			information.Top.Pixels = 1;
 			information.Left.Pixels = 40;
 			Append(information);
 
-			percentText = new UIText(this.percent.ToString("0.00") + "%", 0.8f);
+			percentText = new UIText(this.percent.ToString("0.000") /*+ "%"*/, 0.8f);
 			percentText.Left.Pixels = 40;
 			percentText.Top.Pixels = 18;
 			Append(percentText);
@@ -44,7 +44,7 @@ namespace ModdersToolkit.Tools.Spawns
 
 		public override int CompareTo(object obj)
 		{
-			UINPCSpawnInfo other = obj as UINPCSpawnInfo;
+			UILootInfo other = obj as UILootInfo;
 			return -1 * percent.CompareTo(other.percent);
 		}
 

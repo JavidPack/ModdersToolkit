@@ -8,6 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 
+//todo, tool to make townnpc spritesheet out of current player 
+//todo, Main.ignoreErrors = true; -- set to false and report errors to console
+
 namespace ModdersToolkit
 {
 	public class ModdersToolkit : Mod
@@ -34,6 +37,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.PlayerLayer.PlayerLayerTool());
 			tools.Add(new Tools.InterfaceLayer.InterfaceLayerTool());
 			tools.Add(new Tools.Spawns.SpawnTool());
+			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 
 			tools.ForEach(tool => tool.Initialize());
 
@@ -48,13 +52,12 @@ namespace ModdersToolkit
 			tools.ForEach(tool => tool.PostSetupContent());
 		}
 
-
-		public override void ModifyInterfaceLayers(List<MethodSequenceListItem> layers)
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if (inventoryLayerIndex != -1)
 			{
-				layers.Insert(inventoryLayerIndex, new MethodSequenceListItem(
+				layers.Insert(inventoryLayerIndex, new LegacyGameInterfaceLayer(
 					"ModdersToolkit: Tools",
 					delegate
 					{
@@ -82,7 +85,7 @@ namespace ModdersToolkit
 						//}
 						return true;
 					},
-					null)
+					InterfaceScaleType.UI)
 				);
 			}
 
@@ -134,7 +137,7 @@ namespace ModdersToolkit
 			Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White /** 0.7f*/);
 			if (toggleToolkitButtonHover)
 			{
-				Main.toolTip = new Item();
+				Main.HoverItem = new Item();
 				Main.hoverItemName = "Click to toggle ModdersToolkit";
 			}
 
@@ -169,7 +172,7 @@ namespace ModdersToolkit
 					Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White);
 					if (toggleToolkitButtonHover)
 					{
-						Main.toolTip = new Item();
+						Main.HoverItem = new Item();
 						Main.hoverItemName = tool.toggleTooltip;
 					}
 					xPosition += 18;

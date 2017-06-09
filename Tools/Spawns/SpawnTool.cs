@@ -1696,11 +1696,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 31, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Boned");
+										Main.npc[num46].SetDefaults(-14, -1f);
 									}
 									else if (Main.rand.Next(5) == 0)
 									{
-										Main.npc[num46].SetDefaults("Short Bones");
+										Main.npc[num46].SetDefaults(-13, -1f);
 									}
 								}
 							}
@@ -2674,19 +2674,19 @@ namespace ModdersToolkit.Tools.Spawns
 								num46 = NewNPC(num * 16 + 8, num2 * 16, 176, 0, 0f, 0f, 0f, 0f, 255);
 								if (Main.rand.Next(10) == 0)
 								{
-									Main.npc[num46].SetDefaults("Tiny Moss Hornet");
+									Main.npc[num46].SetDefaults(-18, -1f);
 								}
 								if (Main.rand.Next(10) == 0)
 								{
-									Main.npc[num46].SetDefaults("Little Moss Hornet");
+									Main.npc[num46].SetDefaults(-19, -1f);
 								}
 								if (Main.rand.Next(10) == 0)
 								{
-									Main.npc[num46].SetDefaults("Big Moss Hornet");
+									Main.npc[num46].SetDefaults(-20, -1f);
 								}
 								if (Main.rand.Next(10) == 0)
 								{
-									Main.npc[num46].SetDefaults("Giant Moss Hornet");
+									Main.npc[num46].SetDefaults(-21, -1f);
 								}
 							}
 							else if (Main.rand.Next(3) == 0)
@@ -2733,11 +2733,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 231, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Little Hornet Fatty");
+										Main.npc[num46].SetDefaults(-56, -1f);
 									}
 									else if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Hornet Fatty");
+										Main.npc[num46].SetDefaults(-57, -1f);
 									}
 								}
 								else if (num74 == 1)
@@ -2745,11 +2745,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 232, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Little Hornet Honey");
+										Main.npc[num46].SetDefaults(-58, -1f);
 									}
 									else if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Hornet Honey");
+										Main.npc[num46].SetDefaults(-59, -1f);
 									}
 								}
 								else if (num74 == 2)
@@ -2757,11 +2757,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 233, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Little Hornet Leafy");
+										Main.npc[num46].SetDefaults(-60, -1f);
 									}
 									else if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Hornet Leafy");
+										Main.npc[num46].SetDefaults(-61, -1f);
 									}
 								}
 								else if (num74 == 3)
@@ -2769,11 +2769,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 234, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Little Hornet Spikey");
+										Main.npc[num46].SetDefaults(-62, -1f);
 									}
 									else if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Hornet Spikey");
+										Main.npc[num46].SetDefaults(-63, -1f);
 									}
 								}
 								else if (num74 == 4)
@@ -2781,11 +2781,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 235, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Little Hornet Stingy");
+										Main.npc[num46].SetDefaults(-64, -1f);
 									}
 									else if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Hornet Stingy");
+										Main.npc[num46].SetDefaults(-65, -1f);
 									}
 								}
 								else
@@ -2793,11 +2793,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 42, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Little Stinger");
+										Main.npc[num46].SetDefaults(-16, -1f);
 									}
 									else if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Big Stinger");
+										Main.npc[num46].SetDefaults(-17, -1f);
 									}
 								}
 							}
@@ -2930,11 +2930,11 @@ namespace ModdersToolkit.Tools.Spawns
 								num46 = NewNPC(num * 16 + 8, num2 * 16, 183, 0, 0f, 0f, 0f, 0f, 255);
 								if (Main.rand.Next(3) == 0)
 								{
-									Main.npc[num46].SetDefaults("Little Crimslime");
+									Main.npc[num46].SetDefaults(-24, -1f);
 								}
 								else if (Main.rand.Next(3) == 0)
 								{
-									Main.npc[num46].SetDefaults("Big Crimslime");
+									Main.npc[num46].SetDefaults(-25, -1f);
 								}
 							}
 							else if (Main.hardMode && (double)num2 >= Main.rockLayer && Main.rand.Next(40) == 0 && !flag3)
@@ -2958,11 +2958,11 @@ namespace ModdersToolkit.Tools.Spawns
 								num46 = NewNPC(num * 16 + 8, num2 * 16, 173, 0, 0f, 0f, 0f, 0f, 255);
 								if (Main.rand.Next(3) == 0)
 								{
-									Main.npc[num46].SetDefaults("Little Crimera");
+									Main.npc[num46].SetDefaults(-22, -1f);
 								}
 								else if (Main.rand.Next(3) == 0)
 								{
-									Main.npc[num46].SetDefaults("Big Crimera");
+									Main.npc[num46].SetDefaults(-23, -1f);
 								}
 							}
 						}
@@ -2999,11 +2999,11 @@ namespace ModdersToolkit.Tools.Spawns
 								num46 = NewNPC(num * 16 + 8, num2 * 16, 6, 0, 0f, 0f, 0f, 0f, 255);
 								if (Main.rand.Next(3) == 0)
 								{
-									Main.npc[num46].SetDefaults("Little Eater");
+									Main.npc[num46].SetDefaults(-11, -1f);
 								}
 								else if (Main.rand.Next(3) == 0)
 								{
-									Main.npc[num46].SetDefaults("Big Eater");
+									Main.npc[num46].SetDefaults(-12, -1f);
 								}
 							}
 						}
@@ -3179,11 +3179,11 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 1, 0, 0f, 0f, 0f, 0f, 255);
 									if (num45 == 60)
 									{
-										Main.npc[num46].SetDefaults("Jungle Slime");
+										Main.npc[num46].SetDefaults(-10, -1f);
 									}
 									else if (num45 == 161 || num45 == 147)
 									{
-										Main.npc[num46].SetDefaults("Ice Slime");
+										Main.npc[num46].SetDefaults(147, -1f);
 									}
 									else if (Main.halloween && Main.rand.Next(3) != 0)
 									{
@@ -3195,11 +3195,11 @@ namespace ModdersToolkit.Tools.Spawns
 									}
 									else if (Main.rand.Next(3) == 0 || (num76 < 200 && !Main.expertMode))
 									{
-										Main.npc[num46].SetDefaults("Green Slime");
+										Main.npc[num46].SetDefaults(-3, -1f);
 									}
 									else if (Main.rand.Next(10) == 0 && (num76 > 400 || Main.expertMode))
 									{
-										Main.npc[num46].SetDefaults("Purple Slime");
+										Main.npc[num46].SetDefaults(-7, -1f);
 									}
 								}
 							}
@@ -3247,7 +3247,7 @@ namespace ModdersToolkit.Tools.Spawns
 									num46 = NewNPC(num * 16 + 8, num2 * 16, 2, 0, 0f, 0f, 0f, 0f, 255);
 									if (Main.rand.Next(4) == 0)
 									{
-										Main.npc[num46].SetDefaults("Demon Eye 2");
+										Main.npc[num46].SetDefaults(-43, -1f);
 									}
 								}
 								else
@@ -3258,7 +3258,7 @@ namespace ModdersToolkit.Tools.Spawns
 										num46 = NewNPC(num * 16 + 8, num2 * 16, 190, 0, 0f, 0f, 0f, 0f, 255);
 										if (Main.rand.Next(3) == 0)
 										{
-											Main.npc[num46].SetDefaults("Cataract Eye 2");
+											Main.npc[num46].SetDefaults(-38, -1f);
 										}
 									}
 									else if (num80 == 1)
@@ -3266,7 +3266,7 @@ namespace ModdersToolkit.Tools.Spawns
 										num46 = NewNPC(num * 16 + 8, num2 * 16, 191, 0, 0f, 0f, 0f, 0f, 255);
 										if (Main.rand.Next(3) == 0)
 										{
-											Main.npc[num46].SetDefaults("Sleepy Eye 2");
+											Main.npc[num46].SetDefaults(-39, -1f);
 										}
 									}
 									else if (num80 == 2)
@@ -3274,7 +3274,7 @@ namespace ModdersToolkit.Tools.Spawns
 										num46 = NewNPC(num * 16 + 8, num2 * 16, 192, 0, 0f, 0f, 0f, 0f, 255);
 										if (Main.rand.Next(3) == 0)
 										{
-											Main.npc[num46].SetDefaults("Dialated Eye 2");
+											Main.npc[num46].SetDefaults(-40, -1f);
 										}
 									}
 									else if (num80 == 3)
@@ -3282,7 +3282,7 @@ namespace ModdersToolkit.Tools.Spawns
 										num46 = NewNPC(num * 16 + 8, num2 * 16, 193, 0, 0f, 0f, 0f, 0f, 255);
 										if (Main.rand.Next(3) == 0)
 										{
-											Main.npc[num46].SetDefaults("Green Eye 2");
+											Main.npc[num46].SetDefaults(-41, -1f);
 										}
 									}
 									else if (num80 == 4)
@@ -3290,7 +3290,7 @@ namespace ModdersToolkit.Tools.Spawns
 										num46 = NewNPC(num * 16 + 8, num2 * 16, 194, 0, 0f, 0f, 0f, 0f, 255);
 										if (Main.rand.Next(3) == 0)
 										{
-											Main.npc[num46].SetDefaults("Purple Eye 2");
+											Main.npc[num46].SetDefaults(-42, -1f);
 										}
 									}
 								}
@@ -3352,11 +3352,11 @@ namespace ModdersToolkit.Tools.Spawns
 								{
 									if (Main.rand.Next(2) == 0)
 									{
-										Main.npc[num46].SetDefaults("Small Rain Zombie");
+										Main.npc[num46].SetDefaults(-54, -1f);
 									}
 									else
 									{
-										Main.npc[num46].SetDefaults("Big Rain Zombie");
+										Main.npc[num46].SetDefaults(-55, -1f);
 									}
 								}
 							}
@@ -3402,11 +3402,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Zombie");
+											Main.npc[num46].SetDefaults(-26, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Zombie");
+											Main.npc[num46].SetDefaults(-27, -1f);
 										}
 									}
 								}
@@ -3417,11 +3417,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Bald Zombie");
+											Main.npc[num46].SetDefaults(-28, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Bald Zombie");
+											Main.npc[num46].SetDefaults(-29, -1f);
 										}
 									}
 								}
@@ -3432,11 +3432,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Pincushion Zombie");
+											Main.npc[num46].SetDefaults(-30, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Pincushion Zombie");
+											Main.npc[num46].SetDefaults(-31, -1f);
 										}
 									}
 								}
@@ -3447,11 +3447,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Slimed Zombie");
+											Main.npc[num46].SetDefaults(-32, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Slimed Zombie");
+											Main.npc[num46].SetDefaults(-33, -1f);
 										}
 									}
 								}
@@ -3462,11 +3462,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Swamp Zombie");
+											Main.npc[num46].SetDefaults(-34, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Swamp Zombie");
+											Main.npc[num46].SetDefaults(-35, -1f);
 										}
 									}
 								}
@@ -3477,11 +3477,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Twiggy Zombie");
+											Main.npc[num46].SetDefaults(-36, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Twiggy Zombie");
+											Main.npc[num46].SetDefaults(-37, -1f);
 										}
 									}
 								}
@@ -3492,11 +3492,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Small Female Zombie");
+											Main.npc[num46].SetDefaults(-44, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Big Female Zombie");
+											Main.npc[num46].SetDefaults(-45, -1f);
 										}
 									}
 								}
@@ -3536,15 +3536,15 @@ namespace ModdersToolkit.Tools.Spawns
 								num46 = NewNPC(num * 16 + 8, num2 * 16, 1, 0, 0f, 0f, 0f, 0f, 255);
 								if (Main.rand.Next(5) == 0)
 								{
-									Main.npc[num46].SetDefaults("Yellow Slime");
+									Main.npc[num46].SetDefaults(-9, -1f);
 								}
 								else if (Main.rand.Next(2) == 0)
 								{
-									Main.npc[num46].SetDefaults("Blue Slime");
+									Main.npc[num46].SetDefaults(1, -1f);
 								}
 								else
 								{
-									Main.npc[num46].SetDefaults("Red Slime");
+									Main.npc[num46].SetDefaults(-8, -1f);
 								}
 							}
 						}
@@ -3656,7 +3656,7 @@ namespace ModdersToolkit.Tools.Spawns
 							num46 = NewNPC(num * 16 + 8, num2 * 16, 1, 0, 0f, 0f, 0f, 0f, 255);
 							if (Main.player[j].ZoneJungle)
 							{
-								Main.npc[num46].SetDefaults("Jungle Slime");
+								Main.npc[num46].SetDefaults(-10, -1f);
 							}
 							else if (Main.player[j].ZoneSnow)
 							{
@@ -3664,7 +3664,7 @@ namespace ModdersToolkit.Tools.Spawns
 							}
 							else
 							{
-								Main.npc[num46].SetDefaults("Black Slime");
+								Main.npc[num46].SetDefaults(-6, -1f);
 							}
 						}
 						else if (Main.rand.Next(2) == 0)
@@ -3724,7 +3724,7 @@ namespace ModdersToolkit.Tools.Spawns
 										num46 = NewNPC(num * 16 + 8, num2 * 16, 77, 0, 0f, 0f, 0f, 0f, 255);
 										if ((double)num2 > (Main.rockLayer + (double)Main.maxTilesY) / 2.0 && Main.rand.Next(5) == 0)
 										{
-											Main.npc[num46].SetDefaults("Heavy Skeleton");
+											Main.npc[num46].SetDefaults(-15, -1f);
 										}
 									}
 								}
@@ -3787,11 +3787,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Big Skeleton");
+											Main.npc[num46].SetDefaults(-47, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Small Skeleton");
+											Main.npc[num46].SetDefaults(-46, -1f);
 										}
 									}
 								}
@@ -3802,11 +3802,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Big Headache Skeleton");
+											Main.npc[num46].SetDefaults(-49, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Small Headache Skeleton");
+											Main.npc[num46].SetDefaults(-48, -1f);
 										}
 									}
 								}
@@ -3817,11 +3817,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Big Misassembled Skeleton");
+											Main.npc[num46].SetDefaults(-51, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Small Misassembled Skeleton");
+											Main.npc[num46].SetDefaults(-50, -1f);
 										}
 									}
 								}
@@ -3832,11 +3832,11 @@ namespace ModdersToolkit.Tools.Spawns
 									{
 										if (Main.rand.Next(2) == 0)
 										{
-											Main.npc[num46].SetDefaults("Big Pantless Skeleton");
+											Main.npc[num46].SetDefaults(-53, -1f);
 										}
 										else
 										{
-											Main.npc[num46].SetDefaults("Small Pantless Skeleton");
+											Main.npc[num46].SetDefaults(-52, -1f);
 										}
 									}
 								}
@@ -3881,7 +3881,7 @@ namespace ModdersToolkit.Tools.Spawns
 						}
 						if (Main.npc[num46].type == 1 && Main.rand.Next(180) == 0)
 						{
-							Main.npc[num46].SetDefaults("Pinky");
+							Main.npc[num46].SetDefaults(-4, -1f);
 						}
 						if (Main.netMode == 2 && num46 < 200)
 						{

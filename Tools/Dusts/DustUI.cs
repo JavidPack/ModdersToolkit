@@ -290,6 +290,7 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 			else if (NewDustPerfectRadioButton.Selected)
 			{
+				position = Main.LocalPlayer.Center + new Vector2(0, -30);
 				dust = Terraria.Dust.NewDustPerfect(position, type, new Vector2(speedX, speedY), alpha, color, scale);
 			}
 			else

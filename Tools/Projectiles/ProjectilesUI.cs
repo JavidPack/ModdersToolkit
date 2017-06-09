@@ -152,7 +152,7 @@ namespace ModdersToolkit.Tools.Projectiles
 				bool found = false;
 				for (int i = 1; i < Main.projectileTexture.Length; i++)
 				{
-					if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
+					if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 					{
 						found = true;
 						break;
@@ -174,7 +174,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			projectileGrid.Clear();
 			for (int i = 1; i < Main.projectileTexture.Length; i++)
 			{
-				if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
+				if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 				{
 					var box = new ProjectileSlot(i);
 					projectileGrid._items.Add(box);
@@ -254,7 +254,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			Main.spriteBatch.Draw(texture, drawPosition, new Rectangle(0, y, width, height), Color.White, 0, Vector2.Zero, drawScale, SpriteEffects.None, 0);
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = Main.projName[type];
+				Main.hoverItemName = Lang.GetProjectileName(type).Value;
 			}
 		}
 		public override void Click(UIMouseEvent evt)

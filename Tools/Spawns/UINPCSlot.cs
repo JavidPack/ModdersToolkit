@@ -85,8 +85,14 @@ namespace ModdersToolkit.Tools.Spawns
 
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = npc.displayName + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
+				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
 			}
+		}
+
+		public override int CompareTo(object obj)
+		{
+			UINPCSlot other = obj as UINPCSlot;
+			return /*-1 * */npcType.CompareTo(other.npcType);
 		}
 	}
 }

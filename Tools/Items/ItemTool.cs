@@ -14,12 +14,12 @@ namespace ModdersToolkit.Tools.Items
 	class ItemTool : Tool
 	{
 		internal static ItemUI itemUI;
-		internal static FieldInfo itemInfoField;
+		internal static FieldInfo globalItemsField;
 
 		internal override void Initialize()
 		{
 			toggleTooltip = "Click to toggle Item Tool";
-			itemInfoField = typeof(Item).GetField("itemInfo", BindingFlags.NonPublic | BindingFlags.Instance);
+			globalItemsField = typeof(Item).GetField("globalItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
 
 		internal override void ClientInitialize()

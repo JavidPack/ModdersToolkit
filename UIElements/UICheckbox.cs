@@ -66,7 +66,7 @@ namespace ModdersToolkit.UIElements
 
 			if (IsMouseHovering && tooltip.Length > 0)
 			{
-				Main.toolTip = new Item();
+				Main.HoverItem = new Item();
 				Main.hoverItemName = tooltip;
 			}
 		}

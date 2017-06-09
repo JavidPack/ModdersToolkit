@@ -250,12 +250,12 @@ namespace ModdersToolkit.Tools.Items
 
 		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			var itemInfo = ((ItemInfo[])(ItemTool.itemInfoField.GetValue(Main.LocalPlayer.HeldItem)));
+			var globalItems = ((GlobalItem[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
 
-			for (int i = 0; i < itemInfo.Length; i++)
+			for (int i = 0; i < globalItems.Length; i++)
 			{
-				ItemInfo param = itemInfo[i];
-				if (param.Name == "MysteryGlobalItemInfo") continue;
+				GlobalItem param = globalItems[i];
+				if (param.Name == "MysteryGlobalItem") continue;
 				Main.NewText("Object type: " + param.GetType());
 				foreach (PropertyInfo property in param.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 				{

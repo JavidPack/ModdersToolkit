@@ -96,7 +96,7 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 			}
 		}
 
-		public void ModifyInterfaceLayers(List<MethodSequenceListItem> layers)
+		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			InformLayers(layers);
 
@@ -106,7 +106,7 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 				if (interfaceLayers.Contains(layer.Name) && layer.Name != "ModdersToolkit: Tools")
 				{
 					var layerIndex = interfaceLayers.IndexOf(layer.Name);
-					layer.Skip = !interfaceLayersCheckboxes[layerIndex].Selected;
+					layer.Active = interfaceLayersCheckboxes[layerIndex].Selected;
 				}
 				else
 				{
@@ -114,7 +114,7 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 			}
 		}
 
-		internal void InformLayers(List<MethodSequenceListItem> layers)
+		internal void InformLayers(List<GameInterfaceLayer> layers)
 		{
 			foreach (var layer in layers)
 			{
