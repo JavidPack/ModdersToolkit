@@ -18,6 +18,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		internal static bool showNPCHitboxes;
 		internal static bool showProjectileHitboxes;
 		internal static bool showTEPositions;
+		internal static bool showWorldItemHitboxes;
 		//internal static HitboxesGlobalItem hitboxesGlobalItem;
 
 		internal override void Initialize()
@@ -54,6 +55,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 				if (showNPCHitboxes) drawNPCHitboxes();
 				if (showProjectileHitboxes) drawProjectileHitboxes();
 				if (showTEPositions) drawTileEntityPositions();
+				if (showWorldItemHitboxes) drawWorldItemHitboxes();
 			}
 		}
 
@@ -82,6 +84,20 @@ namespace ModdersToolkit.Tools.Hitboxes
 					Rectangle hitbox = npc.getRect();
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
+				}
+			}
+		}
+		
+		private void drawWorldItemHitboxes()
+		{
+			for (int i = 0; i < 400; i++)
+			{
+				Item item = Main.item[i];
+				if (item.active)
+				{
+					Rectangle hitbox = item.getRect();
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Teal * 0.6f);
 				}
 			}
 		}

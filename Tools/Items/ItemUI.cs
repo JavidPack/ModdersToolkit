@@ -167,6 +167,16 @@ namespace ModdersToolkit.Tools.Items
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.shoot = value;
 			uiRanges.Add(new UIRange<int>(data));
 
+			var floatdata = new UIFloatRangedDataValue("ShootSpeed:", 0, 0, 32f);
+			floatdata.DataGetter = () => Main.LocalPlayer.HeldItem.shootSpeed;
+			floatdata.DataSetter = (value) => Main.LocalPlayer.HeldItem.shootSpeed = value;
+			uiRanges.Add(new UIRange<float>(floatdata));
+
+			floatdata = new UIFloatRangedDataValue("KnockBack:", 0, 0, 12f);
+			floatdata.DataGetter = () => Main.LocalPlayer.HeldItem.knockBack;
+			floatdata.DataSetter = (value) => Main.LocalPlayer.HeldItem.knockBack = value;
+			uiRanges.Add(new UIRange<float>(floatdata));
+
 			data = new UIIntRangedDataValue("UseAmmo:", 0, 0, Main.itemAnimations.Length - 1);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.useAmmo;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.useAmmo = value;
