@@ -47,6 +47,12 @@ namespace ModdersToolkit
 			}
 		}
 
+		public override void Unload()
+		{
+			instance = null;
+			tools = null;
+		}
+
 		public override void PostSetupContent()
 		{
 			tools.ForEach(tool => tool.PostSetupContent());
