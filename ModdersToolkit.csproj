@@ -65,6 +65,7 @@
     <Compile Include="UIElements\UICodeEntry.cs" />
     <Compile Include="UIElements\UIDataValue.cs" />
     <Compile Include="UIElements\UIGrid.cs" />
+    <Compile Include="UIElements\UIHoverImageButton.cs" />
     <Compile Include="UIElements\UIRadioButton.cs" />
     <Compile Include="UIElements\UIRadioButtonGroup.cs" />
     <Compile Include="UIElements\UIRange.cs" />

@@ -11,6 +11,7 @@ using System.Text;
 using ModdersToolkit.UIElements;
 using ModdersToolkit.Tools;
 using Terraria.Graphics.Shaders;
+using ReLogic.OS;
 
 namespace ModdersToolkit.Tools.Dusts
 {
@@ -206,7 +207,7 @@ namespace ModdersToolkit.Tools.Dusts
 			uiRange.Width.Set(0, 1f);
 			mainPanel.Append(uiRange);
 
-			top += 20;
+			top += 24;
 			UIRadioButtonGroup g = new UIRadioButtonGroup();
 			NewDustRadioButton = new UIRadioButton("NewDust", "Dust.NewDust method");
 			NewDustPerfectRadioButton = new UIRadioButton("NewDustPerfect", "Dust.NewDust method");
@@ -215,10 +216,67 @@ namespace ModdersToolkit.Tools.Dusts
 			g.Add(NewDustPerfectRadioButton);
 			g.Add(NewDustDirectRadioButton);
 			g.Top.Pixels = top;
+			g.Width.Set(0, .75f);
 			mainPanel.Append(g);
 			NewDustRadioButton.Selected = true;
 
+			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/CopyCodeButton"), "Copy code to clipboard");
+			copyCodeButton.OnClick += CopyCodeButton_OnClick; ;
+			copyCodeButton.Top.Set(-20, 1f);
+			copyCodeButton.Left.Set(-20, 1f);
+			mainPanel.Append(copyCodeButton);
+
 			Append(mainPanel);
+		}
+
+		private void CopyCodeButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			int width = widthDataProperty.Data;
+			int height = heightDataProperty.Data;
+			int type = typeDataProperty.Data;
+			float speedX = speedXDataProperty.Data;
+			float speedY = speedYDataProperty.Data;
+			int alpha = alphaDataProperty.Data;
+			Color color = useCustomColorCheckbox.Selected ? colorDataProperty.Data : Color.White;
+			float scale = scaleDataProperty.Data;
+
+			StringBuilder s = new StringBuilder();
+			s.Append($"if (Main.rand.NextFloat() < {spawnChanceDataProperty.Data}f)" + Environment.NewLine);
+			s.Append($"{{" + Environment.NewLine);
+			s.Append($"\tDust dust;" + Environment.NewLine);
+
+			s.Append($"\t// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle." + Environment.NewLine);
+			s.Append($"\tVector2 position = Main.LocalPlayer.Center;" + Environment.NewLine);
+			if (NewDustRadioButton.Selected)
+			{
+				s.Append($"\tdust = Main.dust[Terraria.Dust.NewDust(position, {width}, {height}, {type}, {speedX}f, {speedY}f, {alpha}, new Color({color.R},{color.G},{color.B}), {scale}f)];" + Environment.NewLine);
+			}
+			else if (NewDustPerfectRadioButton.Selected)
+			{
+				s.Append($"\tdust = Terraria.Dust.NewDustPerfect(position, {type}, new Vector2({speedX}f, {speedY}f), {alpha}, new Color({color.R},{color.G},{color.B}), {scale}f);" + Environment.NewLine);
+			}
+			else
+			{
+				s.Append($"\tdust = Terraria.Dust.NewDustDirect(position, {width}, {height}, {type}, {speedX}f, {speedY}f, {alpha}, new Color({color.R},{color.G},{color.B}), {scale}f);" + Environment.NewLine);
+			}
+
+			if (noGravityCheckbox.Selected)
+				s.Append($"\tdust.noGravity = true;" + Environment.NewLine);
+
+			if (noLightCheckbox.Selected)
+				s.Append($"\tdust.noLight = true;" + Environment.NewLine);
+
+			if(shaderDataProperty.Data > 0)
+				s.Append($"\tdust.shader = GameShaders.Armor.GetSecondaryShader({shaderDataProperty.Data}, Main.LocalPlayer);" + Environment.NewLine);
+
+			if (fadeInDataProperty.Data > 0)
+				s.Append($"\tdust.fadeIn = {fadeInDataProperty.Data}f;" + Environment.NewLine);
+
+			s.Append($"}}" + Environment.NewLine);
+
+			Platform.Current.Clipboard = s.ToString();
+
+			Main.NewText("Copied Dust spawning code to clipboard");
 		}
 
 		private void ResetButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
