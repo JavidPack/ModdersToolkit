@@ -60,6 +60,7 @@ namespace ModdersToolkit.Tools.REPL
 						EyedropperActive = false;
 
 						Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Write($"Main.tile[{tileCoords.X},{tileCoords.Y}]");
+						// can't get this to work. Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Focus();
 					}
 
 					Main.LocalPlayer.mouseInterface = true;

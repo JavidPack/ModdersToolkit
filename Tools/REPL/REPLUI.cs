@@ -11,6 +11,10 @@ using System.Text;
 using ModdersToolkit.UIElements;
 using ModdersToolkit.Tools;
 using ModdersToolkit.Tools.REPL;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using Terraria.Graphics;
 
 namespace ModdersToolkit.REPL
 {
@@ -20,7 +24,7 @@ namespace ModdersToolkit.REPL
 		public UIElements.FixedUIScrollbar keyboardScrollbar;
 		public UIPanel keyboardPanel;
 		public UIList replOutput;
-		public NewUITextBox codeTextBox;
+		public NewUITextBoxMultiLine codeTextBox;
 		public static string filterText = "";
 		private UserInterface userInterface;
 
@@ -39,7 +43,7 @@ namespace ModdersToolkit.REPL
 			keyboardPanel.Height.Set(300f, 0f);
 			keyboardPanel.BackgroundColor = new Color(73, 94, 171);
 
-			codeTextBox = new NewUITextBox("Type code here", 1f);
+			codeTextBox = new NewUITextBoxMultiLine("Type code here", 1f);
 			codeTextBox.SetUnfocusKeys(false, false);
 			codeTextBox.BackgroundColor = Color.Transparent;
 			codeTextBox.BorderColor = Color.Transparent;
@@ -50,20 +54,23 @@ namespace ModdersToolkit.REPL
 			codeTextBox.OnEnterPressed += EnterAction;
 			codeTextBox.OnTabPressed += TabAction;
 			codeTextBox.OnUpPressed += UpAction;
-			keyboardPanel.Append(codeTextBox);
+			//keyboardPanel.Append(codeTextBox);
 
 			replOutput = new UIList();
 			replOutput.Width.Set(-25f, 1f); // left spacing plus scrollbar
-			replOutput.Height.Set(-codeTextBox.GetDimensions().Height - 32, 1f);
+			//replOutput.Height.Set(-codeTextBox.GetDimensions().Height - 32, 1f);
+			replOutput.Height.Set(-26, 1f);
 			replOutput.Left.Set(0, 0f);
-			replOutput.Top.Set(codeTextBox.GetDimensions().Height, 0f);
+			//replOutput.Top.Set(codeTextBox.GetDimensions().Height, 0f);
+			replOutput.Top.Set(0, 0f);
 			replOutput.ListPadding = 10f;
+			replOutput.Add(codeTextBox);
 			keyboardPanel.Append(replOutput);
 
 			keyboardScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			keyboardScrollbar.SetView(100f, 1000f);
 			keyboardScrollbar.Top.Pixels = codeTextBox.GetDimensions().Height;
-			keyboardScrollbar.Height.Set(-32, 1f);
+			keyboardScrollbar.Height.Set(-26, 1f);
 			keyboardScrollbar.Left.Set(-4, 0f);
 			keyboardScrollbar.HAlign = 1f;
 			keyboardPanel.Append(keyboardScrollbar);
@@ -71,9 +78,23 @@ namespace ModdersToolkit.REPL
 			replOutput.SetScrollbar(keyboardScrollbar);
 
 			UIImageButton eyeDropperButton = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"));
+			eyeDropperButton.Height.Pixels = 20;
+			//eyeDropperButton.Width.Pixels = 20;
 			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
-			eyeDropperButton.Top.Set(-32, 1f);
+			eyeDropperButton.Top.Set(-26, 1f);
 			keyboardPanel.Append(eyeDropperButton);
+
+			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/CopyCodeButton"), "Open External Editor");
+			openText.OnClick += OpenTextButton_OnClick;
+			openText.Top.Set(-26, 1f);
+			openText.Left.Set(26, 0f);
+			keyboardPanel.Append(openText);
+
+			UIImageButton runText = new UIHoverImageButton(TextureManager.Load("Images/UI/ButtonPlay"), "Execute External Code");
+			runText.OnClick += RunTextButton_OnClick;
+			runText.Top.Set(-26, 1f);
+			runText.Left.Set(52, 0f);
+			keyboardPanel.Append(runText);
 
 			Append(keyboardPanel);
 		}
@@ -87,18 +108,59 @@ namespace ModdersToolkit.REPL
 			}
 		}
 
+		private void OpenTextButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			string filename = "ModdersToolkit_Code.cs";
+			string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
+			string path = Path.Combine(folder, filename);
+			if (!File.Exists(path))
+			{
+				File.WriteAllText(path, "// Write code statements here");
+			}
+			Process.Start(path);
+		}
+
+		private void RunTextButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			string filename = "ModdersToolkit_Code.cs";
+			string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
+			string path = Path.Combine(folder, filename);
+			if (File.Exists(path))
+			{
+				string code = File.ReadAllText(path);
+				codeTextBox.SetText(code);
+				EnterAction();
+			}
+			else
+			{
+				Main.NewText("File does not exist");
+			}
+			
+		}
+
 		public void EnterAction()
 		{
+			if (Main.oldKeyState.PressingShift())
+			{
+				codeTextBox.Write("\n");
+				//codeTextBox.SetText(codeTextBox.Text + "\n", 1f, false);
+				//codeTextBox.Height.Pixels += 20;
+				Main.drawingPlayerChat = false;
+				return;
+			}
+			//codeTextBox.Height.Pixels = 20;
 			if (codeTextBox.Text == "clear")
 			{
-				replOutput.Clear();
+				pendingClear = true;
+				//replOutput.Clear();
 				codeTextBox.SetText("");
 				Main.drawingPlayerChat = false;
 				return;
 			}
 			if (codeTextBox.Text == "reset")
 			{
-				replOutput.Clear();
+				pendingClear = true;
+				//replOutput.Clear();
 				codeTextBox.SetText("");
 				Main.drawingPlayerChat = false;
 				REPLTool.replBackend.Reset();
@@ -117,7 +179,7 @@ namespace ModdersToolkit.REPL
 			foreach (var item in replOutput._items)
 			{
 				UICodeEntry codeEntry = item as UICodeEntry;
-				if (codeEntry.codeType == CodeType.Input)
+				if (codeEntry != null && codeEntry.codeType == CodeType.Input)
 				{
 					codeTextBox.SetText(codeEntry.Text);
 					break;
@@ -166,8 +228,21 @@ namespace ModdersToolkit.REPL
 			//replOutput.Recalculate();
 		}
 
+		private List<UIElement> pendingAdd = new List<UIElement>();
+		private bool pendingClear;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			if (pendingAdd.Count > 0)
+			{
+				replOutput.AddRange(pendingAdd);
+				pendingAdd.Clear();
+			}
+			if (pendingClear)
+			{
+				replOutput.Clear();
+				replOutput.Add(codeTextBox);
+				pendingClear = false;
+			}
 			UpdateCheckboxes();
 			if (keyboardPanel.ContainsPoint(Main.MouseScreen))
 			{
@@ -197,10 +272,27 @@ namespace ModdersToolkit.REPL
 
 		internal void AddChunkedLine(string buffer, CodeType codeType)
 		{
+			//int chunkSize = 55;
+			//int stringLength = buffer.Length;
+			//int chunks = (int)Math.Ceiling((float)stringLength / chunkSize);
+			//for (int i = chunks - 1; i >= 0; i -= 1)
+			//{
+			//	int len = chunkSize;
+			//	int start = i * chunkSize;
+			//	if (i == chunks - 1)
+			//	{
+			//		len = stringLength % chunkSize;
+			//	}
+			//	//Console.WriteLine(str.Substring(i, chunkSize));
+			//	//replOutput.Add(new UICodeEntry(buffer.Substring(start, len), codeType));
+			//	pendingAdd.Add(new UICodeEntry(buffer.Substring(start, len), codeType));
+			//}
+
+			StringBuilder sb = new StringBuilder();
 			int chunkSize = 55;
 			int stringLength = buffer.Length;
 			int chunks = (int)Math.Ceiling((float)stringLength / chunkSize);
-			for (int i = chunks - 1; i >= 0; i -= 1)
+			for (int i = 0; i < chunks; i++)
 			{
 				int len = chunkSize;
 				int start = i * chunkSize;
@@ -209,8 +301,12 @@ namespace ModdersToolkit.REPL
 					len = stringLength % chunkSize;
 				}
 				//Console.WriteLine(str.Substring(i, chunkSize));
-				replOutput.Add(new UICodeEntry(buffer.Substring(start, len), codeType));
+				//replOutput.Add(new UICodeEntry(buffer.Substring(start, len), codeType));
+				sb.Append(buffer.Substring(start, len));
+				if (i < chunks - 1) sb.Append("\n");
 			}
+			//sb.Append(buffer);
+			pendingAdd.Add(new UICodeEntry(sb.ToString(), codeType));
 		}
 	}
 }

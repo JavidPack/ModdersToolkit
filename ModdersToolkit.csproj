@@ -57,6 +57,7 @@
     <Compile Include="Tools\Spawns\UINPCSlot.cs" />
     <Compile Include="Tools\Spawns\UINPCSpawnInfo.cs" />
     <Compile Include="UIElements\FixedUIScrollBar.cs" />
+    <Compile Include="UIElements\NewUITextBoxMultiLine.cs" />
     <Compile Include="UIElements\NewUITextBox.cs" />
     <Compile Include="Tools\REPL\REPLBackend.cs" />
     <Compile Include="Tools\Tool.cs" />

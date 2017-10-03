@@ -11,7 +11,7 @@ namespace ModdersToolkit.UIElements
 {
 	class UICodeEntry : UIText
 	{
-		static int NextNum = 0;
+		static int NextNum = 100;
 		internal int num;
 		internal CodeType codeType;
 		public UICodeEntry(string text, CodeType type, float textScale = 1, bool large = false) : base(text, textScale = 1, large = false)
@@ -36,10 +36,19 @@ namespace ModdersToolkit.UIElements
 			}
 
 			Recalculate();
+
+			int lines = text.Split('\n').Length;
+			//MinHeight.Set(lines * 16 + this.PaddingTop + this.PaddingBottom, 0f);
+			Height.Pixels = lines * 24;
+			//Recalculate();
 		}
 
 		public override int CompareTo(object obj)
 		{
+			NewUITextBoxMultiLine text = obj as NewUITextBoxMultiLine;
+			if(text != null){
+				return -1;
+			}
 			UICodeEntry other = obj as UICodeEntry;
 			return other.num.CompareTo(num);
 		}
