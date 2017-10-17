@@ -34,6 +34,8 @@ namespace ModdersToolkit.Tools.Projectiles
 		internal static UIFloatRangedDataValue knockbackDataProperty;
 		internal static UIBoolNDataValue hostile;
 		internal static UIBoolNDataValue friendly;
+		internal static UICheckbox pause;
+		internal static UICheckbox freeze;
 
 		UIGrid projectileGrid;
 		internal NewUITextBox searchFilter;
@@ -121,7 +123,17 @@ namespace ModdersToolkit.Tools.Projectiles
 			var friendlyCheckbox = new UITriStateCheckbox(friendly);
 			friendlyCheckbox.Top.Set(top, 0f);
 			mainPanel.Append(friendlyCheckbox);
-			top += 30;
+			top += 25;
+
+			pause = new UICheckbox("Pause", "Pauses All Projectiles (Prevent AI from running)");
+			pause.Top.Set(top, 0f);
+			mainPanel.Append(pause);
+			top += 25;
+
+			freeze = new UICheckbox("Freeze", "Zero out velocity during PreAI for All Projectiles");
+			freeze.Top.Set(top, 0f);
+			mainPanel.Append(freeze);
+			top += 25;
 
 			projectileGrid = new UIGrid(7);
 			projectileGrid.Top.Pixels = top;
@@ -290,6 +302,18 @@ namespace ModdersToolkit.Tools.Projectiles
 		public override int CompareTo(object obj)
 		{
 			return type.CompareTo((obj as ProjectileSlot).type);
+		}
+	}
+
+	class ProjectilesUIGlobalItem : GlobalProjectile
+	{
+		public override bool PreAI(Projectile projectile)
+		{
+			if(ProjectilesUI.freeze?.Selected ?? false)
+			{
+				projectile.velocity = Vector2.Zero;
+			}
+			return !ProjectilesUI.pause?.Selected ?? true;
 		}
 	}
 }
