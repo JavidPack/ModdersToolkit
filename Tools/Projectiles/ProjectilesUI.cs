@@ -36,6 +36,8 @@ namespace ModdersToolkit.Tools.Projectiles
 		internal static UIBoolNDataValue friendly;
 		internal static UICheckbox pause;
 		internal static UICheckbox freeze;
+		internal static bool stepPrevious;
+		internal static bool step;
 
 		UIGrid projectileGrid;
 		internal NewUITextBox searchFilter;
@@ -128,6 +130,13 @@ namespace ModdersToolkit.Tools.Projectiles
 			pause = new UICheckbox("Pause", "Pauses All Projectiles (Prevent AI from running)");
 			pause.Top.Set(top, 0f);
 			mainPanel.Append(pause);
+
+			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/next"), "Step");
+			stepButton.OnClick += (s, e) => step = true;
+			stepButton.Top.Set(top - 6, 0f);
+			stepButton.Left.Set(80, 0f);
+			mainPanel.Append(stepButton);
+
 			top += 25;
 
 			freeze = new UICheckbox("Freeze", "Zero out velocity during PreAI for All Projectiles");
@@ -202,6 +211,11 @@ namespace ModdersToolkit.Tools.Projectiles
 		{
 			base.Update(gameTime);
 			UpdateGrid();
+			if (step && stepPrevious)
+			{
+				step = false;
+			}
+			stepPrevious = step;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -312,6 +326,14 @@ namespace ModdersToolkit.Tools.Projectiles
 			if(ProjectilesUI.freeze?.Selected ?? false)
 			{
 				projectile.velocity = Vector2.Zero;
+			}
+			if (ProjectilesUI.pause?.Selected ?? false)
+			{
+				if (ProjectilesUI.step)
+				{
+					return true;
+				}
+				return false;
 			}
 			return !ProjectilesUI.pause?.Selected ?? true;
 		}

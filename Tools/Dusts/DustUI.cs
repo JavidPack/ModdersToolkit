@@ -221,7 +221,7 @@ namespace ModdersToolkit.Tools.Dusts
 			NewDustRadioButton.Selected = true;
 
 			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/CopyCodeButton"), "Copy code to clipboard");
-			copyCodeButton.OnClick += CopyCodeButton_OnClick; ;
+			copyCodeButton.OnClick += CopyCodeButton_OnClick;
 			copyCodeButton.Top.Set(-20, 1f);
 			copyCodeButton.Left.Set(-20, 1f);
 			mainPanel.Append(copyCodeButton);

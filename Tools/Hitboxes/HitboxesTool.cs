@@ -14,6 +14,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 	{
 		//internal static UserInterface userInterface;
 		internal static HitboxesUI hitboxesUI;
+		internal static bool keepShowingHitboxes;
 		internal static bool showPlayerMeleeHitboxes;
 		internal static bool showNPCHitboxes;
 		internal static bool showProjectileHitboxes;
@@ -51,6 +52,9 @@ namespace ModdersToolkit.Tools.Hitboxes
 			if (visible)
 			{
 				hitboxesUI.Draw(Main.spriteBatch);
+			}
+			if (visible || keepShowingHitboxes)
+			{ 
 				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();
 				if (showNPCHitboxes) drawNPCHitboxes();
 				if (showProjectileHitboxes) drawProjectileHitboxes();
