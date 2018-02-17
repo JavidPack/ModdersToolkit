@@ -53,6 +53,10 @@ namespace ModdersToolkit.Tools.Hitboxes
 			{
 				hitboxesUI.Draw(Main.spriteBatch);
 			}
+		}
+
+		internal override void WorldDraw()
+		{
 			if (visible || keepShowingHitboxes)
 			{ 
 				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();

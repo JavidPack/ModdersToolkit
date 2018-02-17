@@ -43,6 +43,8 @@ namespace ModdersToolkit.Tools
 
 		internal virtual void UIDraw() { }
 
+		internal virtual void WorldDraw() { }
+
 		internal virtual void DrawUpdateToggle() { }
 
 		internal virtual void Toggled() { }

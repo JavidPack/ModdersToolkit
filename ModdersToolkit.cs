@@ -10,6 +10,7 @@ using Terraria.UI;
 
 //todo, tool to make townnpc spritesheet out of current player 
 //todo, Main.ignoreErrors = true; -- set to false and report errors to console
+// TODO: Trigger spawn TownNPC
 
 namespace ModdersToolkit
 {
@@ -94,6 +95,24 @@ namespace ModdersToolkit
 					InterfaceScaleType.UI)
 				);
 			}
+
+			int rulerLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler"));
+			if (rulerLayerIndex != -1)
+			{
+				layers.Insert(rulerLayerIndex, new LegacyGameInterfaceLayer(
+					"ModdersToolkit: Tools Game Scale",
+					delegate
+					{
+						if (visible)
+						{
+							tools.ForEach(tool => tool.WorldDraw());
+						}
+						return true;
+					},
+					InterfaceScaleType.Game)
+				);
+			}
+			
 
 			Tools.InterfaceLayer.InterfaceLayerTool.interfaceLayerUI.ModifyInterfaceLayers(layers);
 		}
