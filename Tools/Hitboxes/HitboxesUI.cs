@@ -27,9 +27,9 @@ namespace ModdersToolkit.Tools.Hitboxes
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(0);
 			mainPanel.Left.Set(-190f, 1f);
-			mainPanel.Top.Set(-270f, 1f);
+			mainPanel.Top.Set(-290f, 1f);
 			mainPanel.Width.Set(150f, 0f);
-			mainPanel.Height.Set(160f, 0f);
+			mainPanel.Height.Set(180f, 0f);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			UIText text = new UIText("Hitboxes:", 0.85f);
@@ -60,11 +60,18 @@ namespace ModdersToolkit.Tools.Hitboxes
 			mainPanel.Append(npcCheckbox);
 			top += 20;
 
-			UICheckbox projectileCheckbox = new UICheckbox("Projectile", "Note: Some projectiles have special collision logic");
+			UICheckbox projectileCheckbox = new UICheckbox("Projectile C", "Collision: Some projectiles have special collision logic");
 			projectileCheckbox.Top.Set(top, 0f);
 			projectileCheckbox.Left.Set(12f, 0f);
 			projectileCheckbox.OnSelectedChanged += () => HitboxesTool.showProjectileHitboxes = projectileCheckbox.Selected;
 			mainPanel.Append(projectileCheckbox);
+			top += 20;
+
+			UICheckbox projectileDamageCheckbox = new UICheckbox("Projectile D", "Damage: Hitboxes modified by ModifyDamageHitbox");
+			projectileDamageCheckbox.Top.Set(top, 0f);
+			projectileDamageCheckbox.Left.Set(12f, 0f);
+			projectileDamageCheckbox.OnSelectedChanged += () => HitboxesTool.showProjectileDamageHitboxes = projectileDamageCheckbox.Selected;
+			mainPanel.Append(projectileDamageCheckbox);
 			top += 20;
 
 			UICheckbox teCheckbox = new UICheckbox("TE Position", "");

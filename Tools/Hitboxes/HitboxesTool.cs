@@ -18,6 +18,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		internal static bool showPlayerMeleeHitboxes;
 		internal static bool showNPCHitboxes;
 		internal static bool showProjectileHitboxes;
+		internal static bool showProjectileDamageHitboxes;
 		internal static bool showTEPositions;
 		internal static bool showWorldItemHitboxes;
 		//internal static HitboxesGlobalItem hitboxesGlobalItem;
@@ -62,6 +63,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();
 				if (showNPCHitboxes) drawNPCHitboxes();
 				if (showProjectileHitboxes) drawProjectileHitboxes();
+				if (showProjectileDamageHitboxes) drawProjectileDamageHitboxes();
 				if (showTEPositions) drawTileEntityPositions();
 				if (showWorldItemHitboxes) drawWorldItemHitboxes();
 			}
@@ -120,6 +122,21 @@ namespace ModdersToolkit.Tools.Hitboxes
 					Rectangle hitbox = projectile.getRect();
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Orange * 0.6f);
+				}
+			}
+		}
+
+		private void drawProjectileDamageHitboxes()
+		{
+			for (int i = 0; i < 1000; i++)
+			{
+				Projectile projectile = Main.projectile[i];
+				if (projectile.active)
+				{
+					Rectangle hitbox = projectile.getRect();
+					ProjectileLoader.ModifyDamageHitbox(projectile, ref hitbox);
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.OrangeRed * 0.6f);
 				}
 			}
 		}
