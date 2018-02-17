@@ -12,8 +12,8 @@ namespace ModdersToolkit.UIElements
 	// TODO, tri-state checkbox.
 	class UICheckbox : UIText
 	{
-		static Texture2D checkboxTexture = ModdersToolkit.instance.GetTexture("UIElements/checkBox");
-		static Texture2D checkmarkTexture = ModdersToolkit.instance.GetTexture("UIElements/checkMark");
+		internal static Texture2D checkboxTexture;
+		internal static Texture2D checkmarkTexture;
 		public event Action OnSelectedChanged;
 
 		public float order = 0;
@@ -89,8 +89,8 @@ namespace ModdersToolkit.UIElements
 
 	class UICheckbox2 : UIText
 	{
-		static Texture2D checkboxTexture = ModdersToolkit.instance.GetTexture("UIElements/checkBox");
-		static Texture2D checkmarkTexture = ModdersToolkit.instance.GetTexture("UIElements/checkMark");
+		internal static Texture2D checkboxTexture;
+		internal static Texture2D checkmarkTexture;
 		public event Action OnSelectedChanged;
 
 		private UIBoolDataValue data;
@@ -124,9 +124,9 @@ namespace ModdersToolkit.UIElements
 
 	class UITriStateCheckbox : UIText
 	{
-		static Texture2D checkboxTexture = ModdersToolkit.instance.GetTexture("UIElements/checkBox");
-		static Texture2D checkmarkTexture = ModdersToolkit.instance.GetTexture("UIElements/checkMark");
-		static Texture2D checkXTexture = ModdersToolkit.instance.GetTexture("UIElements/checkX");
+		internal static Texture2D checkboxTexture;
+		internal static Texture2D checkmarkTexture;
+		internal static Texture2D checkXTexture;
 		public event Action OnSelectedChanged;
 
 		private UIBoolNDataValue data;

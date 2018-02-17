@@ -45,6 +45,14 @@ namespace ModdersToolkit
 			if (!Main.dedServ)
 			{
 				tools.ForEach(tool => tool.ClientInitialize());
+
+				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
+				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkBox");
+				UIElements.UICheckbox2.checkboxTexture = GetTexture("UIElements/checkBox");
+				UIElements.UICheckbox2.checkmarkTexture = GetTexture("UIElements/checkBox");
+				UIElements.UITriStateCheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
+				UIElements.UITriStateCheckbox.checkmarkTexture = GetTexture("UIElements/checkBox");
+				UIElements.UITriStateCheckbox.checkXTexture = GetTexture("UIElements/checkX");
 			}
 		}
 
@@ -52,6 +60,14 @@ namespace ModdersToolkit
 		{
 			instance = null;
 			tools = null;
+
+			UIElements.UICheckbox.checkboxTexture = null;
+			UIElements.UICheckbox.checkmarkTexture = null;
+			UIElements.UICheckbox2.checkboxTexture = null;
+			UIElements.UICheckbox2.checkmarkTexture = null;
+			UIElements.UITriStateCheckbox.checkboxTexture = null;
+			UIElements.UITriStateCheckbox.checkmarkTexture = null;
+			UIElements.UITriStateCheckbox.checkXTexture = null;
 		}
 
 		public override void PostSetupContent()
