@@ -47,11 +47,11 @@ namespace ModdersToolkit
 				tools.ForEach(tool => tool.ClientInitialize());
 
 				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkBox");
+				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
 				UIElements.UICheckbox2.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UICheckbox2.checkmarkTexture = GetTexture("UIElements/checkBox");
+				UIElements.UICheckbox2.checkmarkTexture = GetTexture("UIElements/checkMark");
 				UIElements.UITriStateCheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UITriStateCheckbox.checkmarkTexture = GetTexture("UIElements/checkBox");
+				UIElements.UITriStateCheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
 				UIElements.UITriStateCheckbox.checkXTexture = GetTexture("UIElements/checkX");
 			}
 		}
