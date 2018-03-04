@@ -17,7 +17,21 @@ namespace ModdersToolkit.UIElements
 		public event Action OnSelectedChanged;
 
 		public float order = 0;
-		bool clickable = true;
+
+		private bool clickable = false;
+		public bool Clickable
+		{
+			get { return clickable; }
+			set
+			{
+				if (value != clickable)
+				{
+					clickable = value;
+				}
+				TextColor = clickable ? Color.White : Color.Gray;
+			}
+		}
+
 		string tooltip = "";
 
 		private bool selected = false;
@@ -152,7 +166,7 @@ namespace ModdersToolkit.UIElements
 			{
 				data.SetValue(true);
 			}
-			
+
 			Recalculate();
 		}
 

@@ -38,6 +38,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.PlayerLayer.PlayerLayerTool());
 			tools.Add(new Tools.InterfaceLayer.InterfaceLayerTool());
 			tools.Add(new Tools.Spawns.SpawnTool());
+			tools.Add(new Tools.Textures.TextureTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 
 			tools.ForEach(tool => tool.Initialize());

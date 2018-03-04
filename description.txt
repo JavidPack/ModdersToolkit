@@ -8,6 +8,7 @@ Current Tools
 -Projectile spawner
 -Player layer viewer
 -Interface layer viewer.
+-Texture updating/editing tool
 
 Planned Tools
 -WorldGen tools
