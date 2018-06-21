@@ -12,6 +12,12 @@ using Terraria.UI;
 //todo, Main.ignoreErrors = true; -- set to false and report errors to console
 // TODO: Trigger spawn TownNPC
 
+// TODO: Clear Projectiles
+// TODO: Reveal Map (Also, highlight changes?)
+// TODO: Tooltips/Stats: Player position, block names, block strength (minpick).
+// TODO: Moveable Windows
+// TODO:
+
 namespace ModdersToolkit
 {
 	public class ModdersToolkit : Mod
@@ -40,6 +46,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.Spawns.SpawnTool());
 			tools.Add(new Tools.Textures.TextureTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
+			tools.Add(new Tools.Miscellaneous.MiscellaneousTool());
 
 			tools.ForEach(tool => tool.Initialize());
 

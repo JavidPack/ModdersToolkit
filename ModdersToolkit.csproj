@@ -45,6 +45,8 @@
     <Compile Include="Tools\Loot\UIItemSlot.cs" />
     <Compile Include="Tools\Loot\UILootInfo.cs" />
     <Compile Include="Tools\Loot\UIMoneyDisplay.cs" />
+    <Compile Include="Tools\Miscellaneous\MiscellaneousTool.cs" />
+    <Compile Include="Tools\Miscellaneous\MiscellaneousUI.cs" />
     <Compile Include="Tools\PlayerLayer\PlayerLayerTool.cs" />
     <Compile Include="Tools\PlayerLayer\PlayerLayerUI.cs" />
     <Compile Include="Tools\Projectiles\ProjectilesTool.cs" />

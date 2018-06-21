@@ -56,6 +56,28 @@ namespace ModdersToolkit.Tools.Projectiles
 			UIText text = new UIText("Projectiles:", 0.85f);
 			text.Top.Set(top, 0f);
 			mainPanel.Append(text);
+
+			UITextPanel<string> clearProjectilesButton = new UITextPanel<string>("Clear Projectiles");
+			clearProjectilesButton.OnClick += (a, b) =>
+			{
+				for (int i = 0; i < Main.projectile.Length; i++)
+				{
+					if (Main.projectile[i].active)
+					{
+						Main.projectile[i].Kill();
+						if (Main.netMode == 1)
+						{
+							NetMessage.SendData(27, -1, -1, null, i, 0f, 0f, 0f, 0);
+						}
+					}
+				}
+			};
+			clearProjectilesButton.Top.Set(top, 0f);
+			clearProjectilesButton.Width.Set(-10, 0.5f);
+			clearProjectilesButton.HAlign = 1;
+			clearProjectilesButton.SetPadding(4);
+			mainPanel.Append(clearProjectilesButton);
+
 			top += 20;
 
 			UIText text2 = new UIText("Filter:", 0.85f);
@@ -323,7 +345,7 @@ namespace ModdersToolkit.Tools.Projectiles
 	{
 		public override bool PreAI(Projectile projectile)
 		{
-			if(ProjectilesUI.freeze?.Selected ?? false)
+			if (ProjectilesUI.freeze?.Selected ?? false)
 			{
 				projectile.velocity = Vector2.Zero;
 			}
