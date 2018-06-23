@@ -83,6 +83,11 @@ namespace ModdersToolkit
 			tools.ForEach(tool => tool.PostSetupContent());
 		}
 
+		public override void UpdateUI(GameTime gameTime)
+		{
+			tools?.ForEach(tool => tool.UIUpdate());
+		}
+
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -104,7 +109,7 @@ namespace ModdersToolkit
 								lastSeenScreenWidth = Main.screenWidth;
 								lastSeenScreenHeight = Main.screenHeight;
 							}
-							tools.ForEach(tool => tool.UIUpdate());
+							//tools.ForEach(tool => tool.UIUpdate());
 							tools.ForEach(tool => tool.UIDraw());
 						}
 						//else
