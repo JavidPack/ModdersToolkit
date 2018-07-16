@@ -35,8 +35,8 @@ namespace ModdersToolkit.Tools.Spawns
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			UIText text = new UIText("NPC Spawns:", 0.85f);
-		//	text.Top.Set(12f, 0f);
-		//	text.Left.Set(12f, 0f);
+			//	text.Top.Set(12f, 0f);
+			//	text.Left.Set(12f, 0f);
 			mainPanel.Append(text);
 
 			int top = 20;
@@ -45,14 +45,14 @@ namespace ModdersToolkit.Tools.Spawns
 			calculateButton.SetPadding(4);
 			calculateButton.Width.Set(-10, 0.5f);
 			calculateButton.Top.Set(top, 0f);
-		//	calculateButton.Left.Set(6, 0f);
-			calculateButton.OnClick += CaluculateButton_OnClick; ;
+			//	calculateButton.Left.Set(6, 0f);
+			calculateButton.OnClick += CalculateButton_OnClick;
 			mainPanel.Append(calculateButton);
 
 			top += 28;
 
 			checklistList = new UIList();
-		//	checklistList.SetPadding(6);
+			//	checklistList.SetPadding(6);
 			checklistList.Top.Pixels = top;
 			checklistList.Width.Set(-25f, 1f);
 			checklistList.Height.Set(-top, 1f);
@@ -72,7 +72,7 @@ namespace ModdersToolkit.Tools.Spawns
 			Append(mainPanel);
 		}
 
-		private void CaluculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			Main.NewText("Calculating....");
 

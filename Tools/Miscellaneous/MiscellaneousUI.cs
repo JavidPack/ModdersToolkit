@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using ModdersToolkit.UIElements;
 using ModdersToolkit.Tools;
+using System.IO;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
@@ -48,7 +49,36 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel.Append(npcInfoCheckbox);
 			top += 20;
 
+			UITextPanel<string> calculateChunkData = new UITextPanel<string>("Calculate Chunk Size");
+			calculateChunkData.SetPadding(4);
+			calculateChunkData.Width.Set(-10, 0.5f);
+			calculateChunkData.Top.Set(top, 0f);
+			calculateChunkData.OnClick += CalculateButton_OnClick;
+			mainPanel.Append(calculateChunkData);
+			top += 20;
+
 			Append(mainPanel);
+		}
+
+		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			Point point = Main.LocalPlayer.Center.ToTileCoordinates();
+
+			byte[] writeBuffer = new byte[131070];
+			int sectionX = point.X / 200;
+			int sectionY = point.Y / 150;
+			int x = sectionX * 200;
+			int y = sectionY * 150;
+			int chunkDataSize = NetMessage.CompressTileBlock(x, y, 200, 150, writeBuffer, 0);
+
+			if (chunkDataSize > 65535) // 65535 131070
+				Main.NewText($"[c/FF0000:Bad]: {chunkDataSize} > 65535");
+			else
+				Main.NewText($"[c/00FF00:OK]: {chunkDataSize} < 65535");
+
+			Dust.QuickBox(new Vector2(x, y) * 16, new Vector2(x + 200, y + 150) * 16, 80, Color.White, null);
+			//Dust.QuickBox(new Vector2(x, y) * 16 + new Vector2(3, 3) * 16, new Vector2(x + 200, y + 150) * 16 - new Vector2(3, 3) * 16, 38, Color.LightSkyBlue, null);
+			//Dust.QuickBox(new Vector2(x, y) * 16 + new Vector2(6, 6) * 16, new Vector2(x + 200, y + 150) * 16 - new Vector2(6, 6) * 16, 36, Color.LightSteelBlue, null);
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
