@@ -16,6 +16,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 	{
 		internal static MiscellaneousUI miscellaneousUI;
 		internal static bool showNPCInfo;
+		internal static bool showTileGrid;
 
 		internal override void Initialize()
 		{
@@ -67,7 +68,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					{
 						if (npc.buffType[i] > 0)
 						{
-							spriteBatch.DrawString(font, $"{Lang.GetBuffName(npc.buffType[i])}({npc.buffType[i]}) {npc.buffTime[i]} ", infoRectangle.TopLeft() + new Vector2(5 + 55, 85 + i*20), Color.Black);
+							spriteBatch.DrawString(font, $"{Lang.GetBuffName(npc.buffType[i])}({npc.buffType[i]}) {npc.buffTime[i]} ", infoRectangle.TopLeft() + new Vector2(5 + 55, 85 + i * 20), Color.Black);
 						}
 					}
 					//if(npc.realLife != -1)
@@ -75,6 +76,26 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					//	Utils.DrawLine(spriteBatch, npc.Center.ToPoint(), Main.npc[npc.realLife].Center.ToPoint(), Color.White);
 					//}
 				}
+			}
+		}
+	}
+
+	class TileGridModWorld : ModWorld
+	{
+		public override void PostDrawTiles()
+		{
+			if (MiscellaneousTool.showTileGrid)
+			{
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+				Vector2 center = Main.LocalPlayer.Center.ToTileCoordinates().ToVector2() * 16;
+
+				for (int i = -13; i < 14; i++)
+				{
+					Utils.DrawLine(Main.spriteBatch, new Vector2(center.X + i * 16, center.Y - 13*16), new Vector2(center.X + i * 16, center.Y + 13 * 16), Color.White, Color.White, 1);
+					Utils.DrawLine(Main.spriteBatch, new Vector2(center.X - 13 * 16, center.Y + i * 16), new Vector2(center.X + 13 * 16, center.Y + i * 16), Color.White, Color.White, 1);
+				}
+				Main.spriteBatch.End();
 			}
 		}
 	}

@@ -11,6 +11,7 @@ using System.Text;
 using ModdersToolkit.UIElements;
 using ModdersToolkit.Tools;
 using System.IO;
+using Terraria.DataStructures;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
@@ -49,6 +50,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel.Append(npcInfoCheckbox);
 			top += 20;
 
+			UICheckbox tileGridCheckbox = new UICheckbox("Tile Grid", "Show grid lines between tiles.");
+			tileGridCheckbox.Top.Set(top, 0f);
+			tileGridCheckbox.Left.Set(12f, 0f);
+			tileGridCheckbox.OnSelectedChanged += () => MiscellaneousTool.showTileGrid = tileGridCheckbox.Selected;
+			mainPanel.Append(tileGridCheckbox);
+			top += 20;
+
 			UITextPanel<string> calculateChunkData = new UITextPanel<string>("Calculate Chunk Size");
 			calculateChunkData.SetPadding(4);
 			calculateChunkData.Width.Set(-10, 0.5f);
@@ -69,6 +77,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			int sectionY = point.Y / 150;
 			int x = sectionX * 200;
 			int y = sectionY * 150;
+			// This doesn't return the correct number technically.
 			int chunkDataSize = NetMessage.CompressTileBlock(x, y, 200, 150, writeBuffer, 0);
 
 			if (chunkDataSize > 65535) // 65535 131070
@@ -79,6 +88,31 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Dust.QuickBox(new Vector2(x, y) * 16, new Vector2(x + 200, y + 150) * 16, 80, Color.White, null);
 			//Dust.QuickBox(new Vector2(x, y) * 16 + new Vector2(3, 3) * 16, new Vector2(x + 200, y + 150) * 16 - new Vector2(3, 3) * 16, 38, Color.LightSkyBlue, null);
 			//Dust.QuickBox(new Vector2(x, y) * 16 + new Vector2(6, 6) * 16, new Vector2(x + 200, y + 150) * 16 - new Vector2(6, 6) * 16, 36, Color.LightSteelBlue, null);
+
+			using (MemoryStream memoryStream = new MemoryStream())
+			{
+				using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
+				{
+					long position = memoryStream.Position;
+					foreach (var item in TileEntity.ByPosition)
+					{
+						Point16 pos = item.Key;
+						if (pos.X >= x && pos.X < x + 200 && pos.Y >= y && pos.Y < y + 150)
+						{
+							if (item.Value.type > 2)
+							{
+								short id = (short)item.Value.ID;
+								TileEntity.Write(binaryWriter, TileEntity.ByID[id], false);
+
+								long length = memoryStream.Position - position;
+								position = memoryStream.Position;
+
+								Main.NewText($"TE@{pos.X},{pos.Y}: {length}");
+							}
+						}
+					}
+				}
+			}
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
