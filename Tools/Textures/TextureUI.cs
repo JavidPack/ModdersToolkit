@@ -97,7 +97,7 @@ namespace ModdersToolkit.Tools.Textures
 			searchFilter.OnTextChanged += () => { updateneeded = true; };
 			searchFilter.Top.Set(top, 0f);
 			searchFilter.Left.Set(text2.GetInnerDimensions().Width + 6, 0f);
-			searchFilter.Width.Set(0, 1f);
+			searchFilter.Width.Set(-(text2.GetInnerDimensions().Width + 6), 1f);
 			searchFilter.Height.Set(20, 0f);
 			mainPanel.Append(searchFilter);
 

@@ -15,6 +15,9 @@ using System.Collections.Generic;
 
 namespace ModdersToolkit.Tools.Projectiles
 {
+	// TODO: DrawOffsetX and Y setting
+	// Also NPC drawOffsetY
+
 	class ProjectilesUI : UIState
 	{
 		internal UIPanel mainPanel;
@@ -30,6 +33,9 @@ namespace ModdersToolkit.Tools.Projectiles
 		internal static UIFloatRangedDataValue ai1DataProperty;
 		internal static UIIntRangedDataValue damageDataProperty;
 		internal static UIIntRangedDataValue aiStyleDataProperty;
+		internal static UIIntRangedDataValue drawOffsetXDataProperty;
+		internal static UIIntRangedDataValue drawOriginOffsetXDataProperty;
+		internal static UIIntRangedDataValue drawOriginOffsetYDataProperty;
 		//internal static UIIntRangedDataValue aiTypeDataProperty;
 		internal static UIFloatRangedDataValue knockbackDataProperty;
 		internal static UIBoolNDataValue hostile;
@@ -45,10 +51,12 @@ namespace ModdersToolkit.Tools.Projectiles
 		public override void OnInitialize()
 		{
 			mainPanel = new UIPanel();
-			mainPanel.Left.Set(-350f, 1f);
-			mainPanel.Top.Set(-620f, 1f);
-			mainPanel.Width.Set(310f, 0f);
-			mainPanel.Height.Set(520f, 0f);
+			int width = 310;
+			int height = 610;
+			mainPanel.Left.Set(-40f - width, 1f);
+			mainPanel.Top.Set(-100f - height, 1f);
+			mainPanel.Width.Set(width, 0f);
+			mainPanel.Height.Set(height, 0f);
 			mainPanel.SetPadding(12);
 			mainPanel.BackgroundColor = Color.Orange * 0.7f;
 
@@ -89,7 +97,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			searchFilter.OnTextChanged += () => { ValidateInput(); updateneeded = true; };
 			searchFilter.Top.Set(top, 0f);
 			searchFilter.Left.Set(text2.GetInnerDimensions().Width, 0f);
-			searchFilter.Width.Set(0, 1f);
+			searchFilter.Width.Set(-text2.GetInnerDimensions().Width, 1f);
 			searchFilter.Height.Set(20, 0f);
 			//searchFilter.VAlign = 0.5f;
 			mainPanel.Append(searchFilter);
@@ -132,6 +140,27 @@ namespace ModdersToolkit.Tools.Projectiles
 
 			aiStyleDataProperty = new UIIntRangedDataValue("AIStyle:", -1, -1, 145);
 			uiRangeI = new UIRange<int>(aiStyleDataProperty);
+			uiRangeI.Top.Set(top, 0f);
+			uiRangeI.Width.Set(0, 1f);
+			mainPanel.Append(uiRangeI);
+			top += 30;
+
+			drawOffsetXDataProperty = new UIIntRangedDataValue("drawOffsetX:", 0, -30, 30);
+			uiRangeI = new UIRange<int>(drawOffsetXDataProperty);
+			uiRangeI.Top.Set(top, 0f);
+			uiRangeI.Width.Set(0, 1f);
+			mainPanel.Append(uiRangeI);
+			top += 30;
+
+			drawOriginOffsetXDataProperty = new UIIntRangedDataValue("drawOriginOffsetX:", 0, -30, 30);
+			uiRangeI = new UIRange<int>(drawOriginOffsetXDataProperty);
+			uiRangeI.Top.Set(top, 0f);
+			uiRangeI.Width.Set(0, 1f);
+			mainPanel.Append(uiRangeI);
+			top += 30;
+
+			drawOriginOffsetYDataProperty = new UIIntRangedDataValue("drawOriginOffsetY:", 0, -30, 30);
+			uiRangeI = new UIRange<int>(drawOriginOffsetYDataProperty);
 			uiRangeI.Top.Set(top, 0f);
 			uiRangeI.Width.Set(0, 1f);
 			mainPanel.Append(uiRangeI);
@@ -329,6 +358,13 @@ namespace ModdersToolkit.Tools.Projectiles
 			{
 				p.aiStyle = ProjectilesUI.aiStyleDataProperty.Data;
 			}
+			if (p.modProjectile != null)
+			{
+				p.modProjectile.drawOffsetX = ProjectilesUI.drawOffsetXDataProperty.Data;
+				p.modProjectile.drawOriginOffsetX = ProjectilesUI.drawOriginOffsetXDataProperty.Data;
+				p.modProjectile.drawOriginOffsetY = ProjectilesUI.drawOriginOffsetYDataProperty.Data;
+			}
+
 			// support for aitype??
 			//p.modProjectile = new ModProjectile();
 			//p.hostile = ;

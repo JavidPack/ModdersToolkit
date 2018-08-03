@@ -1,5 +1,6 @@
 author = jopojelly
-version = 0.1.8.3
+version = 0.11
+versionScheme = major when done, minor when new tool, build when new item within tool, revision for bug fix quick release
 displayName = Modders Toolkit
 homepage = https://forums.terraria.org/index.php?threads/modders-toolkit-a-mod-for-modders-doing-modding.55738/
 buildIgnore = .vs\*, .git\*, ignore\*, .gitignore, .gitattributes, *.MD, *.csproj, *.user, obj\*, bin\*

@@ -29,8 +29,10 @@ namespace ModdersToolkit.UIElements
 		public NewUITextBox(string text, float textScale = 1, bool large = false) : base("", textScale, large)
 		{
 			hintText = text;
-			SetPadding(0);
+			SetPadding(4);
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
+			//BackgroundColor = Color.White;
+			//BorderColor = Color.White;
 		}
 
 		public override void Click(UIMouseEvent evt)
@@ -177,6 +179,13 @@ namespace ModdersToolkit.UIElements
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			Rectangle hitbox = GetDimensions().ToRectangle();
+			//hitbox.Inflate(4, 4);
+			Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.White);
+
+			// Draw panel -- Panel draws odd when too small
+			// base.DrawSelf(spriteBatch);
+
 			if (focused)
 			{
 				Terraria.GameInput.PlayerInput.WritingText = true;

@@ -60,6 +60,8 @@
     <Compile Include="Tools\Spawns\UINPCSpawnInfo.cs" />
     <Compile Include="Tools\Textures\TextureTool.cs" />
     <Compile Include="Tools\Textures\TextureUI.cs" />
+    <Compile Include="Tools\UIPlayground\UIPlaygroundTool.cs" />
+    <Compile Include="Tools\UIPlayground\UIPlaygroundUI.cs" />
     <Compile Include="UIElements\FixedUIScrollBar.cs" />
     <Compile Include="UIElements\NewUITextBoxMultiLine.cs" />
     <Compile Include="UIElements\NewUITextBox.cs" />

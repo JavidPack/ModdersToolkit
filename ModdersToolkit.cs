@@ -46,6 +46,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.Spawns.SpawnTool());
 			tools.Add(new Tools.Textures.TextureTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
+			tools.Add(new Tools.UIPlayground.UIPlaygroundTool());
 			tools.Add(new Tools.Miscellaneous.MiscellaneousTool());
 
 			tools.ForEach(tool => tool.Initialize());

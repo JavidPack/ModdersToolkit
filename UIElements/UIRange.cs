@@ -47,7 +47,7 @@ namespace ModdersToolkit.UIElements
 			input = new NewUITextBox("input:", 0.85f);
 			input.SetPadding(0);
 			input.OnUnfocus += () => data.ParseValue(input.Text);
-			input.Width.Set(0, .2f);
+			input.Width.Set(0, .16f);
 			input.HAlign = 1f;
 			input.VAlign = 0.5f;
 			Append(input);

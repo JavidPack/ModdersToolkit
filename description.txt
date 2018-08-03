@@ -1,14 +1,17 @@
 ﻿ModdersToolkit is a toolkit for modders, hence the name.
 
 Current Tools
--C# REPL, exaluate and run code interactively (on server console as well)
+-C# REPL, evaluate and run code interactively (on server console as well)
 -Hitbox visualizer
 -Dust tool
 -Item defaults tool
 -Projectile spawner
 -Player layer viewer
 -Interface layer viewer.
+-NPC Spawn Calculator
 -Texture updating/editing tool
+-UI Playground
+-Miscellaneous (NPC info, tile grid, chunk calculator)
 
 Planned Tools
 -WorldGen tools
