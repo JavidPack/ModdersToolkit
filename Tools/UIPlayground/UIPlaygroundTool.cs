@@ -14,6 +14,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 {
 	class UIPlaygroundTool : Tool
 	{
+		// TODO: Parallax to teach nesting
+
 		internal static UIPlaygroundUI uiPlaygroundUI;
 
 		internal override void Initialize()

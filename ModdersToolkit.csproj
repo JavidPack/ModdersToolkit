@@ -30,6 +30,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ModdersToolkit.cs" />
+    <Compile Include="Tools\Backgrounds\BackgroundsTool.cs" />
+    <Compile Include="Tools\Backgrounds\BackgroundsUI.cs" />
     <Compile Include="Tools\Dusts\DataRangeProperty.cs" />
     <Compile Include="Tools\Dusts\DustChooserUI.cs" />
     <Compile Include="Tools\Dusts\DustTool.cs" />

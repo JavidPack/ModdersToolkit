@@ -47,6 +47,7 @@ namespace ModdersToolkit
 			tools.Add(new Tools.Textures.TextureTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 			tools.Add(new Tools.UIPlayground.UIPlaygroundTool());
+			tools.Add(new Tools.Backgrounds.BackgroundsTool());
 			tools.Add(new Tools.Miscellaneous.MiscellaneousTool());
 
 			tools.ForEach(tool => tool.Initialize());
@@ -152,7 +153,7 @@ namespace ModdersToolkit
 		{
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
 			// calculate?
-			int xPosition = Main.screenWidth - 210; //62; //78;
+			int xPosition = Main.screenWidth - 230; //62; //78;
 			int yPosition = Main.screenHeight - 36 + 10 - 25;
 
 			// TODO, use UI/Settings_Toggle

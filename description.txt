@@ -11,6 +11,7 @@ Current Tools
 -NPC Spawn Calculator
 -Texture updating/editing tool
 -UI Playground
+-Background Tool
 -Miscellaneous (NPC info, tile grid, chunk calculator)
 
 Planned Tools
