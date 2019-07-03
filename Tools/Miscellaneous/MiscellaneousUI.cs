@@ -73,6 +73,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			generateTownSprite.OnClick += GenerateTownSprite_OnClick;
 			mainPanel.Append(generateTownSprite);
 			top += 30;
+			*/
 
 			UICheckbox collisionCircleCheckbox = new UICheckbox("Collision Circle", "Show a circle of Collision.CanHit");
 			collisionCircleCheckbox.Top.Set(top, 0f);
@@ -80,7 +81,6 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			collisionCircleCheckbox.OnSelectedChanged += () => MiscellaneousTool.showCollisionCircle = collisionCircleCheckbox.Selected;
 			mainPanel.Append(collisionCircleCheckbox);
 			top += 20;
-			*/
 
 			Append(mainPanel);
 		}
