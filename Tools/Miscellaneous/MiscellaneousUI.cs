@@ -63,9 +63,31 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			calculateChunkData.Top.Set(top, 0f);
 			calculateChunkData.OnClick += CalculateButton_OnClick;
 			mainPanel.Append(calculateChunkData);
+			top += 30;
+
+			/*
+			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite");
+			generateTownSprite.SetPadding(4);
+			generateTownSprite.Width.Set(-10, 0.5f);
+			generateTownSprite.Top.Set(top, 0f);
+			generateTownSprite.OnClick += GenerateTownSprite_OnClick;
+			mainPanel.Append(generateTownSprite);
+			top += 30;
+
+			UICheckbox collisionCircleCheckbox = new UICheckbox("Collision Circle", "Show a circle of Collision.CanHit");
+			collisionCircleCheckbox.Top.Set(top, 0f);
+			collisionCircleCheckbox.Left.Set(12f, 0f);
+			collisionCircleCheckbox.OnSelectedChanged += () => MiscellaneousTool.showCollisionCircle = collisionCircleCheckbox.Selected;
+			mainPanel.Append(collisionCircleCheckbox);
 			top += 20;
+			*/
 
 			Append(mainPanel);
+		}
+
+		private void GenerateTownSprite_OnClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			throw new NotImplementedException();
 		}
 
 		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
