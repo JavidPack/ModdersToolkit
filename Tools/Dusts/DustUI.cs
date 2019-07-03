@@ -241,8 +241,12 @@ namespace ModdersToolkit.Tools.Dusts
 			float scale = scaleDataProperty.Data;
 
 			StringBuilder s = new StringBuilder();
-			s.Append($"if (Main.rand.NextFloat() < {spawnChanceDataProperty.Data}f)" + Environment.NewLine);
-			s.Append($"{{" + Environment.NewLine);
+			bool nonOneChance = spawnChanceDataProperty.Data != 1f;
+			if (nonOneChance)
+			{
+				s.Append($"if (Main.rand.NextFloat() < {spawnChanceDataProperty.Data}f)" + Environment.NewLine);
+				s.Append($"{{" + Environment.NewLine);
+			}
 			s.Append($"\tDust dust;" + Environment.NewLine);
 
 			s.Append($"\t// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle." + Environment.NewLine);
@@ -271,8 +275,10 @@ namespace ModdersToolkit.Tools.Dusts
 
 			if (fadeInDataProperty.Data > 0)
 				s.Append($"\tdust.fadeIn = {fadeInDataProperty.Data}f;" + Environment.NewLine);
-
-			s.Append($"}}" + Environment.NewLine);
+			if (nonOneChance)
+			{
+				s.Append($"}}" + Environment.NewLine);
+			}
 
 			Platform.Current.Clipboard = s.ToString();
 
