@@ -42,18 +42,18 @@ namespace ModdersToolkit.Tools.REPL
 		//		userInterface.Update(Main._drawInterfaceGameTime);
 		//	}
 		//}
-		internal override void UIDraw()
+
+		internal override void WorldDraw()
 		{
 			if (visible)
 			{
-				moddersToolkitUI.Draw(Main.spriteBatch);
 				if (EyedropperActive)
 				{
 					Point tileCoords = Main.MouseWorld.ToTileCoordinates();
 					Vector2 worldCoords = tileCoords.ToVector2() * 16;
 					Vector2 screenCoords = worldCoords - Main.screenPosition;
 
-					DrawBorderedRect(Main.spriteBatch, Color.LightBlue * 0.1f, Color.Blue * 0.3f, screenCoords, new Vector2(16,16), 5);
+					DrawBorderedRect(Main.spriteBatch, Color.LightBlue * 0.1f, Color.Blue * 0.3f, screenCoords, new Vector2(16, 16), 5);
 
 					if(!Main.LocalPlayer.mouseInterface && Main.mouseLeft)
 					{
@@ -67,6 +67,15 @@ namespace ModdersToolkit.Tools.REPL
 				}
 			}
 		}
+
+		internal override void UIDraw()
+		{
+			if (visible)
+			{
+				moddersToolkitUI.Draw(Main.spriteBatch);
+			}
+		}
+
 		internal override void Toggled()
 		{
 			Main.drawingPlayerChat = false;

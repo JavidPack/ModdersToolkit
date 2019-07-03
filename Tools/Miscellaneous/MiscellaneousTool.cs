@@ -86,7 +86,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		{
 			if (MiscellaneousTool.showTileGrid)
 			{
-				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+				//Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 				Vector2 center = Main.LocalPlayer.Center.ToTileCoordinates().ToVector2() * 16;
 
