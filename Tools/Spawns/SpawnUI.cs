@@ -39,6 +39,23 @@ namespace ModdersToolkit.Tools.Spawns
 			//	text.Left.Set(12f, 0f);
 			mainPanel.Append(text);
 
+			/*
+			UITextPanel<string> spawnTownNPCButton = new UITextPanel<string>("Spawn\nTownNPC");
+			spawnTownNPCButton.OnClick += (a, b) =>
+			{
+				Main.NewText(Main.checkForSpawns);
+				Main.checkForSpawns = 7200;
+				WorldGen.spawnDelay = 20;
+				//var coords = Main.LocalPlayer.Center.ToPoint();
+				//WorldGen.TrySpawningTownNPC(coords.X, coords.Y);
+			};
+			spawnTownNPCButton.Top.Set(0, 0f);
+			spawnTownNPCButton.Width.Set(-10, 0.5f);
+			spawnTownNPCButton.HAlign = 1;
+			spawnTownNPCButton.SetPadding(4);
+			mainPanel.Append(spawnTownNPCButton);
+			*/
+
 			int top = 20;
 
 			UITextPanel<string> calculateButton = new UITextPanel<string>("Calculate");
