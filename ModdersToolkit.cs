@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.Tools;
+using ReLogic.OS;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,7 +34,7 @@ namespace ModdersToolkit
 			instance = this;
 
 			tools = new List<Tool>();
-			if (ModLoader.windows) // REPL tool not working non-windows yet. Is this the attribute problem?
+			if (Platform.IsWindows) // REPL tool not working non-windows yet. Is this the attribute problem?
 			{
 				tools.Add(new Tools.REPL.REPLTool());
 			}

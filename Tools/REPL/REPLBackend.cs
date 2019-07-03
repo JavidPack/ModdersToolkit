@@ -45,7 +45,7 @@ namespace ModdersToolkit.REPL
 				}
 				try
 				{
-					if (assembly.FullName.Contains("mscorlib") || assembly.FullName.Contains("System.Core,") || assembly.FullName.Contains("System,") || assembly.FullName.Contains("System"))
+					if (assembly.IsDynamic || assembly.FullName.Contains("mscorlib") || assembly.FullName.Contains("System.Core,") || assembly.FullName.Contains("System,") || assembly.FullName.Contains("System") || (!string.IsNullOrEmpty(assembly.Location) && Path.GetFileName(Path.GetDirectoryName(assembly.Location)) == "ModCompile"))
 					{
 
 					}
@@ -76,7 +76,7 @@ namespace ModdersToolkit.REPL
 			}
 			try
 			{
-				evaluator.Run("using Terraria");
+				evaluator.Run("using Terraria;");
 			}
 			catch (Exception)
 			{

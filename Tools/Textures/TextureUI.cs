@@ -47,7 +47,7 @@ namespace ModdersToolkit.Tools.Textures
 		static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		static string path = Path.Combine(folder, filename);
 
-		static string ModSourcePath = Path.Combine(Program.SavePath, "Mod Sources");
+		static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
 		public override void OnInitialize()
 		{
