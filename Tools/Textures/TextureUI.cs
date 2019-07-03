@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using ModdersToolkit.UIElements;
@@ -46,7 +47,7 @@ namespace ModdersToolkit.Tools.Textures
 		static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		static string path = Path.Combine(folder, filename);
 
-		//static string modSourcespath = ModLoader.ModSourcePath
+		static string ModSourcePath = Path.Combine(Program.SavePath, "Mod Sources");
 
 		public override void OnInitialize()
 		{
@@ -155,14 +156,14 @@ namespace ModdersToolkit.Tools.Textures
 
 			if (watchModSources.Selected)
 			{
-				if (!Directory.Exists(ModLoader.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name))
+				if (!Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name))
 				{
 					Main.NewText("Error somehow");
 					return;
 				}
 
 				modSourcesWatcher = new FileSystemWatcher();
-				modSourcesWatcher.Path = ModLoader.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+				modSourcesWatcher.Path = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 				/* Watch for changes in LastAccess and LastWrite times, and
 				   the renaming of files or directories. */
 				modSourcesWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
@@ -292,7 +293,7 @@ namespace ModdersToolkit.Tools.Textures
 				if (watcherCooldownSources == 0)
 				{
 					watchedFileChangedSources = false;
-					string dir = ModLoader.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+					string dir = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 					string innername = watchedFileChangedSourcesFileName.Substring(dir.Length);
 					string innernamenoext = System.IO.Path.ChangeExtension(innername, null);
 					innernamenoext = innernamenoext.Replace("\\", "/");
@@ -333,7 +334,7 @@ namespace ModdersToolkit.Tools.Textures
 
 			if (modList.Count == 0)
 			{
-				foreach (var otherMod in ModLoader.LoadedMods)
+				foreach (var otherMod in ModLoader.Mods)
 				{
 					UITextPanel<string> button = new UITextPanel<string>(otherMod.DisplayName);
 					button.OnClick += (a, b) =>
@@ -341,7 +342,7 @@ namespace ModdersToolkit.Tools.Textures
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSources.Selected = false;
-						watchModSources.Clickable = Directory.Exists(ModLoader.ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
+						watchModSources.Clickable = Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
 						if(watchModSources.Clickable)
 							watchModSources.Selected = true;
 					};

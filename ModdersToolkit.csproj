@@ -1,117 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\references\tModLoader.targets" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7B5C574E-3759-45FE-9468-7F2A60EBB23D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ModdersToolkit</RootNamespace>
     <AssemblyName>ModdersToolkit</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFramework>net45</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugClient|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugServer|AnyCPU'">
-    <OutputPath>bin\DebugServer\</OutputPath>
-  </PropertyGroup>
+  <Target Name="BuildMod" AfterTargets="Build">
+    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
+  </Target>
   <ItemGroup>
-    <Compile Include="ModdersToolkit.cs" />
-    <Compile Include="Tools\Backgrounds\BackgroundsTool.cs" />
-    <Compile Include="Tools\Backgrounds\BackgroundsUI.cs" />
-    <Compile Include="Tools\Dusts\DataRangeProperty.cs" />
-    <Compile Include="Tools\Dusts\DustChooserUI.cs" />
-    <Compile Include="Tools\Dusts\DustTool.cs" />
-    <Compile Include="Tools\Dusts\DustUI.cs" />
-    <Compile Include="Tools\Hitboxes\HitboxesTool.cs" />
-    <Compile Include="Tools\Hitboxes\HitboxesUI.cs" />
-    <Compile Include="Tools\InterfaceLayer\InterfaceLayerTool.cs" />
-    <Compile Include="Tools\InterfaceLayer\InterfaceLayerUI.cs" />
-    <Compile Include="Tools\Items\ItemTool.cs" />
-    <Compile Include="Tools\Items\ItemUI.cs" />
-    <Compile Include="Tools\Loot\LootTool.cs" />
-    <Compile Include="Tools\Loot\LootUI.cs" />
-    <Compile Include="Tools\Loot\UIItemSlot.cs" />
-    <Compile Include="Tools\Loot\UILootInfo.cs" />
-    <Compile Include="Tools\Loot\UIMoneyDisplay.cs" />
-    <Compile Include="Tools\Miscellaneous\MiscellaneousTool.cs" />
-    <Compile Include="Tools\Miscellaneous\MiscellaneousUI.cs" />
-    <Compile Include="Tools\PlayerLayer\PlayerLayerTool.cs" />
-    <Compile Include="Tools\PlayerLayer\PlayerLayerUI.cs" />
-    <Compile Include="Tools\Projectiles\ProjectilesTool.cs" />
-    <Compile Include="Tools\Projectiles\ProjectilesUI.cs" />
-    <Compile Include="Tools\REPL\REPLConsoleCommand.cs" />
-    <Compile Include="Tools\REPL\REPLTool.cs" />
-    <Compile Include="Tools\REPL\REPLUI.cs" />
-    <Compile Include="Tools\Spawns\SpawnTool.cs" />
-    <Compile Include="Tools\Spawns\SpawnUI.cs" />
-    <Compile Include="Tools\Spawns\UINPCSlot.cs" />
-    <Compile Include="Tools\Spawns\UINPCSpawnInfo.cs" />
-    <Compile Include="Tools\Textures\TextureTool.cs" />
-    <Compile Include="Tools\Textures\TextureUI.cs" />
-    <Compile Include="Tools\UIPlayground\UIPlaygroundTool.cs" />
-    <Compile Include="Tools\UIPlayground\UIPlaygroundUI.cs" />
-    <Compile Include="UIElements\FixedUIScrollBar.cs" />
-    <Compile Include="UIElements\NewUITextBoxMultiLine.cs" />
-    <Compile Include="UIElements\NewUITextBox.cs" />
-    <Compile Include="Tools\REPL\REPLBackend.cs" />
-    <Compile Include="Tools\Tool.cs" />
-    <Compile Include="UIElements\UI2DRange.cs" />
-    <Compile Include="UIElements\UICheckbox.cs" />
-    <Compile Include="UIElements\UICodeEntry.cs" />
-    <Compile Include="UIElements\UIDataValue.cs" />
-    <Compile Include="UIElements\UIGrid.cs" />
-    <Compile Include="UIElements\UIHoverImage.cs" />
-    <Compile Include="UIElements\UIHoverImageButton.cs" />
-    <Compile Include="UIElements\UIRadioButton.cs" />
-    <Compile Include="UIElements\UIRadioButtonGroup.cs" />
-    <Compile Include="UIElements\UIRange.cs" />
-    <Compile Include="UIElements\UISlider.cs" />
-    <Compile Include="UIElements\UITabControl.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="build.txt" />
-    <Content Include="description.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
-    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Mono.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Mono.CSharp">
       <HintPath>lib\Mono.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ReLogic">
-      <HintPath>..\..\..\Modding\tModLoader\references\ReLogic.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="Terraria">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Terraria\Terraria.exe</HintPath>
-    </Reference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Steam\steamapps\common\terraria\tModLoaderServer.exe" -build "$(ProjectDir)\" -eac "$(TargetPath)"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
