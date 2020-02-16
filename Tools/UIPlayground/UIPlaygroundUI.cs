@@ -1,17 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
 using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
-using System.IO;
-using Terraria.DataStructures;
+using ModdersToolkit.Tools.Dusts;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {
@@ -68,17 +61,22 @@ namespace ModdersToolkit.Tools.UIPlayground
 		internal UIFloatRangedDataValue imageButtonTopPixels;
 		internal UIFloatRangedDataValue imageButtonTopPercent;
 
-		public UIPlaygroundUI(UserInterface userInterface)
-		{
+		internal UICheckbox drawAllDimensionsCheckbox;
+		internal ColorDataRangeProperty colorDataProperty;
+		internal UIIntRangedDataValue drawAllDimensionsDepthData;
+		internal UICheckbox drawAllParallaxCheckbox;
+		internal UIFloatRangedDataValue parallaxXProperty;
+		internal UIFloatRangedDataValue parallaxYProperty;
+
+		public UIPlaygroundUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
 			int width = 350;
-			int height = 720;
+			int height = 840;
 			mainPanel.Left.Set(-40f - width, 1f);
 			mainPanel.Top.Set(-110f - height, 1f);
 			mainPanel.Width.Set(width, 0f);
@@ -282,12 +280,47 @@ namespace ModdersToolkit.Tools.UIPlayground
 			imageButtonTopPixels.OnValueChanged += () => UpdatePlaygroundChildren();
 			imageButtonTopPercent.OnValueChanged += () => UpdatePlaygroundChildren();
 
-			Append(mainPanel);
+			text = new UIText("UIPlayground UI Extra:", 0.85f);
+			mainPanel.Append(text);
+			top += 20;
 
+			drawAllDimensionsCheckbox = new UICheckbox("Draw All UIElement Dimensions", "This will draw outer dimensions for Elements in your mod.");
+			drawAllDimensionsCheckbox.Top.Set(top, 0f);
+			//drawAllDimensionsCheckbox.Left.Set(indent, 0f);
+			mainPanel.Append(drawAllDimensionsCheckbox);
+			top += 20;
+
+			colorDataProperty = new ColorDataRangeProperty("Color:");
+			colorDataProperty.range.Top.Set(top, 0f);
+			mainPanel.Append(colorDataProperty.range);
+			top += 20;
+
+			drawAllDimensionsDepthData = new UIIntRangedDataValue("Draw All Depth:", -1, -1, 10);
+			uiRange = new UIRange<int>(drawAllDimensionsDepthData);
+			//drawAllDimensionsDepthData.OnValueChanged += () => UpdatePlaygroundChildren();
+			uiRange.Top.Set(top, 0f);
+			uiRange.Width.Set(0, 1f);
+			//uiRange.Left.Set(indent, 0);
+			mainPanel.Append(uiRange);
+			top += 30;
+
+			drawAllParallaxCheckbox = new UICheckbox("Draw with Parallax", "This will offset UIElements to help visualize their hierarchy");
+			drawAllParallaxCheckbox.Top.Set(top, 0f);
+			//drawAllParallaxCheckbox.Left.Set(indent, 0f);
+			mainPanel.Append(drawAllParallaxCheckbox);
+
+			parallaxXProperty = new UIFloatRangedDataValue("ParallaxX:", 0, -10, 10);
+			parallaxYProperty = new UIFloatRangedDataValue("ParallaxY:", 0, -10, 10);
+			var ui2DRange = new UI2DRange<float>(parallaxXProperty, parallaxYProperty);
+			ui2DRange.Top.Set(top, 0f);
+			ui2DRange.Left.Set(200, 0f);
+			mainPanel.Append(ui2DRange);
+			top += 30;
+
+			Append(mainPanel);
 		}
 
-		private void AppendRange<T>(ref int top, int indent, UIRangedDataValue<T> range)
-		{
+		private void AppendRange<T>(ref int top, int indent, UIRangedDataValue<T> range) {
 			UIElement uiRange = new UIRange<T>(range);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(-indent, 1f);
@@ -296,8 +329,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			top += 20;
 		}
 
-		private void UpdatePlaygroundChildren()
-		{
+		private void UpdatePlaygroundChildren() {
 			playgroundPanel.RemoveAllChildren();
 			if (playgroundTextCheckbox.Selected)
 				playgroundPanel.Append(playgroundText);
@@ -339,10 +371,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 			// recalculate?
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
@@ -350,24 +380,20 @@ namespace ModdersToolkit.Tools.UIPlayground
 
 	class DebugDrawUIPanel : UIPanel
 	{
-		protected override void DrawChildren(SpriteBatch spriteBatch)
-		{
+		protected override void DrawChildren(SpriteBatch spriteBatch) {
 			base.DrawChildren(spriteBatch);
 			if (UIPlaygroundTool.uiPlaygroundUI.drawInnerDimensionsCheckbox.Selected)
-				foreach (UIElement current in Elements)
-				{
+				foreach (UIElement current in Elements) {
 					Rectangle hitbox = current.GetInnerDimensions().ToRectangle();
 					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Blue * 0.6f);
 				}
 			if (UIPlaygroundTool.uiPlaygroundUI.drawDimensionsCheckbox.Selected)
-				foreach (UIElement current in Elements)
-				{
+				foreach (UIElement current in Elements) {
 					Rectangle hitbox = current.GetDimensions().ToRectangle();
 					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Pink * 0.6f);
 				}
 			if (UIPlaygroundTool.uiPlaygroundUI.drawOuterDimensionsCheckbox.Selected)
-				foreach (UIElement current in Elements)
-				{
+				foreach (UIElement current in Elements) {
 					Rectangle hitbox = current.GetOuterDimensions().ToRectangle();
 					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Yellow * 0.6f);
 				}
