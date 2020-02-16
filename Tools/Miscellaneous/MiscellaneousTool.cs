@@ -9,6 +9,10 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
+using Terraria.ID;
+using System.Reflection;
+using ReLogic.Reflection;
+using System.Diagnostics;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
@@ -18,6 +22,11 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		internal static bool showNPCInfo;
 		internal static bool showTileGrid;
 		internal static bool showCollisionCircle;
+		internal static bool logSounds;
+
+		internal static IDictionary<SoundType, IDictionary<int, ModSound>> modSounds; // reference to private field in SoundLoader
+		internal static IDictionary<SoundType, IDictionary<string, int>> sounds; // reference to private field in SoundLoader
+		//internal static readonly IdDictionary Search = IdDictionary.Create<SoundID, int>();
 
 		internal override void Initialize()
 		{
@@ -30,6 +39,51 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			miscellaneousUI = new MiscellaneousUI(userInterface);
 			miscellaneousUI.Activate();
 			userInterface.SetState(miscellaneousUI);
+
+			On.Terraria.Main.PlaySound_int_int_int_int_float_float += Main_PlaySound_int_int_int_int_float_float;
+
+			FieldInfo modSoundsField = typeof(SoundLoader).GetField("modSounds", BindingFlags.Static | BindingFlags.NonPublic);
+			modSounds = (Dictionary<SoundType, IDictionary<int, ModSound>>)modSoundsField.GetValue(null);
+
+			FieldInfo soundsField = typeof(SoundLoader).GetField("sounds", BindingFlags.Static | BindingFlags.NonPublic);
+			sounds = (Dictionary<SoundType, IDictionary<string, int>>)soundsField.GetValue(null);
+
+			// TODO: IdDictionary-type soundID
+		}
+
+		private Microsoft.Xna.Framework.Audio.SoundEffectInstance Main_PlaySound_int_int_int_int_float_float(On.Terraria.Main.orig_PlaySound_int_int_int_int_float_float orig, int type, int x, int y, int Style, float volumeScale, float pitchOffset) {
+			var result = orig(type, x, y, Style, volumeScale, pitchOffset); // null results are off screen
+
+			if (logSounds && Main.soundVolume != 0f && result != null) {
+				if ((type >= 30 && type <= 35) || type == 39) { 
+					// Maybe a toggle to ignore?
+				}
+				else {
+					float soundVolume = Main.soundVolume;
+					Main.soundVolume = 0f;
+					Main.NewText("");
+					Main.NewText($"Type: {type}, Style: {Style}{(x != -1 ? $", x: {x}": "")}{(y != -1 ? $", y: {y}" : "")}{(volumeScale != 1 ? $", volumeScale: {volumeScale}" : "")}{(pitchOffset != 0 ? $", pitchOffset: {pitchOffset}" : "")}");
+
+					if (sounds.ContainsKey((SoundType)type)) {
+						var kvp = sounds[(SoundType)type].FirstOrDefault(s => s.Value == Style);
+						if (kvp.Key != null) { // struct
+							Main.NewText($"Key: {kvp.Key}");
+						}
+						//var modSound = modSounds[SoundType.Custom][Style];
+						//Main.NewText($"modSound: {modSound}");
+					}
+
+					var frames = new StackTrace(true).GetFrames();
+					Logging.PrettifyStackTraceSources(frames);
+					int index = 2;
+					while (frames[index].GetMethod().Name.Contains("PlaySound"))
+						index++;
+					var frame = frames[index];
+					Main.NewText(frame.GetMethod().DeclaringType.FullName + "." + frame.GetMethod().Name + ":" + frame.GetFileLineNumber());
+					Main.soundVolume = soundVolume;
+				}
+			}
+			return result;
 		}
 
 		internal override void UIDraw()

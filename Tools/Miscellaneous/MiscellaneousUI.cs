@@ -82,6 +82,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel.Append(collisionCircleCheckbox);
 			top += 20;
 
+			UICheckbox logSoundsCheckbox = new UICheckbox("Log Sounds", "Log Sound Styles and Types");
+			logSoundsCheckbox.Top.Set(top, 0f);
+			logSoundsCheckbox.Left.Set(12f, 0f);
+			logSoundsCheckbox.OnSelectedChanged += () => MiscellaneousTool.logSounds = logSoundsCheckbox.Selected;
+			mainPanel.Append(logSoundsCheckbox);
+			top += 20;
+
 			Append(mainPanel);
 		}
 
