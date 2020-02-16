@@ -97,14 +97,16 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			if (MiscellaneousTool.showTileGrid)
 			{
 				//Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 				Vector2 center = Main.LocalPlayer.Center.ToTileCoordinates().ToVector2() * 16;
 
 				for (int i = -13; i < 14; i++)
 				{
-					Utils.DrawLine(Main.spriteBatch, new Vector2(center.X + i * 16, center.Y - 13 * 16), new Vector2(center.X + i * 16, center.Y + 13 * 16), Color.White, Color.White, 1);
-					Utils.DrawLine(Main.spriteBatch, new Vector2(center.X - 13 * 16, center.Y + i * 16), new Vector2(center.X + 13 * 16, center.Y + i * 16), Color.White, Color.White, 1);
+					Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(center.X + i * 16 - Main.screenPosition.X), (int)(center.Y - 13 * 16 - Main.screenPosition.Y), 2, 416), new Rectangle(0, 0, 1, 1), Color.White);
+					Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(center.X - 13 * 16 - Main.screenPosition.X), (int)(center.Y - i * 16 - Main.screenPosition.Y), 416, 2), new Rectangle(0, 0, 1, 1), Color.White);
+					//Utils.DrawLine(Main.spriteBatch, new Vector2(center.X + i * 16, center.Y - 13 * 16), new Vector2(center.X + i * 16, center.Y + 13 * 16), Color.White, Color.White, 1);
+					//Utils.DrawLine(Main.spriteBatch, new Vector2(center.X - 13 * 16, center.Y + i * 16), new Vector2(center.X + 13 * 16, center.Y + i * 16), Color.White, Color.White, 1);
 				}
 				/* Shows some coordinates for making guides on the wiki
 				var font = Main.fontMouseText;
