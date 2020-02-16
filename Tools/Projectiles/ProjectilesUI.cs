@@ -68,7 +68,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			UITextPanel<string> clearProjectilesButton = new UITextPanel<string>("Clear Projectiles");
 			clearProjectilesButton.OnClick += (a, b) =>
 			{
-				for (int i = 0; i < Main.projectile.Length; i++)
+				for (int i = 0; i < Main.maxProjectiles; i++)
 				{
 					if (Main.projectile[i].active)
 					{

@@ -105,7 +105,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				{
 					var font = Main.fontMouseText;
 					//Main.NewText("Drawing: " + npc.TypeName);
-					Rectangle infoRectangle = new Rectangle((int)(npc.BottomRight.X - Main.screenPosition.X), (int)(npc.BottomRight.Y - Main.screenPosition.Y), 300, 140);
+					Rectangle infoRectangle = new Rectangle((int)(npc.BottomRight.X - Main.screenPosition.X), (int)(npc.BottomRight.Y - Main.screenPosition.Y), 300, 160);
 					spriteBatch.Draw(Main.magicPixel, infoRectangle, Color.NavajoWhite);
 
 					/*
@@ -117,24 +117,30 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					return;
 					*/
 
-					spriteBatch.DrawString(font, $"ai:", infoRectangle.TopLeft() + new Vector2(5, 5), Color.Black);
-					spriteBatch.DrawString(font, $"localAI:", infoRectangle.TopLeft() + new Vector2(5, 25), Color.Black);
+					int y = 5;
+					spriteBatch.DrawString(font, $"ai:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black); y += 20;
+					spriteBatch.DrawString(font, $"localAI:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black); y += 20;
 					for (int i = 0; i < 4; i++)
 					{
 						spriteBatch.DrawString(font, $"{npc.ai[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 5), Color.Black);
 						spriteBatch.DrawString(font, $"{npc.localAI[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 25), Color.Black);
 					}
 
-					spriteBatch.DrawString(font, $"spriteDirection: {npc.spriteDirection}  direction: {npc.direction}", infoRectangle.TopLeft() + new Vector2(5, 45), Color.Black);
-					spriteBatch.DrawString(font, $"type: {npc.type} aiStyle: {npc.aiStyle} whoAmI: {npc.whoAmI}", infoRectangle.TopLeft() + new Vector2(5, 65), Color.Black);
-					spriteBatch.DrawString(font, $"Buffs:", infoRectangle.TopLeft() + new Vector2(5, 85), Color.Black);
+					spriteBatch.DrawString(font, $"npc.immune[]: {npc.immune[Main.myPlayer]}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black); y += 20;
+					spriteBatch.DrawString(font, $"spriteDirection: {npc.spriteDirection}  direction: {npc.direction}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black); y += 20;
+					spriteBatch.DrawString(font, $"type: {npc.type} aiStyle: {npc.aiStyle} whoAmI: {npc.whoAmI}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black); y += 20;
+					spriteBatch.DrawString(font, $"Buffs:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+					bool anyBuffs = false;
 					for (int i = 0; i < 5; i++)
 					{
 						if (npc.buffType[i] > 0)
 						{
-							spriteBatch.DrawString(font, $"{Lang.GetBuffName(npc.buffType[i])}({npc.buffType[i]}) {npc.buffTime[i]} ", infoRectangle.TopLeft() + new Vector2(5 + 55, 85 + i * 20), Color.Black);
+							spriteBatch.DrawString(font, $"{Lang.GetBuffName(npc.buffType[i])}({npc.buffType[i]}) {npc.buffTime[i]} ", infoRectangle.TopLeft() + new Vector2(5 + 65, y), Color.Black); y += 20;
+							anyBuffs = true; 
 						}
 					}
+					if(!anyBuffs)
+						y += 20;
 					//if(npc.realLife != -1)
 					//{
 					//	Utils.DrawLine(spriteBatch, npc.Center.ToPoint(), Main.npc[npc.realLife].Center.ToPoint(), Color.White);
