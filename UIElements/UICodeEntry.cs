@@ -47,7 +47,7 @@ namespace ModdersToolkit.UIElements
 		{
 			NewUITextBoxMultiLine text = obj as NewUITextBoxMultiLine;
 			if(text != null){
-				return -1;
+				return int.MaxValue.CompareTo(num);
 			}
 			UICodeEntry other = obj as UICodeEntry;
 			return other.num.CompareTo(num);

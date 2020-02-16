@@ -77,23 +77,43 @@ namespace ModdersToolkit.REPL
 
 			replOutput.SetScrollbar(keyboardScrollbar);
 
-			UIImageButton eyeDropperButton = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"));
+			UIImageButton clearButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Clear REPL");
+			clearButton.OnClick += (a, b) => {
+				pendingClear = true;
+				codeTextBox.SetText("");
+			};
+			clearButton.Top.Set(-26, 1f);
+			clearButton.Left.Set(26 * 0, 0f);
+			keyboardPanel.Append(clearButton);
+
+			UIImageButton resetButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Reset REPL");
+			resetButton.OnClick += (a, b)=> {
+				pendingClear = true;
+				codeTextBox.SetText("");
+				REPLTool.replBackend.Reset();
+			};
+			resetButton.Top.Set(-26, 1f);
+			resetButton.Left.Set(26 * 1, 0f);
+			keyboardPanel.Append(resetButton);
+
+			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"), "Tile Selector");
 			eyeDropperButton.Height.Pixels = 20;
 			//eyeDropperButton.Width.Pixels = 20;
 			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
 			eyeDropperButton.Top.Set(-26, 1f);
+			eyeDropperButton.Left.Set(26 * 2, 0f);
 			keyboardPanel.Append(eyeDropperButton);
 
 			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/CopyCodeButton"), "Open External Editor");
 			openText.OnClick += OpenTextButton_OnClick;
 			openText.Top.Set(-26, 1f);
-			openText.Left.Set(26, 0f);
+			openText.Left.Set(26 * 3, 0f);
 			keyboardPanel.Append(openText);
 
 			UIImageButton runText = new UIHoverImageButton(TextureManager.Load("Images/UI/ButtonPlay"), "Execute External Code");
 			runText.OnClick += RunTextButton_OnClick;
 			runText.Top.Set(-26, 1f);
-			runText.Left.Set(52, 0f);
+			runText.Left.Set(26 * 4, 0f);
 			keyboardPanel.Append(runText);
 
 			Append(keyboardPanel);
@@ -104,7 +124,7 @@ namespace ModdersToolkit.REPL
 			REPLTool.EyedropperActive = !REPLTool.EyedropperActive;
 			if (REPLTool.EyedropperActive)
 			{
-				Main.NewText("Click to select an item/npc/player/dust/tile from the game world");
+				Main.NewText("Click to select a tile from the game world");
 			}
 		}
 
@@ -117,7 +137,12 @@ namespace ModdersToolkit.REPL
 			{
 				File.WriteAllText(path, "// Write code statements here");
 			}
-			Process.Start(path);
+			try {
+				Process.Start(path);
+			}
+			catch (Exception) {
+				Main.NewText("Could not open ModdersToolkit_Code.cs, check that you have a text editor associated with .cs files.");
+			}
 		}
 
 		private void RunTextButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
@@ -135,7 +160,6 @@ namespace ModdersToolkit.REPL
 			{
 				Main.NewText("File does not exist");
 			}
-			
 		}
 
 		public void EnterAction()
@@ -166,7 +190,7 @@ namespace ModdersToolkit.REPL
 				REPLTool.replBackend.Reset();
 				return;
 			}
-			AddChunkedLine(codeTextBox.Text, CodeType.Input);
+			AddChunkedLine(">" + codeTextBox.Text, CodeType.Input);
 			//replOutput.Add(new UICodeEntry(codeTextBox.Text, CodeType.Input));
 			REPLTool.replBackend.Action(codeTextBox.Text);
 			codeTextBox.SetText("");

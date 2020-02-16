@@ -35,6 +35,11 @@ namespace ModdersToolkit.UIElements
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
 		}
 
+		public override void RightClick(UIMouseEvent evt) {
+			base.RightClick(evt);
+			SetText("");
+		}
+
 		public override void Click(UIMouseEvent evt)
 		{
 			Focus();
@@ -55,7 +60,7 @@ namespace ModdersToolkit.UIElements
 				return 0;
 			}
 			UICodeEntry other = obj as UICodeEntry;
-			return 0.CompareTo(other.num);
+			return other.num.CompareTo(int.MaxValue);
 		}
 
 		//void KeyboardInput_newKeyEvent(char obj)
