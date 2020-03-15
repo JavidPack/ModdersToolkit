@@ -135,6 +135,7 @@ namespace ModdersToolkit.REPL
 			string path = Path.Combine(folder, filename);
 			if (!File.Exists(path))
 			{
+				Directory.CreateDirectory(folder);
 				File.WriteAllText(path, "// Write code statements here");
 			}
 			try {
