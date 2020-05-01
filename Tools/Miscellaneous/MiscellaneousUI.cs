@@ -65,7 +65,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel.Append(calculateChunkData);
 			top += 30;
 
-			/*
+			
 			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite");
 			generateTownSprite.SetPadding(4);
 			generateTownSprite.Width.Set(-10, 0.5f);
@@ -73,7 +73,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			generateTownSprite.OnClick += GenerateTownSprite_OnClick;
 			mainPanel.Append(generateTownSprite);
 			top += 30;
-			*/
+			
 
 			UICheckbox collisionCircleCheckbox = new UICheckbox("Collision Circle", "Show a circle of Collision.CanHit");
 			collisionCircleCheckbox.Top.Set(top, 0f);
@@ -92,9 +92,42 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Append(mainPanel);
 		}
 
+
+		static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		private void GenerateTownSprite_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			throw new NotImplementedException();
+			Main.NewText("Creating TownNPC sprite from current Player");
+
+			int frames = 25;
+			RenderTarget2D renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 40, frames * 58);
+			Main.instance.GraphicsDevice.SetRenderTarget(renderTarget);
+			Main.instance.GraphicsDevice.Clear(Color.Transparent);
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
+			Main.gameMenu = true;
+			// TODO: Figure out how to get all poses.
+			for (int i = 0; i < frames; i++) {
+				Main.LocalPlayer.PlayerFrame();
+				Main.LocalPlayer.direction = -1;
+
+				// Right now this code simply uses the Player animation frames, but they don't match up to TownNPC frames, and there are only 20 instead of ~25
+				Main.LocalPlayer.bodyFrame.Y = i * 56;
+				Main.LocalPlayer.legFrame.Y = i * 56;
+
+				Main.instance.DrawPlayer(Main.LocalPlayer, Main.screenPosition + /*Main.LocalPlayer.position +*/ new Vector2(10, i * 58), 0f, Vector2.Zero, 0f); // add Main.screenPosition since DrawPlayer will subtract it
+			}
+			Main.gameMenu = false;
+
+			Main.spriteBatch.End();
+			Main.instance.GraphicsDevice.SetRenderTarget(null);
+
+			Directory.CreateDirectory(folder);
+			string path = Path.Combine(folder, "ModdersToolkit_ExportedTownNPCSprite.png");
+			using (Stream stream = File.OpenWrite(path)) {
+				renderTarget.SaveAsPng(stream, 40, frames * 58);
+			}
+
+			//	Process.Start(folder);
 		}
 
 		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
