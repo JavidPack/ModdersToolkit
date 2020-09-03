@@ -28,7 +28,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		{
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(0);
-			int width = 150;
+			int width = 250;
 			int height = 180;
 			mainPanel.Left.Set(-40f - width, 1f);
 			mainPanel.Top.Set(-110f - height, 1f);
@@ -66,7 +66,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			top += 30;
 
 			
-			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite");
+			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite (WIP)");
 			generateTownSprite.SetPadding(4);
 			generateTownSprite.Width.Set(-10, 0.5f);
 			generateTownSprite.Top.Set(top, 0f);

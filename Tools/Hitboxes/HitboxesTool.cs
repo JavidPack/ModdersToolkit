@@ -63,6 +63,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();
 				if (showNPCHitboxes) drawNPCHitboxes();
 				if (showProjectileHitboxes) drawProjectileHitboxes();
+				// TODO: TileCollideStyle hitboxes? different?
 				if (showProjectileDamageHitboxes) drawProjectileDamageHitboxes();
 				if (showTEPositions) drawTileEntityPositions();
 				if (showWorldItemHitboxes) drawWorldItemHitboxes();
