@@ -21,6 +21,7 @@ namespace ModdersToolkit.REPL
 	class REPLUI : UIState
 	{
 		public static bool visible = false;
+		private static readonly string codeArrow = ">";
 		public UIElements.FixedUIScrollbar keyboardScrollbar;
 		public UIPanel keyboardPanel;
 		public UIList replOutput;
@@ -191,22 +192,25 @@ namespace ModdersToolkit.REPL
 				REPLTool.replBackend.Reset();
 				return;
 			}
-			AddChunkedLine(">" + codeTextBox.Text, CodeType.Input);
+			AddChunkedLine(codeArrow + codeTextBox.Text, CodeType.Input);
 			//replOutput.Add(new UICodeEntry(codeTextBox.Text, CodeType.Input));
 			REPLTool.replBackend.Action(codeTextBox.Text);
 			codeTextBox.SetText("");
 			//Main.chatRelease = false;
 			Main.drawingPlayerChat = false;
 		}
-
 		public void UpAction()
 		{
 			foreach (var item in replOutput._items)
 			{
-				UICodeEntry codeEntry = item as UICodeEntry;
-				if (codeEntry != null && codeEntry.codeType == CodeType.Input)
+				if (item is UICodeEntry codeEntry && codeEntry.codeType == CodeType.Input)
 				{
-					codeTextBox.SetText(codeEntry.Text);
+					string text = codeEntry.Text;
+					if (text.StartsWith(codeArrow))
+					{
+						text = text.Substring(codeArrow.Length);
+					}
+					codeTextBox.SetText(text);
 					break;
 				}
 			}
