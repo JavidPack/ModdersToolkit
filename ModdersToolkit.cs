@@ -71,10 +71,9 @@ namespace ModdersToolkit
 
 		public override void Unload()
 		{
-			instance = null;
-
-			tools.ForEach(tool => tool.DeInitialize());
+            tools.ForEach(tool => tool.DeInitialize());
 			tools = null;
+            instance = null;
 
 			UIElements.UICheckbox.checkboxTexture = null;
 			UIElements.UICheckbox.checkmarkTexture = null;
