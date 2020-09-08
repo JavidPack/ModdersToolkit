@@ -22,6 +22,12 @@ namespace ModdersToolkit.Tools
 		/// </summary>
 		internal virtual void Initialize() { }
 
+        /// <summary>
+        /// Initializes this Tool. Called during Load.
+        /// Useful for initializing data.
+        /// </summary>
+		internal virtual void DeInitialize() { }
+
 		/// <summary>
 		/// Initializes this Tool. Called during Load after Initialize only on SP and Clients.
 		/// Useful for initializing UI.
