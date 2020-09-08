@@ -27,11 +27,11 @@ namespace ModdersToolkit.Tools.Shaders
 			this.userInterface = userInterface;
 		}
 
-		static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
+		static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache", "ModdersToolkit");
 		static string shaderFilename = "ModdersToolkit_Shader.fx";
 		static string shaderFilePath = Path.Combine(cacheFolder, shaderFilename);
 
-		static string exeFilename = "ShaderBuilder.exe";
+		static string exeFilename = "fxcompiler.exe";
 		static string exePath = Path.Combine(cacheFolder, exeFilename);
 
 		public bool updateneeded;
@@ -40,11 +40,8 @@ namespace ModdersToolkit.Tools.Shaders
 		internal FileSystemWatcher modSourcesWatcher;
 		internal FileSystemWatcher watcher;
 		internal const int defaultWatcherCooldown = 15;
-		internal int watcherCooldown;
-		internal int watcherCooldownSources;
-		internal bool watchedFileChanged;
-		internal bool watchedFileChangedSources;
-		internal string watchedFileChangedSourcesFileName;
+        internal int watcherCooldownSources;
+        internal List<string> watchedFileChangedSourcesFileNames = new List<string>();
 
 		public override void OnInitialize() {
 			mainPanel = new UIPanel();
@@ -149,12 +146,21 @@ technique Technique1
 
 		private void CompileShaderButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			// Ensure shader compiler exists
-			if (!File.Exists(exePath)) {
+			if (!File.Exists(exePath))
+            {
+                const string
+                    LibReflectedBase = "libReflected",
+					WCFXCompilerDLL = "wcfxcompiler.dll",
+                    EffectImporterDLL = "Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll",
+                    PipelineDLL = "Microsoft.Xna.Framework.Content.Pipeline.dll";
+
+				// TODO Add size checking to files.
 				Directory.CreateDirectory(cacheFolder);
-				ModdersToolkit.instance.Logger.Info("Unpacking ShaderBuilder.exe and Pipeline dlls");
-				File.WriteAllBytes(exePath, ModdersToolkit.instance.GetFileBytes("libReflected/ShaderBuilder.exe"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, "Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll"), ModdersToolkit.instance.GetFileBytes("libReflected/Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, "Microsoft.Xna.Framework.Content.Pipeline.dll"), ModdersToolkit.instance.GetFileBytes("libReflected/Microsoft.Xna.Framework.Content.Pipeline.dll"));
+                ModdersToolkit.instance.Logger.Info("Unpacking fxbuilder.exe and Pipeline dlls");
+				File.WriteAllBytes(exePath, ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/fxcompiler.exe"));
+                File.WriteAllBytes(Path.Combine(cacheFolder, WCFXCompilerDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{WCFXCompilerDLL}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, EffectImporterDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{EffectImporterDLL}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, PipelineDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{PipelineDLL}"));
 				ModdersToolkit.instance.Logger.Info("Unpacking complete");
 			}
 
@@ -164,22 +170,26 @@ technique Technique1
 				return;
 			}
 
-			runCommand();
+			RunCommand(shaderFilePath);
+        }
 
-
-		}
-
-		static void runCommand() {
+		private static void RunCommand(string file) {
 			// make async?
-			Process process = new Process();
-			process.StartInfo.FileName = exePath;
-			process.StartInfo.WorkingDirectory = cacheFolder;
-		//	process.StartInfo.Arguments = "/c DIR"; // Note the /c command (*)
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.RedirectStandardOutput = true;
-			process.StartInfo.RedirectStandardError = true;
-			process.Start();
+            Process process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = exePath,
+					Arguments = $"\"{file}\"",
+                    WorkingDirectory = cacheFolder,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                }
+            };
+            //	process.StartInfo.Arguments = "/c DIR"; // Note the /c command (*)
+            process.Start();
 			//* Read the output (or the error)
 			string output = process.StandardOutput.ReadToEnd();
 			Console.WriteLine(output);
@@ -219,7 +229,10 @@ technique Technique1
 			else if(exitCode == 2) {
 				Main.NewText("No File");
 			}
-		}
+			else if (exitCode == 3) {
+				Main.NewText("File Not Found");
+            }
+        }
 
 		private void WatchShader_OnSelectedChanged() {
 			if (modSourcesWatcher != null) {
@@ -243,14 +256,12 @@ technique Technique1
 
 				// Add event handlers.
 				modSourcesWatcher.Changed += (a, b) => {
-					watchedFileChangedSources = true;
 					watcherCooldownSources = defaultWatcherCooldown;
-					watchedFileChangedSourcesFileName = b.FullPath;
+					watchedFileChangedSourcesFileNames.Add(b.FullPath);
 				};
 				modSourcesWatcher.Renamed += (a, b) => {
-					watchedFileChangedSources = true;
-					watcherCooldownSources = defaultWatcherCooldown;
-					watchedFileChangedSourcesFileName = b.FullPath;
+                    watcherCooldownSources = defaultWatcherCooldown;
+					watchedFileChangedSourcesFileNames.Add(b.FullPath);
 				};
 
 				// Begin watching.
@@ -261,15 +272,17 @@ technique Technique1
 		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 
-			if (watchedFileChangedSources) {
+			if (watchedFileChangedSourcesFileNames.Count > 0) {
 				if (watcherCooldownSources > 0)
 					watcherCooldownSources--;
+
 				if (watcherCooldownSources == 0) {
-					watchedFileChangedSources = false;
-					
-					Main.NewText("Shader source changed, attempting to compile.");
-					runCommand();
-				}
+                    for (int i = watchedFileChangedSourcesFileNames.Count - 1; i >= 0; i--)
+                    {
+                        Main.NewText($"Shader source changed for file {watchedFileChangedSourcesFileNames[i]}, attempting to compile.");
+						RunCommand(watchedFileChangedSourcesFileNames[i]);
+                    }
+                }
 			}
 		}
 
