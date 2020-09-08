@@ -113,17 +113,33 @@ float2 uImageSize1;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {{
 	float4 color = tex2D(uImage0, coords);
-	if (!any(color))
-		return color;
-	float4 color1= tex2D( uImage1 , coords.xy);
+	
+    if (!any(color))
+        return color;
+    
+    int choice = uTime % 5;
 
-	float readRed = uOpacity * 1.1;
-
-	if(color1.r > readRed){{
-		color.rgba = 0;
-	}}else if(color1.r > uOpacity ){{
-		color =  float4(1, 105.0/255, 180.0/255, 1);
+    if (choice == 0)
+    {{
+		color.r = 1;
+    }}
+    else if (choice == 1)
+    {{
+		color.g = 1;
+    }}
+    else if (choice == 2)
+    {{
+        color.b = 1;
+    }}
+    else if (choice == 3)
+    {{
+		color.rgb += 0.3;
+    }}
+    else if (choice == 4)
+    {{
+		// Take a break!
 	}}
+    
 	return color;
 }}
 
@@ -255,12 +271,20 @@ technique Technique1
 				modSourcesWatcher.IncludeSubdirectories = false;
 
 				// Add event handlers.
-				modSourcesWatcher.Changed += (a, b) => {
+				modSourcesWatcher.Changed += (a, b) =>
+                {
+                    if (b.FullPath.EndsWith("TMP"))
+                        return; // VisualStudio generates those upon edit/save.
+
 					watcherCooldownSources = defaultWatcherCooldown;
 					watchedFileChangedSourcesFileNames.Add(b.FullPath);
 				};
-				modSourcesWatcher.Renamed += (a, b) => {
-                    watcherCooldownSources = defaultWatcherCooldown;
+				modSourcesWatcher.Renamed += (a, b) => 
+                {
+                    if (b.FullPath.EndsWith("TMP"))
+                        return; // VisualStudio generates those upon edit/save.
+
+					watcherCooldownSources = defaultWatcherCooldown;
 					watchedFileChangedSourcesFileNames.Add(b.FullPath);
 				};
 
@@ -281,6 +305,8 @@ technique Technique1
                     {
                         Main.NewText($"Shader source changed for file {watchedFileChangedSourcesFileNames[i]}, attempting to compile.");
 						RunCommand(watchedFileChangedSourcesFileNames[i]);
+
+						watchedFileChangedSourcesFileNames.RemoveAt(i);
                     }
                 }
 			}
