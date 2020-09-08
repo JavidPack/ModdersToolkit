@@ -46,6 +46,8 @@ namespace ModdersToolkit
 			tools.Add(new Tools.InterfaceLayer.InterfaceLayerTool());
 			tools.Add(new Tools.Spawns.SpawnTool());
 			tools.Add(new Tools.Textures.TextureTool());
+			if (Platform.IsWindows)
+				tools.Add(new Tools.Shaders.ShaderTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 			tools.Add(new Tools.UIPlayground.UIPlaygroundTool());
 			tools.Add(new Tools.Backgrounds.BackgroundsTool());
