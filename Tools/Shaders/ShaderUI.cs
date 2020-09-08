@@ -72,7 +72,7 @@ namespace ModdersToolkit.Tools.Shaders
 			mainPanel.Append(compileFxButton);
 			top += 40;
 
-			watchShader = new UICheckbox("Watch Shader File", "Automatically Watch Shader for Changes", true);
+			watchShader = new UICheckbox("Watch Quick Shader File", "Automatically Watch Shader for Changes", true);
 			watchShader.Top.Set(top, 0);
 			watchShader.OnSelectedChanged += WatchShader_OnSelectedChanged;
 			mainPanel.Append(watchShader);
