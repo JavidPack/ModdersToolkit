@@ -22,13 +22,25 @@ namespace ModdersToolkit.Tools
 		/// </summary>
 		internal virtual void Initialize() { }
 
+        /// <summary>
+        /// Initializes this Tool. Called during Unload.
+        /// Useful for cleaning and disposing data.
+        /// </summary>
+		internal virtual void Terminate() { }
+
 		/// <summary>
 		/// Initializes this Tool. Called during Load after Initialize only on SP and Clients.
 		/// Useful for initializing UI.
 		/// </summary>
 		internal virtual void ClientInitialize() { }
 
-		internal virtual void ScreenResolutionChanged()
+        /// <summary>
+        /// Terminates this Tool. Called during Unload before Terminate only on SP and Clients.
+        /// Useful for cleaning and disposing data.
+        /// </summary>
+		internal virtual void ClientTerminate() { }
+
+        internal virtual void ScreenResolutionChanged()
 		{
 			userInterface?.Recalculate();
 		}
