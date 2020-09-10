@@ -10,6 +10,7 @@ Current Tools
 -Interface layer viewer.
 -NPC Spawn Calculator
 -Texture updating/editing tool
+-Shader updating/editing tool (w/ Webmilio)
 -UI Playground
 -Background Tool
 -Miscellaneous (NPC info, tile grid, chunk calculator)
