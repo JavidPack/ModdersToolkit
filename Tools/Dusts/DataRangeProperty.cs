@@ -100,11 +100,15 @@ namespace ModdersToolkit.Tools.Dusts
 	class ColorDataRangeProperty
 	{
 		private Color data = Color.White;
+		public event Action OnValueChanged;
 		internal Color Data
 		{
 			get { return data; }
 			set
 			{
+				if(data != value) {
+					OnValueChanged?.Invoke();
+				}
 				data = value;
 				//range.input.SetText($"{data.R}-{data.G}-{data.B}");
 				range.input.SetText(data.Hex3());

@@ -51,7 +51,7 @@ namespace ModdersToolkit.UIElements
 		public UICheckbox(string text, string tooltip, bool clickable = true, float textScale = 1, bool large = false) : base(text, textScale, large)
 		{
 			this.tooltip = tooltip;
-			this.clickable = clickable;
+			this.Clickable = clickable;
 			text = "   " + text;
 			SetText(text);
 			Recalculate();
