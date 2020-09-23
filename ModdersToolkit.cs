@@ -71,11 +71,12 @@ namespace ModdersToolkit
 
 		public override void Unload()
 		{
-            if (!Main.dedServ)
-                tools.ForEach(tool => tool.ClientTerminate());
+			if (tools != null) {
+				if (!Main.dedServ)
+					tools.ForEach(tool => tool.ClientTerminate());
 
-			tools.ForEach(tool => tool.Terminate());
-
+				tools.ForEach(tool => tool.Terminate());
+			}
             tools = null;
             instance = null;
 
