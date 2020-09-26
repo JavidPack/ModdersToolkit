@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReLogic.OS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,10 @@ namespace ModdersToolkit.Tools.Shaders
 	class ShaderPlayer : ModPlayer
 	{
 		public override void UpdateBiomeVisuals() {
-			bool forcedShaderActive = ShaderTool.shaderUI.forceShaderCheckbox.Selected && ShaderTool.shaderUI.lastShaderIsScreenShader;
-			player.ManageSpecialBiomeVisuals("ModdersToolkit:TestScreenShader", forcedShaderActive);
+			if (Platform.IsWindows) {
+				bool forcedShaderActive = ShaderTool.shaderUI.forceShaderCheckbox.Selected && ShaderTool.shaderUI.lastShaderIsScreenShader;
+				player.ManageSpecialBiomeVisuals("ModdersToolkit:TestScreenShader", forcedShaderActive);
+			}
 		}
 	}
 }

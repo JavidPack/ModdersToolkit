@@ -29,7 +29,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(0);
 			int width = 250;
-			int height = 180;
+			int height = 270;
 			mainPanel.Left.Set(-40f - width, 1f);
 			mainPanel.Top.Set(-110f - height, 1f);
 			mainPanel.Width.Set(width, 0f);
@@ -89,9 +89,50 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel.Append(logSoundsCheckbox);
 			top += 20;
 
+			UITextPanel<string> takeWorldSnapshot = new UITextPanel<string>("Take World Snapshot (WIP)");
+			takeWorldSnapshot.SetPadding(4);
+			takeWorldSnapshot.Width.Set(-10, 0.5f);
+			takeWorldSnapshot.Top.Set(top, 0f);
+			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick; ;
+			mainPanel.Append(takeWorldSnapshot);
+			top += 30;
+
+			UITextPanel<string> restoreWorldSnapshot = new UITextPanel<string>("Restore World Snapshot (WIP)");
+			restoreWorldSnapshot.SetPadding(4);
+			restoreWorldSnapshot.Width.Set(-10, 0.5f);
+			restoreWorldSnapshot.Top.Set(top, 0f);
+			restoreWorldSnapshot.OnClick += RestoreWorldSnapshot_OnClick; ;
+			mainPanel.Append(restoreWorldSnapshot);
+			top += 30;
+
 			Append(mainPanel);
 		}
 
+		Tile[,] snapshot;
+		private void TakeWorldSnapshot_OnClick(UIMouseEvent evt, UIElement listeningElement) {
+			Main.NewText("Taking Snapshot");
+			snapshot = new Tile[Main.maxTilesX, Main.maxTilesY];
+			for (int i = 0; i < Main.maxTilesX; i++) {
+				for (int j = 0; j < Main.maxTilesY; j++) {
+					snapshot[i, j] = new Tile(Main.tile[i, j]);
+				}
+			}
+			Main.NewText("Taking Snapshot Complete");
+		}
+
+		private void RestoreWorldSnapshot_OnClick(UIMouseEvent evt, UIElement listeningElement) {
+			if (snapshot == null) {
+				Main.NewText("No snapshot available");
+				return;
+			}
+			Main.NewText("Restoring Snapshot");
+			for (int i = 0; i < Main.maxTilesX; i++) {
+				for (int j = 0; j < Main.maxTilesY; j++) {
+					Main.tile[i, j] = new Tile(snapshot[i, j]);
+				}
+			}
+			Main.NewText("Restoring Snapshot Complete");
+		}
 
 		static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		private void GenerateTownSprite_OnClick(UIMouseEvent evt, UIElement listeningElement)
