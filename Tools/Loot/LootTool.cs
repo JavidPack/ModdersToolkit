@@ -18,18 +18,38 @@ namespace ModdersToolkit.Tools.Loot
 
 		// expert toggle?
 
-		internal override void Initialize()
+		public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle NPC Loot Tool";
 			loots = new Dictionary<int, int>();
 		}
 
-		internal override void ClientInitialize()
+        public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
+            lootUI = new LootUI(Interface);
+            lootUI.Activate();
+
+            Interface.SetState(lootUI);
 		}
 
-		internal override void UIDraw()
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+			lootUI?.Deactivate();
+            lootUI = default;
+        }
+
+        public override void Terminate()
+        {
+            loots?.Clear();
+            loots = default;
+        }
+
+
+        public override void UIDraw()
 		{
 			if (Visible)
 			{
@@ -37,24 +57,14 @@ namespace ModdersToolkit.Tools.Loot
 			}
 		}
 
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				lootUI = new LootUI(Interface);
-				lootUI.Activate();
-				Interface.SetState(lootUI);
-			}
-		}
-
-
-		// calculate loot. 
+        // calculate loot. 
 		// Prevent downed somehow?
 		// automate?
 		// prevent kill counts by swapping out npckills data
 
 		public const int NumberLootExperiments = 500;
 		internal static Dictionary<int, int> loots;
+
 		internal static void CalculateLoot(int npcid)
 		{
 			loots.Clear();
@@ -63,10 +73,12 @@ namespace ModdersToolkit.Tools.Loot
 			Utils.Swap(ref killCounts, ref NPC.killCount);
 
 			NPC[] npcs = new NPC[201];
+
 			for (int i = 0; i < npcs.Length; i++)
 			{
 				npcs[i] = new NPC();
 			}
+
 			Utils.Swap(ref npcs, ref Main.npc);
 
 			Item[] items = new Item[401];
@@ -77,9 +89,7 @@ namespace ModdersToolkit.Tools.Loot
 			Utils.Swap(ref items, ref Main.item);
 
 			//todo, 401 limit prevents good percentage calculations.
-			int currentCount;
-			int type;
-			int stack;
+			int currentCount, type, stack;
 
 			for (int i = 0; i < NumberLootExperiments; i++)
 			{
@@ -93,6 +103,7 @@ namespace ModdersToolkit.Tools.Loot
 					{
 						type = item.type;
 						stack = item.stack;
+
 						if (type == ItemID.PlatinumCoin)
 						{
 							type = ItemID.CopperCoin;
@@ -108,6 +119,7 @@ namespace ModdersToolkit.Tools.Loot
 							type = ItemID.CopperCoin;
 							stack = stack * 100;
 						}
+
 						loots.TryGetValue(type, out currentCount);
 						loots[type] = currentCount + stack;
 						item.active = false;
