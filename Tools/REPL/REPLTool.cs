@@ -26,8 +26,10 @@ namespace ModdersToolkit.Tools.REPL
         public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
 			moddersToolkitUI = new REPLUI(Interface);
 			moddersToolkitUI.Activate();
+
 			Interface.SetState(moddersToolkitUI);
 		}
 
