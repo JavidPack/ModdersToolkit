@@ -1,20 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
 using ModdersToolkit.Tools.Spawns;
+using ModdersToolkit.UIElements;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
 {
-    internal class LootUI : UIState
+	internal class LootUI : UIState
 	{
 		internal UIMoneyDisplay money;
 		internal UIPanel mainPanel;
@@ -24,13 +19,11 @@ namespace ModdersToolkit.Tools.Loot
 		private bool updateNeededNPC;
 		private bool updateNeededItems;
 
-		public LootUI(UserInterface userInterface)
-		{
+		public LootUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
 			mainPanel.Left.Set(-300f, 1f);
@@ -99,8 +92,7 @@ namespace ModdersToolkit.Tools.Loot
 			Append(mainPanel);
 		}
 
-		internal void UpdateNPCGrid()
-		{
+		internal void UpdateNPCGrid() {
 			if (!updateNeededNPC) { return; }
 			updateNeededNPC = false;
 
@@ -123,8 +115,7 @@ namespace ModdersToolkit.Tools.Loot
 			npcGrid._innerList.Recalculate();
 		}
 
-		private void Box_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void Box_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			var slot = evt.Target as UINPCSlot;
 
 			//Calculate
@@ -134,33 +125,27 @@ namespace ModdersToolkit.Tools.Loot
 			//queue an update
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateNPCGrid();
 			UpdateItemsList();
 		}
 
-		
-		internal void UpdateItemsList()
-		{
+
+		internal void UpdateItemsList() {
 			if (!updateNeededItems) { return; }
 			updateNeededItems = false;
 
 			lootItemsList.Clear();
 
 			float total = 0;
-			foreach (var spawn in LootTool.loots)
-			{
+			foreach (var spawn in LootTool.loots) {
 				total += spawn.Value;
 			}
 			money.coins = 0;
-			if (total > 0)
-			{
-				foreach (var spawn in LootTool.loots)
-				{
-					if(spawn.Key == ItemID.CopperCoin)
-					{
+			if (total > 0) {
+				foreach (var spawn in LootTool.loots) {
+					if (spawn.Key == ItemID.CopperCoin) {
 						money.coins = (int)(spawn.Value / (float)LootTool.NumberLootExperiments);
 						continue;
 					}
@@ -170,10 +155,8 @@ namespace ModdersToolkit.Tools.Loot
 			}
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}

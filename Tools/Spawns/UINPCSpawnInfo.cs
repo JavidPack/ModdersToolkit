@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.UI;
 using Terraria;
-using Terraria.UI.Chat;
-using ModdersToolkit.UIElements;
 using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-    internal class UINPCSpawnInfo : UIElement
+	internal class UINPCSpawnInfo : UIElement
 	{
 		internal UINPCSlot npcSlot;
 		internal UIText information;
@@ -16,8 +14,7 @@ namespace ModdersToolkit.Tools.Spawns
 		internal int npcid;
 		internal float percent;
 
-		public UINPCSpawnInfo(int npcid, float percent)
-		{
+		public UINPCSpawnInfo(int npcid, float percent) {
 			this.npcid = npcid;
 			this.percent = 100 * percent;
 			Width = StyleDimension.Fill;
@@ -28,7 +25,7 @@ namespace ModdersToolkit.Tools.Spawns
 
 			npcSlot = new UINPCSlot(npc);
 			Append(npcSlot);
-			
+
 			string name = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
 
 			information = new UIText(name, 0.8f);
@@ -42,14 +39,12 @@ namespace ModdersToolkit.Tools.Spawns
 			Append(percentText);
 		}
 
-		public override int CompareTo(object obj)
-		{
+		public override int CompareTo(object obj) {
 			UINPCSpawnInfo other = obj as UINPCSpawnInfo;
 			return -1 * percent.CompareTo(other.percent);
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			base.DrawSelf(spriteBatch);
 
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();

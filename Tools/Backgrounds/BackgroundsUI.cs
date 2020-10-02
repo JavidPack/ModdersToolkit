@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Backgrounds
 {
-    internal class BackgroundsUI : UIState
+	internal class BackgroundsUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -26,13 +26,11 @@ namespace ModdersToolkit.Tools.Backgrounds
 		//internal UIIntRangedDataValue undergroundTexture5DataProperty;
 		//internal UIIntRangedDataValue undergroundTexture6DataProperty;
 
-		public BackgroundsUI(UserInterface userInterface)
-		{
+		public BackgroundsUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
 			int width = 350;
@@ -75,8 +73,7 @@ namespace ModdersToolkit.Tools.Backgrounds
 			mainPanel.Append(uiRange);
 
 			undergroundTextureDataProperties = new UIIntRangedDataValue[7];
-			for (int i = 0; i < 7; i++)
-			{
+			for (int i = 0; i < 7; i++) {
 				top += 30;
 				// TODO: Show names of Mod added Styles and slots
 				undergroundTextureDataProperties[i] = new UIIntRangedDataValue($"Ug Texture {i}:", -1, -1, nextBackground - 1, true, true);
@@ -87,10 +84,8 @@ namespace ModdersToolkit.Tools.Backgrounds
 			}
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}

@@ -1,49 +1,37 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Terraria;
-using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
+﻿using Terraria;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-    internal class PlayerLayerTool : Tool
+	internal class PlayerLayerTool : Tool
 	{
 		internal static PlayerLayerUI playerLayerUI;
 
-		public override void Initialize()
-		{
+		public override void Initialize() {
 			ToggleTooltip = "Click to toggle Player Layer Tool";
 		}
 
-        public override void ClientInitialize()
-		{
+		public override void ClientInitialize() {
 			Interface = new UserInterface();
 
-            playerLayerUI = new PlayerLayerUI(Interface);
-            playerLayerUI.Activate();
+			playerLayerUI = new PlayerLayerUI(Interface);
+			playerLayerUI.Activate();
 
-            Interface.SetState(playerLayerUI);
+			Interface.SetState(playerLayerUI);
 		}
 
-        public override void ClientTerminate()
-        {
-            Interface = default;
+		public override void ClientTerminate() {
+			Interface = default;
 
-            playerLayerUI.Deactivate();
-            playerLayerUI = default;
+			playerLayerUI.Deactivate();
+			playerLayerUI = default;
 		}
 
 
-        public override void UIDraw()
-		{
-			if (Visible)
-			{
+		public override void UIDraw() {
+			if (Visible) {
 				playerLayerUI.Draw(Main.spriteBatch);
 			}
 		}
-    }
+	}
 }

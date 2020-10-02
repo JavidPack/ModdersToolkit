@@ -1,63 +1,50 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
 {
-    internal class LootTool : Tool
+	internal class LootTool : Tool
 	{
 		internal static LootUI lootUI;
 
 		// expert toggle?
 
-		public override void Initialize()
-		{
+		public override void Initialize() {
 			ToggleTooltip = "Click to toggle NPC Loot Tool";
 			loots = new Dictionary<int, int>();
 		}
 
-        public override void ClientInitialize()
-		{
+		public override void ClientInitialize() {
 			Interface = new UserInterface();
 
-            lootUI = new LootUI(Interface);
-            lootUI.Activate();
+			lootUI = new LootUI(Interface);
+			lootUI.Activate();
 
-            Interface.SetState(lootUI);
+			Interface.SetState(lootUI);
 		}
 
-        public override void ClientTerminate()
-        {
-            Interface = default;
+		public override void ClientTerminate() {
+			Interface = default;
 
 			lootUI?.Deactivate();
-            lootUI = default;
-        }
+			lootUI = default;
+		}
 
-        public override void Terminate()
-        {
-            loots?.Clear();
-            loots = default;
-        }
+		public override void Terminate() {
+			loots?.Clear();
+			loots = default;
+		}
 
 
-        public override void UIDraw()
-		{
-			if (Visible)
-			{
+		public override void UIDraw() {
+			if (Visible) {
 				lootUI.Draw(Main.spriteBatch);
 			}
 		}
 
-        // calculate loot. 
+		// calculate loot. 
 		// Prevent downed somehow?
 		// automate?
 		// prevent kill counts by swapping out npckills data
@@ -65,8 +52,7 @@ namespace ModdersToolkit.Tools.Loot
 		public const int NumberLootExperiments = 500;
 		internal static Dictionary<int, int> loots;
 
-		internal static void CalculateLoot(int npcid)
-		{
+		internal static void CalculateLoot(int npcid) {
 			loots.Clear();
 
 			int[] killCounts = new int[NPC.killCount.Length];
@@ -74,16 +60,14 @@ namespace ModdersToolkit.Tools.Loot
 
 			NPC[] npcs = new NPC[201];
 
-			for (int i = 0; i < npcs.Length; i++)
-			{
+			for (int i = 0; i < npcs.Length; i++) {
 				npcs[i] = new NPC();
 			}
 
 			Utils.Swap(ref npcs, ref Main.npc);
 
 			Item[] items = new Item[401];
-			for (int i = 0; i < items.Length; i++)
-			{
+			for (int i = 0; i < items.Length; i++) {
 				items[i] = new Item();
 			}
 			Utils.Swap(ref items, ref Main.item);
@@ -91,31 +75,25 @@ namespace ModdersToolkit.Tools.Loot
 			//todo, 401 limit prevents good percentage calculations.
 			int currentCount, type, stack;
 
-			for (int i = 0; i < NumberLootExperiments; i++)
-			{
+			for (int i = 0; i < NumberLootExperiments; i++) {
 				NPC npc = Main.npc[NPC.NewNPC(0, 0, npcid)];
 				npc.NPCLoot();
 				npc.active = false;
 
-				foreach (var item in Main.item)
-				{
-					if (item.active)
-					{
+				foreach (var item in Main.item) {
+					if (item.active) {
 						type = item.type;
 						stack = item.stack;
 
-						if (type == ItemID.PlatinumCoin)
-						{
+						if (type == ItemID.PlatinumCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 1000000;
 						}
-						else if (type == ItemID.GoldCoin)
-						{
+						else if (type == ItemID.GoldCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 10000;
 						}
-						else if (type == ItemID.SilverCoin)
-						{
+						else if (type == ItemID.SilverCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 100;
 						}
@@ -124,8 +102,7 @@ namespace ModdersToolkit.Tools.Loot
 						loots[type] = currentCount + stack;
 						item.active = false;
 					}
-					else
-					{
+					else {
 						break;
 					}
 				}

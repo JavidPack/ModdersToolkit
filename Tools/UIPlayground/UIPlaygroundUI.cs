@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModdersToolkit.Tools.Dusts;
+using ModdersToolkit.UIElements;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools.Dusts;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {
-    internal class UIPlaygroundUI : UIState
+	internal class UIPlaygroundUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -378,7 +378,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 		}
 	}
 
-    internal class DebugDrawUIPanel : UIPanel
+	internal class DebugDrawUIPanel : UIPanel
 	{
 		protected override void DrawChildren(SpriteBatch spriteBatch) {
 			base.DrawChildren(spriteBatch);

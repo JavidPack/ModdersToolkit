@@ -1,28 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
 using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
-using Terraria.Graphics.Shaders;
-using System.Collections.Generic;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Dusts
 {
 	// todo, Confirm button?
-    internal class DustChooserUI : UIPanel
+	internal class DustChooserUI : UIPanel
 	{
-        private UIGrid dustGrid;
+		private UIGrid dustGrid;
 
 		private UserInterface userInterface;
-		public DustChooserUI(UserInterface userInterface)
-		{
+		public DustChooserUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 			//}
 
@@ -60,14 +52,12 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 
 		private bool updateneeded;
-		internal void UpdateGrid()
-		{
+		internal void UpdateGrid() {
 			if (!updateneeded) { return; }
 			updateneeded = false;
 
 			dustGrid.Clear();
-			for (int i = 0; i < DustTool.dustCount; i++)
-			{
+			for (int i = 0; i < DustTool.dustCount; i++) {
 				//if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 				{
 					var box = new DustSlot(i);
@@ -80,23 +70,20 @@ namespace ModdersToolkit.Tools.Dusts
 			dustGrid._innerList.Recalculate();
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateGrid();
 		}
 	}
 
-    internal class DustSlot : UIElement
+	internal class DustSlot : UIElement
 	{
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
 		public int type;
-		public DustSlot(int type)
-		{
+		public DustSlot(int type) {
 			this.type = type;
-			if (type < Terraria.ID.DustID.Count)
-			{
+			if (type < Terraria.ID.DustID.Count) {
 				// vanilla dust
 
 			}
@@ -110,12 +97,10 @@ namespace ModdersToolkit.Tools.Dusts
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
 
-        private const int frameDelay = 7;
+		private const int frameDelay = 7;
 		//internal int frameCounter = 0;
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (++frameTimer > frameDelay)
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (++frameTimer > frameDelay) {
 				frameCounter = frameCounter + 1;
 				frameTimer = 0;
 			}
@@ -132,8 +117,7 @@ namespace ModdersToolkit.Tools.Dusts
 			int x;
 			int y;
 
-			if (type < Terraria.ID.DustID.Count)
-			{
+			if (type < Terraria.ID.DustID.Count) {
 				frames = 3;
 				frame = frameCounter % frames;
 				texture = Main.dustTexture;
@@ -143,8 +127,7 @@ namespace ModdersToolkit.Tools.Dusts
 				y = (type / 100) * 30;
 				y += (height + 2) * frame;
 			}
-			else
-			{
+			else {
 				frames = 1;
 				var dust = ModDust.GetDust(type);
 				texture = dust.Texture;
@@ -159,14 +142,11 @@ namespace ModdersToolkit.Tools.Dusts
 
 			float drawScale = 2f;
 			float availableWidth = (float)backgroundTexture.Width * scale;
-			if (width * drawScale > availableWidth || height * drawScale > availableWidth)
-			{
-				if (width > height)
-				{
+			if (width * drawScale > availableWidth || height * drawScale > availableWidth) {
+				if (width > height) {
 					drawScale = availableWidth / width;
 				}
-				else
-				{
+				else {
 					drawScale = availableWidth / height;
 				}
 			}
@@ -181,14 +161,12 @@ namespace ModdersToolkit.Tools.Dusts
 			//}
 		}
 
-		public override void Click(UIMouseEvent evt)
-		{
+		public override void Click(UIMouseEvent evt) {
 			Main.NewText("choose dust " + type);
 			DustTool.dustUI.typeDataProperty.Data = type;
 		}
 
-		public override int CompareTo(object obj)
-		{
+		public override int CompareTo(object obj) {
 			return type.CompareTo((obj as DustSlot).type);
 		}
 	}

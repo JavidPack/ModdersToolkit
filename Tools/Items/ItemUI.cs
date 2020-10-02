@@ -1,31 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using ModdersToolkit.UIElements;
 using System.Collections.Generic;
 using System.Reflection;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Items
 {
-    internal class ItemUI : UIState
+	internal class ItemUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public ItemUI(UserInterface userInterface)
-		{
+		public ItemUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-        private UIIntRangedDataValue damageData;
+		private UIIntRangedDataValue damageData;
 		internal static UIIntRangedDataValue holdoutXData;
 		internal static UIIntRangedDataValue holdoutYData;
 		internal static UICheckbox playerMeleeCheckbox;
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.Left.Set(-290f, 1f);
 			mainPanel.Top.Set(-620f, 1f);
@@ -53,8 +51,7 @@ namespace ModdersToolkit.Tools.Items
 			Append(mainPanel);
 		}
 
-		private UIPanel makeOtherPanel()
-		{
+		private UIPanel makeOtherPanel() {
 			UIPanel panel = new UIPanel();
 			//panel.Width = StyleDimension.Fill;
 			//panel.Height = StyleDimension.Fill;
@@ -104,8 +101,7 @@ namespace ModdersToolkit.Tools.Items
 			return panel;
 		}
 
-		private UIPanel makeMainPanel()
-		{
+		private UIPanel makeMainPanel() {
 			UIPanel mainPanel = new UIPanel();
 			mainPanel.BackgroundColor = Color.Green * 0.7f;
 
@@ -208,8 +204,7 @@ namespace ModdersToolkit.Tools.Items
 			uiRanges.Add(new UICheckbox2(check));
 
 
-			foreach (var uiRange in uiRanges)
-			{
+			foreach (var uiRange in uiRanges) {
 				uiRange.Top.Set(top, 0f);
 				uiRange.Width.Set(0, 1f);
 				mainPanel.Append(uiRange);
@@ -236,8 +231,7 @@ namespace ModdersToolkit.Tools.Items
 			return mainPanel;
 		}
 
-		private void PrefixButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void PrefixButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.LocalPlayer.HeldItem.SetDefaults(Main.LocalPlayer.HeldItem.type);
 			Main.LocalPlayer.HeldItem.Prefix(-2);
 			Main.LocalPlayer.HeldItem.position.X = Main.LocalPlayer.position.X + (float)(Main.LocalPlayer.width / 2) - (float)(Main.LocalPlayer.HeldItem.width / 2);
@@ -245,47 +239,39 @@ namespace ModdersToolkit.Tools.Items
 			ItemText.NewText(Main.LocalPlayer.HeldItem, Main.LocalPlayer.HeldItem.stack, true, false);
 		}
 
-		private void SetDefaultsButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void SetDefaultsButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.LocalPlayer.HeldItem.SetDefaults(Main.LocalPlayer.HeldItem.type);
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 
-		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			var globalItems = ((GlobalItem[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
 
-			for (int i = 0; i < globalItems.Length; i++)
-			{
+			for (int i = 0; i < globalItems.Length; i++) {
 				GlobalItem param = globalItems[i];
-				if (param.Name == "MysteryGlobalItem") continue;
+				if (param.Name == "MysteryGlobalItem")
+					continue;
 				Main.NewText("Object type: " + param.GetType());
-				foreach (PropertyInfo property in param.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-				{
+				foreach (PropertyInfo property in param.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
 					Main.NewText("PROPERTY " + property.Name + " = " + property.GetValue(param, null) + "\n");
 				}
 
-				foreach (FieldInfo field in param.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-				{
+				foreach (FieldInfo field in param.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
 					Main.NewText("FIELD " + field.Name + " = " + (field.GetValue(param).ToString() != "" ? field.GetValue(param) : "(Field value not found)") + "\n");
 				}
 			}
 		}
 	}
 
-    internal class ItemUIGlobalItem : GlobalItem
+	internal class ItemUIGlobalItem : GlobalItem
 	{
-		public override Vector2? HoldoutOffset(int type)
-		{
-			if (ItemUI.playerMeleeCheckbox.Selected)
-			{
+		public override Vector2? HoldoutOffset(int type) {
+			if (ItemUI.playerMeleeCheckbox.Selected) {
 				return new Vector2(ItemUI.holdoutXData.Data, ItemUI.holdoutYData.Data);
 			}
 			return base.HoldoutOffset(type);

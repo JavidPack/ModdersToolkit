@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.UI;
 using Terraria;
-using Terraria.UI.Chat;
-using ModdersToolkit.UIElements;
 using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
 {
-    internal class UILootInfo : UIElement
+	internal class UILootInfo : UIElement
 	{
 		internal UIItemSlot itemSlot;
 		internal UIText information;
@@ -16,8 +14,7 @@ namespace ModdersToolkit.Tools.Loot
 		internal int itemid;
 		internal float percent;
 
-		public UILootInfo(int itemid, float percent)
-		{
+		public UILootInfo(int itemid, float percent) {
 			this.itemid = itemid;
 			this.percent = /*100 * */percent;
 			Width = StyleDimension.Fill;
@@ -42,14 +39,12 @@ namespace ModdersToolkit.Tools.Loot
 			Append(percentText);
 		}
 
-		public override int CompareTo(object obj)
-		{
+		public override int CompareTo(object obj) {
 			UILootInfo other = obj as UILootInfo;
 			return -1 * percent.CompareTo(other.percent);
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			base.DrawSelf(spriteBatch);
 
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();

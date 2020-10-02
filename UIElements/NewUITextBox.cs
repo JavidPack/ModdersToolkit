@@ -1,15 +1,15 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using ReLogic.Graphics;
+using System;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using Terraria;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 
 namespace ModdersToolkit.UIElements
 {
-    internal class NewUITextBox : UITextPanel<string>
+	internal class NewUITextBox : UITextPanel<string>
 	{
 		internal bool focused = false;
 		private int _cursor;
@@ -26,8 +26,7 @@ namespace ModdersToolkit.UIElements
 		internal bool unfocusOnTab = true;
 
 
-		public NewUITextBox(string text, float textScale = 1, bool large = false) : base("", textScale, large)
-		{
+		public NewUITextBox(string text, float textScale = 1, bool large = false) : base("", textScale, large) {
 			hintText = text;
 			SetPadding(4);
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
@@ -35,14 +34,12 @@ namespace ModdersToolkit.UIElements
 			//BorderColor = Color.White;
 		}
 
-		public override void Click(UIMouseEvent evt)
-		{
+		public override void Click(UIMouseEvent evt) {
 			Focus();
 			base.Click(evt);
 		}
 
-		public void SetUnfocusKeys(bool unfocusOnEnter, bool unfocusOnTab)
-		{
+		public void SetUnfocusKeys(bool unfocusOnEnter, bool unfocusOnTab) {
 			this.unfocusOnEnter = unfocusOnEnter;
 			this.unfocusOnTab = unfocusOnTab;
 		}
@@ -67,10 +64,8 @@ namespace ModdersToolkit.UIElements
 		//	}
 		//}
 
-		public void Unfocus()
-		{
-			if (focused)
-			{
+		public void Unfocus() {
+			if (focused) {
 				focused = false;
 				Main.blockInput = false;
 
@@ -78,10 +73,8 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		public void Focus()
-		{
-			if (!focused)
-			{
+		public void Focus() {
+			if (!focused) {
 				Main.clrInput();
 				focused = true;
 				Main.blockInput = true;
@@ -90,19 +83,16 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			Vector2 MousePosition = new Vector2((float)Main.mouseX, (float)Main.mouseY);
-			if (!ContainsPoint(MousePosition) && Main.mouseLeft)
-			{
+			if (!ContainsPoint(MousePosition) && Main.mouseLeft) {
 				// TODO, figure out how to refocus without triggering unfocus while clicking enable button.
 				Unfocus();
 			}
 			base.Update(gameTime);
 		}
 
-		public void Write(string text)
-		{
+		public void Write(string text) {
 			base.SetText(base.Text.Insert(this._cursor, text));
 			this._cursor += text.Length;
 			_cursor = Math.Min(Text.Length, _cursor);
@@ -111,24 +101,20 @@ namespace ModdersToolkit.UIElements
 			OnTextChanged?.Invoke();
 		}
 
-		public void WriteAll(string text)
-		{
+		public void WriteAll(string text) {
 			bool changed = text != Text;
 			base.SetText(text);
 			this._cursor = text.Length;
 			//_cursor = Math.Min(Text.Length, _cursor);
 			Recalculate();
 
-			if (changed)
-			{
+			if (changed) {
 				OnTextChanged?.Invoke();
 			}
 		}
 
-		public override void SetText(string text, float textScale, bool large)
-		{
-			if (text.ToString().Length > this._maxLength)
-			{
+		public override void SetText(string text, float textScale, bool large) {
+			if (text.ToString().Length > this._maxLength) {
 				text = text.ToString().Substring(0, this._maxLength);
 			}
 			base.SetText(text, textScale, large);
@@ -140,45 +126,36 @@ namespace ModdersToolkit.UIElements
 			OnTextChanged?.Invoke();
 		}
 
-		public void SetTextMaxLength(int maxLength)
-		{
+		public void SetTextMaxLength(int maxLength) {
 			this._maxLength = maxLength;
 		}
 
-		public void Backspace()
-		{
-			if (this._cursor == 0)
-			{
+		public void Backspace() {
+			if (this._cursor == 0) {
 				return;
 			}
 			base.SetText(base.Text.Substring(0, base.Text.Length - 1));
 			Recalculate();
 		}
 
-		public void CursorLeft()
-		{
-			if (this._cursor == 0)
-			{
+		public void CursorLeft() {
+			if (this._cursor == 0) {
 				return;
 			}
 			this._cursor--;
 		}
 
-		public void CursorRight()
-		{
-			if (this._cursor < base.Text.Length)
-			{
+		public void CursorRight() {
+			if (this._cursor < base.Text.Length) {
 				this._cursor++;
 			}
 		}
 
-        private static bool JustPressed(Keys key)
-		{
+		private static bool JustPressed(Keys key) {
 			return Main.inputText.IsKeyDown(key) && !Main.oldInputText.IsKeyDown(key);
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			Rectangle hitbox = GetDimensions().ToRectangle();
 			//hitbox.Inflate(4, 4);
 			Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.White);
@@ -186,45 +163,40 @@ namespace ModdersToolkit.UIElements
 			// Draw panel -- Panel draws odd when too small
 			// base.DrawSelf(spriteBatch);
 
-			if (focused)
-			{
+			if (focused) {
 				Terraria.GameInput.PlayerInput.WritingText = true;
 				Main.instance.HandleIME();
 				// This might work.....assuming chat isn't open
 				WriteAll(Main.GetInputText(Text));
 
-				if (JustPressed(Keys.Tab))
-				{
-					if (unfocusOnTab) Unfocus();
+				if (JustPressed(Keys.Tab)) {
+					if (unfocusOnTab)
+						Unfocus();
 					//	Main.NewText("Tab");
 					OnTabPressed?.Invoke();
 				}
 
-				if (JustPressed(Keys.Enter))
-				{
+				if (JustPressed(Keys.Enter)) {
 					//	Main.NewText("Enter");
-					if (unfocusOnEnter) Unfocus();
+					if (unfocusOnEnter)
+						Unfocus();
 					OnEnterPressed?.Invoke();
 				}
-				if (JustPressed(Keys.Up))
-				{
+				if (JustPressed(Keys.Up)) {
 					OnUpPressed?.Invoke();
 				}
 
 			}
 			CalculatedStyle innerDimensions2 = base.GetInnerDimensions();
 			Vector2 pos2 = innerDimensions2.Position();
-			if (IsLarge)
-			{
+			if (IsLarge) {
 				pos2.Y -= 10f * TextScale * TextScale;
 			}
-			else
-			{
+			else {
 				pos2.Y -= 2f * TextScale;
 			}
 			//pos2.X += (innerDimensions2.Width - TextSize.X) * 0.5f;
-			if (IsLarge)
-			{
+			if (IsLarge) {
 				Utils.DrawBorderStringBig(spriteBatch, Text, pos2, TextColor, TextScale, 0f, 0f, -1);
 				return;
 			}
@@ -236,20 +208,16 @@ namespace ModdersToolkit.UIElements
 			Vector2 pos = innerDimensions.Position();
 			DynamicSpriteFont spriteFont = base.IsLarge ? Main.fontDeathText : Main.fontMouseText;
 			Vector2 vector = new Vector2(spriteFont.MeasureString(base.Text.Substring(0, this._cursor)).X, base.IsLarge ? 32f : 16f) * base.TextScale;
-			if (base.IsLarge)
-			{
+			if (base.IsLarge) {
 				pos.Y -= 8f * base.TextScale;
 			}
-			else
-			{
+			else {
 				pos.Y -= 1f * base.TextScale;
 			}
-			if (Text.Length == 0)
-			{
-			Vector2 hintTextSize = new Vector2(spriteFont.MeasureString(hintText.ToString()).X, IsLarge ? 32f : 16f) * TextScale;
+			if (Text.Length == 0) {
+				Vector2 hintTextSize = new Vector2(spriteFont.MeasureString(hintText.ToString()).X, IsLarge ? 32f : 16f) * TextScale;
 				pos.X += 5;//(hintTextSize.X);
-				if (base.IsLarge)
-				{
+				if (base.IsLarge) {
 					Utils.DrawBorderStringBig(spriteBatch, hintText, pos, Color.Gray, base.TextScale, 0f, 0f, -1);
 					return;
 				}
@@ -258,15 +226,14 @@ namespace ModdersToolkit.UIElements
 				//pos.X -= (innerDimensions.Width - hintTextSize.X) * 0.5f;
 			}
 
-			if (!focused) return;
+			if (!focused)
+				return;
 
 			pos.X += /*(innerDimensions.Width - base.TextSize.X) * 0.5f*/ +vector.X - (base.IsLarge ? 8f : 4f) * base.TextScale + 6f;
-			if ((this._frameCount %= 40) > 20)
-			{
+			if ((this._frameCount %= 40) > 20) {
 				return;
 			}
-			if (base.IsLarge)
-			{
+			if (base.IsLarge) {
 				Utils.DrawBorderStringBig(spriteBatch, "|", pos, base.TextColor, base.TextScale, 0f, 0f, -1);
 				return;
 			}

@@ -1,27 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.Core;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using ModdersToolkit.UIElements;
+using System;
 using System.Collections.Generic;
-using Terraria.DataStructures;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
-using System.Diagnostics;
-using System;
-using Terraria.ID;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Content;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics.Effects;
-using Newtonsoft.Json.Schema;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Shaders
 {
-    internal class ShaderUI : UIState
+	internal class ShaderUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -36,16 +33,16 @@ namespace ModdersToolkit.Tools.Shaders
 		// Automatically apply shader via checkbox, rather than Acid Dye
 		// Test New shaders without binding to anything, Select pass name?
 
-        private static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
-        private static string shaderFilename = "ModdersToolkit_Shader.fx";
-        private static string shaderFilePath = Path.Combine(cacheFolder, shaderFilename);
-        private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
+		private static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
+		private static string shaderFilename = "ModdersToolkit_Shader.fx";
+		private static string shaderFilePath = Path.Combine(cacheFolder, shaderFilename);
+		private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
-        private static string exeFilename = "fxcompiler.exe";
-        private static string exePath = Path.Combine(cacheFolder, exeFilename);
+		private static string exeFilename = "fxcompiler.exe";
+		private static string exePath = Path.Combine(cacheFolder, exeFilename);
 
-        private static string exeVersionFileName = "ModdersToolkitFXBuilderVersion.txt";
-        private static string exeVersionPath = Path.Combine(cacheFolder, exeVersionFileName);
+		private static string exeVersionFileName = "ModdersToolkitFXBuilderVersion.txt";
+		private static string exeVersionPath = Path.Combine(cacheFolder, exeVersionFileName);
 
 		public bool updateneeded;
 
@@ -57,8 +54,8 @@ namespace ModdersToolkit.Tools.Shaders
 		private UICheckbox watchModSourcesCheckbox;
 		internal UICheckbox forceShaderCheckbox;
 
-        private Dusts.ColorDataRangeProperty colorDataProperty;
-        private UIFloatRangedDataValue intensityData;
+		private Dusts.ColorDataRangeProperty colorDataProperty;
+		private UIFloatRangedDataValue intensityData;
 
 		private UIRadioButton armorShaderRadioButton;
 		private UIRadioButton screenShaderRadioButton;
@@ -282,7 +279,7 @@ namespace ModdersToolkit.Tools.Shaders
 			Append(mainPanel);
 		}
 
-        private const string ArmorShaderTemplate = @"sampler uImage0 : register(s0);
+		private const string ArmorShaderTemplate = @"sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 float3 uColor;
 float3 uSecondaryColor;
@@ -311,7 +308,7 @@ technique Technique1
     }
 }";
 
-        private const string ScreenShaderTemplate = @"sampler uImage0 : register(s0);
+		private const string ScreenShaderTemplate = @"sampler uImage0 : register(s0);
 sampler uImage1 : register(s1); // Automatically Images/Misc/Perlin via Force Shader testing option
 sampler uImage2 : register(s2); // Automatically Images/Misc/noise via Force Shader testing option
 sampler uImage3 : register(s3);
@@ -359,7 +356,7 @@ technique Technique1
 			}
 			AttemptOpenFxFile(shaderFilePath);
 		}
-		
+
 		private static void AttemptOpenFxFile(string path) {
 			try {
 				Process.Start(path);
@@ -379,8 +376,8 @@ technique Technique1
 			RunShaderCompileCommand(shaderFilePath);
 		}
 
-        private const int fxcompilerVersion = 1;
-        private bool fxCompilerUpToDate = false;
+		private const int fxcompilerVersion = 1;
+		private bool fxCompilerUpToDate = false;
 		private void RunShaderCompileCommand(string file) {
 			// Ensure shader compiler exists
 			if (File.Exists(exeVersionPath)) {
@@ -609,7 +606,8 @@ technique Technique1
 				}
 			}
 
-			if (!updateneeded) return;
+			if (!updateneeded)
+				return;
 			updateneeded = false;
 
 			if (modList.Count == 0) {

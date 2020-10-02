@@ -1,37 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.Localization;
-using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
-using Terraria;
-using Terraria.UI.Chat;
 
 namespace ModdersToolkit.UIElements
 {
-    internal class UICodeEntry : UIText
+	internal class UICodeEntry : UIText
 	{
-        private static int NextNum = 100;
+		private static int NextNum = 100;
 		internal int num;
 		internal CodeType codeType;
-		public UICodeEntry(string text, CodeType type, float textScale = 1, bool large = false) : base(text, textScale = 1, large = false)
-		{
+		public UICodeEntry(string text, CodeType type, float textScale = 1, bool large = false) : base(text, textScale = 1, large = false) {
 			this.num = NextNum++;
 			codeType = type;
-			if (type == CodeType.Error)
-			{
+			if (type == CodeType.Error) {
 				TextColor = Color.Red;
 			}
-			else if (type == CodeType.Output)
-			{
+			else if (type == CodeType.Output) {
 				TextColor = Color.Yellow;
 			}
-			else if (type == CodeType.Hint)
-			{
+			else if (type == CodeType.Hint) {
 				TextColor = Color.Orange;
 			}
-			else if (type == CodeType.Input)
-			{
+			else if (type == CodeType.Input) {
 				TextColor = Color.LightSeaGreen;
 			}
 
@@ -43,10 +32,9 @@ namespace ModdersToolkit.UIElements
 			//Recalculate();
 		}
 
-		public override int CompareTo(object obj)
-		{
+		public override int CompareTo(object obj) {
 			NewUITextBoxMultiLine text = obj as NewUITextBoxMultiLine;
-			if(text != null){
+			if (text != null) {
 				return int.MaxValue.CompareTo(num);
 			}
 			UICodeEntry other = obj as UICodeEntry;

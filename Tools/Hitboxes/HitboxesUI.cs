@@ -1,29 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModdersToolkit.UIElements;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
 
 namespace ModdersToolkit.Tools.Hitboxes
 {
-    internal class HitboxesUI : UIState
+	internal class HitboxesUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public HitboxesUI(UserInterface userInterface)
-		{
+		public HitboxesUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(0);
 			mainPanel.Left.Set(-190f, 1f);
@@ -91,10 +83,8 @@ namespace ModdersToolkit.Tools.Hitboxes
 			Append(mainPanel);
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}

@@ -1,32 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using ModdersToolkit.UIElements;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-    internal class PlayerLayerUI : UIState
+	internal class PlayerLayerUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface _userInterface;
 
-        public UIList playerLayerList;
-        public List<Terraria.ModLoader.PlayerLayer> playerLayers = new List<Terraria.ModLoader.PlayerLayer>();
-        public List<UICheckbox> playerLayersCheckboxes = new List<UICheckbox>();
-        public bool updateNeeded;
+		public UIList playerLayerList;
+		public List<Terraria.ModLoader.PlayerLayer> playerLayers = new List<Terraria.ModLoader.PlayerLayer>();
+		public List<UICheckbox> playerLayersCheckboxes = new List<UICheckbox>();
+		public bool updateNeeded;
 
 
-		public PlayerLayerUI(UserInterface userInterface)
-		{
+		public PlayerLayerUI(UserInterface userInterface) {
 			this._userInterface = userInterface;
 		}
 
-        public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.Left.Set(-350f, 1f);
 			mainPanel.Top.Set(-620f, 1f);
@@ -63,16 +61,14 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			Append(mainPanel);
 		}
 
-        internal void UpdateList()
-		{
+		internal void UpdateList() {
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
 
 			playerLayerList.Clear();
 			playerLayersCheckboxes.Clear();
 			int order = 0;
-			foreach (var item in playerLayers)
-			{
+			foreach (var item in playerLayers) {
 				var box = new UICheckbox(item.Name, item.mod);
 				box.order = order++;
 				box.Selected = true;
@@ -81,69 +77,56 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			playerLayerList.AddRange(playerLayersCheckboxes);
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateList();
 		}
 
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 
-		internal void InformLayers(List<Terraria.ModLoader.PlayerLayer> layers)
-		{
-			foreach (var layer in layers)
-			{
-				if (!PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer))
-				{
+		internal void InformLayers(List<Terraria.ModLoader.PlayerLayer> layers) {
+			foreach (var layer in layers) {
+				if (!PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer)) {
 					updateNeeded = true;
 					break;
 				}
 			}
-			if (updateNeeded)
-			{
+			if (updateNeeded) {
 				playerLayers.Clear();
 				playerLayers.AddRange(layers);
 			}
 		}
 	}
 
-    internal class PlayerLayerModPlayer : ModPlayer
+	internal class PlayerLayerModPlayer : ModPlayer
 	{
-		public override void ModifyDrawHeadLayers(List<PlayerHeadLayer> layers)
-		{
+		public override void ModifyDrawHeadLayers(List<PlayerHeadLayer> layers) {
 			// TODO
 		}
 
-		public override void ModifyDrawLayers(List<Terraria.ModLoader.PlayerLayer> layers)
-		{
+		public override void ModifyDrawLayers(List<Terraria.ModLoader.PlayerLayer> layers) {
 			PlayerLayerTool.playerLayerUI.InformLayers(layers);
 
-			if (PlayerLayerTool.playerLayerUI.updateNeeded) 
-                return;
+			if (PlayerLayerTool.playerLayerUI.updateNeeded)
+				return;
 
-			foreach (var layer in layers)
-			{
-				if (PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer))
-				{
+			foreach (var layer in layers) {
+				if (PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer)) {
 					var layerIndex = PlayerLayerTool.playerLayerUI.playerLayers.IndexOf(layer);
 					layer.visible = PlayerLayerTool.playerLayerUI.playerLayersCheckboxes[layerIndex].Selected;
 				}
-				else
-				{
+				else {
 				}
 			}
 		}
 
 		// Maybe a separate tool or panel/tab	
-		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
-		{
+		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo) {
 			// TODO
 		}
 	}

@@ -4,7 +4,6 @@ using ModdersToolkit.Tools;
 using ReLogic.OS;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -23,14 +22,13 @@ namespace ModdersToolkit
 {
 	public class ModdersToolkit : Mod
 	{
-        internal static List<Tool> tools;
+		internal static List<Tool> tools;
 
-        private int lastSeenScreenWidth;
-        private int lastSeenScreenHeight;
-        private bool visible;
+		private int lastSeenScreenWidth;
+		private int lastSeenScreenHeight;
+		private bool visible;
 
-		public override void Load()
-		{
+		public override void Load() {
 			Instance = this;
 
 			tools = new List<Tool>();
@@ -48,17 +46,16 @@ namespace ModdersToolkit
 			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
 			AddTool(new Tools.Spawns.SpawnTool());
 			AddTool(new Tools.Textures.TextureTool());
-            AddTool(new Tools.UIPlayground.UIPlaygroundTool());
+			AddTool(new Tools.UIPlayground.UIPlaygroundTool());
 			AddTool(new Tools.Backgrounds.BackgroundsTool());
 			AddTool(new Tools.Miscellaneous.MiscellaneousTool());
 
-            if (Platform.IsWindows)
-                tools.Add(new Tools.Shaders.ShaderTool());
+			if (Platform.IsWindows)
+				tools.Add(new Tools.Shaders.ShaderTool());
 
 			tools.ForEach(tool => tool.Initialize());
 
-			if (!Main.dedServ)
-			{
+			if (!Main.dedServ) {
 				tools.ForEach(tool => tool.ClientInitialize());
 
 				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
@@ -71,8 +68,7 @@ namespace ModdersToolkit
 			}
 		}
 
-		public override void Unload()
-		{
+		public override void Unload() {
 			if (tools != null) {
 				if (!Main.dedServ)
 					tools.ForEach(tool => tool.ClientTerminate());
@@ -81,9 +77,9 @@ namespace ModdersToolkit
 			}
 
 			tools?.Clear();
-            tools = null;
+			tools = null;
 
-            Instance = null;
+			Instance = null;
 
 			UIElements.UICheckbox.checkboxTexture = null;
 			UIElements.UICheckbox.checkmarkTexture = null;
@@ -94,35 +90,28 @@ namespace ModdersToolkit
 			UIElements.UITriStateCheckbox.checkXTexture = null;
 		}
 
-        public void AddTool(Tool tool) => tools.Add(tool);
+		public void AddTool(Tool tool) => tools.Add(tool);
 
-		public override void PostSetupContent()
-		{
+		public override void PostSetupContent() {
 			tools.ForEach(tool => tool.PostSetupContent());
 		}
 
-		public override void UpdateUI(GameTime gameTime)
-        {
-            tools?.ForEach(tool => tool.UIUpdate());
+		public override void UpdateUI(GameTime gameTime) {
+			tools?.ForEach(tool => tool.UIUpdate());
 		}
 
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-		{
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-			if (inventoryLayerIndex != -1)
-			{
+			if (inventoryLayerIndex != -1) {
 				layers.Insert(inventoryLayerIndex, new LegacyGameInterfaceLayer(
 					"ModdersToolkit: Tools",
-					delegate
-					{
+					delegate {
 						//if (Main.drawingPlayerChat)
 						{
 							DrawUpdateToggles();
 						}
-						if (visible)
-						{
-							if (lastSeenScreenWidth != Main.screenWidth || lastSeenScreenHeight != Main.screenHeight)
-							{
+						if (visible) {
+							if (lastSeenScreenWidth != Main.screenWidth || lastSeenScreenHeight != Main.screenHeight) {
 								tools.ForEach(tool => tool.ScreenResolutionChanged());
 								lastSeenScreenWidth = Main.screenWidth;
 								lastSeenScreenHeight = Main.screenHeight;
@@ -144,14 +133,11 @@ namespace ModdersToolkit
 			}
 
 			int rulerLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler"));
-			if (rulerLayerIndex != -1)
-			{
+			if (rulerLayerIndex != -1) {
 				layers.Insert(rulerLayerIndex, new LegacyGameInterfaceLayer(
 					"ModdersToolkit: Tools Game Scale",
-					delegate
-					{
-						if (visible)
-						{
+					delegate {
+						if (visible) {
 							tools.ForEach(tool => tool.WorldDraw());
 						}
 						return true;
@@ -159,13 +145,12 @@ namespace ModdersToolkit
 					InterfaceScaleType.Game)
 				);
 			}
-			
+
 
 			Tools.InterfaceLayer.InterfaceLayerTool.interfaceLayerUI.ModifyInterfaceLayers(layers);
 		}
 
-		internal void DrawUpdateToggles()
-		{
+		internal void DrawUpdateToggles() {
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
 			// calculate?
 			int xPosition = Main.screenWidth - 230; //62; //78;
@@ -176,61 +161,48 @@ namespace ModdersToolkit
 
 			Rectangle toggleToolkitButtonRectangle = new Rectangle(xPosition, yPosition, toggleTexture.Width, toggleTexture.Height);
 			bool toggleToolkitButtonHover = false;
-			if (toggleToolkitButtonRectangle.Contains(mousePoint))
-			{
+			if (toggleToolkitButtonRectangle.Contains(mousePoint)) {
 				Main.LocalPlayer.mouseInterface = true;
 				toggleToolkitButtonHover = true;
-				if (Main.mouseLeft && Main.mouseLeftRelease)
-				{
+				if (Main.mouseLeft && Main.mouseLeftRelease) {
 					visible = !visible;
 					Main.PlaySound(visible ? SoundID.MenuOpen : SoundID.MenuClose);
 
-					if (!visible)
-					{
+					if (!visible) {
 						LastVisibleTool = null;
-						foreach (var otherTool in tools)
-						{
-							if (otherTool.Visible)
-							{
+						foreach (var otherTool in tools) {
+							if (otherTool.Visible) {
 								LastVisibleTool = otherTool;
 								LastVisibleTool.Visible = false;
 								LastVisibleTool.Toggled();
 							}
 						}
 					}
-					if (visible && LastVisibleTool != null)
-					{
+					if (visible && LastVisibleTool != null) {
 						LastVisibleTool.Visible = true;
 						LastVisibleTool.Toggled();
 					}
 				}
 			}
 			Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White /** 0.7f*/);
-			if (toggleToolkitButtonHover)
-			{
+			if (toggleToolkitButtonHover) {
 				Main.HoverItem = new Item();
 				Main.hoverItemName = "Click to toggle ModdersToolkit";
 			}
 
-			if (visible)
-			{
+			if (visible) {
 				yPosition -= 18;
-				foreach (var tool in tools)
-				{
+				foreach (var tool in tools) {
 					toggleTexture = tool.Visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
 
 					toggleToolkitButtonRectangle = new Rectangle(xPosition, yPosition, toggleTexture.Width, toggleTexture.Height);
 					toggleToolkitButtonHover = false;
-					if (toggleToolkitButtonRectangle.Contains(mousePoint))
-					{
+					if (toggleToolkitButtonRectangle.Contains(mousePoint)) {
 						Main.LocalPlayer.mouseInterface = true;
 						toggleToolkitButtonHover = true;
-						if (Main.mouseLeft && Main.mouseLeftRelease)
-						{
-							foreach (var otherTool in tools)
-							{
-								if (tool != otherTool && otherTool.Visible)
-								{
+						if (Main.mouseLeft && Main.mouseLeftRelease) {
+							foreach (var otherTool in tools) {
+								if (tool != otherTool && otherTool.Visible) {
 									otherTool.Visible = false;
 									otherTool.Toggled();
 								}
@@ -241,18 +213,17 @@ namespace ModdersToolkit
 						}
 					}
 					Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White);
-					if (toggleToolkitButtonHover)
-					{
+					if (toggleToolkitButtonHover) {
 						Main.HoverItem = new Item();
 						Main.hoverItemName = tool.ToggleTooltip;
 					}
 					xPosition += 18;
 				}
 			}
-        }
+		}
 
-        public Tool LastVisibleTool { get; private set; }
+		public Tool LastVisibleTool { get; private set; }
 
-        public static ModdersToolkit Instance { get; private set; }
+		public static ModdersToolkit Instance { get; private set; }
 	}
 }

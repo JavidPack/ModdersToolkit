@@ -1,31 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModdersToolkit.UIElements;
+using System.IO;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
-using System.IO;
-using Terraria.DataStructures;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
-    internal class MiscellaneousUI : UIState
+	internal class MiscellaneousUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public MiscellaneousUI(UserInterface userInterface)
-		{
+		public MiscellaneousUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(0);
 			int width = 250;
@@ -65,7 +57,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			mainPanel.Append(calculateChunkData);
 			top += 30;
 
-			
+
 			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite (WIP)");
 			generateTownSprite.SetPadding(4);
 			generateTownSprite.Width.Set(-10, 0.5f);
@@ -73,7 +65,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			generateTownSprite.OnClick += GenerateTownSprite_OnClick;
 			mainPanel.Append(generateTownSprite);
 			top += 30;
-			
+
 
 			UICheckbox collisionCircleCheckbox = new UICheckbox("Collision Circle", "Show a circle of Collision.CanHit");
 			collisionCircleCheckbox.Top.Set(top, 0f);
@@ -93,7 +85,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			takeWorldSnapshot.SetPadding(4);
 			takeWorldSnapshot.Width.Set(-10, 0.5f);
 			takeWorldSnapshot.Top.Set(top, 0f);
-			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick; ;
+			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick;
+			;
 			mainPanel.Append(takeWorldSnapshot);
 			top += 30;
 
@@ -101,14 +94,15 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			restoreWorldSnapshot.SetPadding(4);
 			restoreWorldSnapshot.Width.Set(-10, 0.5f);
 			restoreWorldSnapshot.Top.Set(top, 0f);
-			restoreWorldSnapshot.OnClick += RestoreWorldSnapshot_OnClick; ;
+			restoreWorldSnapshot.OnClick += RestoreWorldSnapshot_OnClick;
+			;
 			mainPanel.Append(restoreWorldSnapshot);
 			top += 30;
 
 			Append(mainPanel);
 		}
 
-        private Tile[,] snapshot;
+		private Tile[,] snapshot;
 		private void TakeWorldSnapshot_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.NewText("Taking Snapshot");
 			snapshot = new Tile[Main.maxTilesX, Main.maxTilesY];
@@ -134,9 +128,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Main.NewText("Restoring Snapshot Complete");
 		}
 
-        private static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
-		private void GenerateTownSprite_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
+		private void GenerateTownSprite_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.NewText("Creating TownNPC sprite from current Player");
 
 			int frames = 25;
@@ -171,8 +164,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			//	Process.Start(folder);
 		}
 
-		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Point point = Main.LocalPlayer.Center.ToTileCoordinates();
 
 			byte[] writeBuffer = new byte[131070];
@@ -192,18 +184,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			//Dust.QuickBox(new Vector2(x, y) * 16 + new Vector2(3, 3) * 16, new Vector2(x + 200, y + 150) * 16 - new Vector2(3, 3) * 16, 38, Color.LightSkyBlue, null);
 			//Dust.QuickBox(new Vector2(x, y) * 16 + new Vector2(6, 6) * 16, new Vector2(x + 200, y + 150) * 16 - new Vector2(6, 6) * 16, 36, Color.LightSteelBlue, null);
 
-			using (MemoryStream memoryStream = new MemoryStream())
-			{
-				using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
-				{
+			using (MemoryStream memoryStream = new MemoryStream()) {
+				using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream)) {
 					long position = memoryStream.Position;
-					foreach (var item in TileEntity.ByPosition)
-					{
+					foreach (var item in TileEntity.ByPosition) {
 						Point16 pos = item.Key;
-						if (pos.X >= x && pos.X < x + 200 && pos.Y >= y && pos.Y < y + 150)
-						{
-							if (item.Value.type > 2)
-							{
+						if (pos.X >= x && pos.X < x + 200 && pos.Y >= y && pos.Y < y + 150) {
+							if (item.Value.type > 2) {
 								short id = (short)item.Value.ID;
 								TileEntity.Write(binaryWriter, TileEntity.ByID[id], false);
 
@@ -218,10 +205,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			}
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
