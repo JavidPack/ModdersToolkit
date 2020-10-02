@@ -1,9 +1,4 @@
-﻿using ModdersToolkit.REPL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Terraria;
+﻿using Terraria;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools
@@ -22,10 +17,10 @@ namespace ModdersToolkit.Tools
 		/// </summary>
 		internal virtual void Initialize() { }
 
-        /// <summary>
-        /// Initializes this Tool. Called during Unload.
-        /// Useful for cleaning and disposing data.
-        /// </summary>
+		/// <summary>
+		/// Initializes this Tool. Called during Unload.
+		/// Useful for cleaning and disposing data.
+		/// </summary>
 		internal virtual void Terminate() { }
 
 		/// <summary>
@@ -34,21 +29,18 @@ namespace ModdersToolkit.Tools
 		/// </summary>
 		internal virtual void ClientInitialize() { }
 
-        /// <summary>
-        /// Terminates this Tool. Called during Unload before Terminate only on SP and Clients.
-        /// Useful for cleaning and disposing data.
-        /// </summary>
+		/// <summary>
+		/// Terminates this Tool. Called during Unload before Terminate only on SP and Clients.
+		/// Useful for cleaning and disposing data.
+		/// </summary>
 		internal virtual void ClientTerminate() { }
 
-        internal virtual void ScreenResolutionChanged()
-		{
+		internal virtual void ScreenResolutionChanged() {
 			userInterface?.Recalculate();
 		}
 
-		internal virtual void UIUpdate()
-		{
-			if (visible)
-			{
+		internal virtual void UIUpdate() {
+			if (visible) {
 				userInterface?.Update(Main._drawInterfaceGameTime);
 			}
 		}

@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.UI;
+using ModdersToolkit.Tools.Dusts;
 using System;
 using Terraria;
-using Terraria.GameInput;
-using Terraria.Graphics;
-using Terraria.UI.Chat;
 using Terraria.GameContent.UI.Elements;
-using ModdersToolkit.Tools.Dusts;
+using Terraria.UI;
 
 namespace ModdersToolkit.UIElements
 {
@@ -25,8 +22,7 @@ namespace ModdersToolkit.UIElements
 		private UIRangedDataValue<T> data;
 		// todo, make a UIRangedDataValue subclass?, make this generic?
 
-		public UIRange(UIRangedDataValue<T> data)
-		{
+		public UIRange(UIRangedDataValue<T> data) {
 			this.data = data;
 			this.Height.Set(20f, 0f);
 			this._GetProportion = data.GetProportion;
@@ -57,10 +53,8 @@ namespace ModdersToolkit.UIElements
 		}
 
 		bool debugDraw = false;
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (debugDraw)
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (debugDraw) {
 				Rectangle hitbox = GetInnerDimensions().ToRectangle();
 				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
 
@@ -74,8 +68,7 @@ namespace ModdersToolkit.UIElements
 				hitbox = input.GetOuterDimensions().ToRectangle();
 				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Yellow * 0.6f);
 
-				if (minus != null)
-				{
+				if (minus != null) {
 					hitbox = minus.GetOuterDimensions().ToRectangle();
 					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Green * 0.6f);
 					hitbox = plus.GetOuterDimensions().ToRectangle();
@@ -84,19 +77,16 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		private void Data_OnValueChanged()
-		{
+		private void Data_OnValueChanged() {
 			input.SetText(data.GetValueString());
 		}
 
-		public UIRange(string labeltext, Func<float> getProportion, Action<float> setProportion, Action validateInput, bool fine = false)
-		{
+		public UIRange(string labeltext, Func<float> getProportion, Action<float> setProportion, Action validateInput, bool fine = false) {
 			this.Height.Set(20f, 0f);
 			this._GetProportion = getProportion ?? (() => 0f);
 			this._SetProportion = setProportion ?? ((s) => { });
 
-			if (fine)
-			{
+			if (fine) {
 				label = new UIText(labeltext, 0.85f);
 				label.Width.Set(0, .25f);
 				label.VAlign = 0.5f;
@@ -140,8 +130,7 @@ namespace ModdersToolkit.UIElements
 				//input.HAlign = 1f;
 				Append(input);
 			}
-			else
-			{
+			else {
 				label = new UIText(labeltext, 0.85f);
 				label.Width.Set(0, .33f);
 				label.VAlign = 0.5f;
@@ -169,13 +158,11 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		private void Minus_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void Minus_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			_SetProportion(_GetProportion() - 1f / intDataRangeProperty.max);
 		}
 
-		private void Plus_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void Plus_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			_SetProportion(_GetProportion() + 1.1f / intDataRangeProperty.max);
 		}
 	}

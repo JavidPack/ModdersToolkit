@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using ModdersToolkit.UIElements;
 using System.Collections.Generic;
-using Terraria.DataStructures;
 using System.Linq;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.InterfaceLayer
 {
@@ -15,15 +13,13 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public InterfaceLayerUI(UserInterface userInterface)
-		{
+		public InterfaceLayerUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
 		public UIList interfaceLayerList;
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.Left.Set(-350f, 1f);
 			mainPanel.Top.Set(-620f, 1f);
@@ -63,16 +59,14 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 		public List<string> interfaceLayers = new List<string>();
 		public List<UICheckbox> interfaceLayersCheckboxes = new List<UICheckbox>();
 		public bool updateneeded;
-		internal void UpdateList()
-		{
+		internal void UpdateList() {
 			if (!updateneeded) { return; }
 			updateneeded = false;
 
 			interfaceLayerList.Clear();
 			interfaceLayersCheckboxes.Clear();
 			int order = 0;
-			foreach (var item in interfaceLayers)
-			{
+			foreach (var item in interfaceLayers) {
 				var box = new UICheckbox(item, "");
 				box.order = order++;
 				box.Selected = true;
@@ -81,53 +75,43 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 			interfaceLayerList.AddRange(interfaceLayersCheckboxes);
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateList();
 		}
 
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 
-		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-		{
+		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
 			InformLayers(layers);
 
-			if (updateneeded) return;
-			foreach (var layer in layers)
-			{
-				if (interfaceLayers.Contains(layer.Name) && layer.Name != "ModdersToolkit: Tools")
-				{
+			if (updateneeded)
+				return;
+			foreach (var layer in layers) {
+				if (interfaceLayers.Contains(layer.Name) && layer.Name != "ModdersToolkit: Tools") {
 					var layerIndex = interfaceLayers.IndexOf(layer.Name);
 					layer.Active = interfaceLayersCheckboxes[layerIndex].Selected;
 				}
-				else
-				{
+				else {
 				}
 			}
 		}
 
-		internal void InformLayers(List<GameInterfaceLayer> layers)
-		{
-			foreach (var layer in layers)
-			{
-				if (!interfaceLayers.Contains(layer.Name))
-				{
+		internal void InformLayers(List<GameInterfaceLayer> layers) {
+			foreach (var layer in layers) {
+				if (!interfaceLayers.Contains(layer.Name)) {
 					updateneeded = true;
 					break;
 				}
 			}
-			if (updateneeded)
-			{
+			if (updateneeded) {
 				interfaceLayers.Clear();
-				interfaceLayers.AddRange(layers.Select(x=>x.Name));
+				interfaceLayers.AddRange(layers.Select(x => x.Name));
 			}
 		}
 	}

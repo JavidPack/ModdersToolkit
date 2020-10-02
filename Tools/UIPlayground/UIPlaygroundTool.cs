@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.UI;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {

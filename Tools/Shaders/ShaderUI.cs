@@ -1,23 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.Core;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using ModdersToolkit.UIElements;
+using System;
 using System.Collections.Generic;
-using Terraria.DataStructures;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
-using System.Diagnostics;
-using System;
-using Terraria.ID;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Content;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics.Effects;
-using Newtonsoft.Json.Schema;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Shaders
 {
@@ -359,7 +356,7 @@ technique Technique1
 			}
 			AttemptOpenFxFile(shaderFilePath);
 		}
-		
+
 		private static void AttemptOpenFxFile(string path) {
 			try {
 				Process.Start(path);
@@ -609,7 +606,8 @@ technique Technique1
 				}
 			}
 
-			if (!updateneeded) return;
+			if (!updateneeded)
+				return;
 			updateneeded = false;
 
 			if (modList.Count == 0) {

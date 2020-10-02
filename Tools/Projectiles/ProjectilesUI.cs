@@ -1,17 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
 using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
-using Terraria.Graphics.Shaders;
-using System.Collections.Generic;
+using System;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Projectiles
 {
@@ -22,8 +16,7 @@ namespace ModdersToolkit.Tools.Projectiles
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public ProjectilesUI(UserInterface userInterface)
-		{
+		public ProjectilesUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
@@ -48,8 +41,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		UIGrid projectileGrid;
 		internal NewUITextBox searchFilter;
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			int width = 310;
 			int height = 610;
@@ -66,15 +58,11 @@ namespace ModdersToolkit.Tools.Projectiles
 			mainPanel.Append(text);
 
 			UITextPanel<string> clearProjectilesButton = new UITextPanel<string>("Clear Projectiles");
-			clearProjectilesButton.OnClick += (a, b) =>
-			{
-				for (int i = 0; i < Main.maxProjectiles; i++)
-				{
-					if (Main.projectile[i].active)
-					{
+			clearProjectilesButton.OnClick += (a, b) => {
+				for (int i = 0; i < Main.maxProjectiles; i++) {
+					if (Main.projectile[i].active) {
 						Main.projectile[i].Kill();
-						if (Main.netMode == 1)
-						{
+						if (Main.netMode == 1) {
 							NetMessage.SendData(27, -1, -1, null, i, 0f, 0f, 0f, 0);
 						}
 					}
@@ -217,37 +205,29 @@ namespace ModdersToolkit.Tools.Projectiles
 			Append(mainPanel);
 		}
 
-		private void ValidateInput()
-		{
-			if (searchFilter.Text.Length > 0)
-			{
+		private void ValidateInput() {
+			if (searchFilter.Text.Length > 0) {
 				bool found = false;
-				for (int i = 1; i < Main.projectileTexture.Length; i++)
-				{
-					if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
-					{
+				for (int i = 1; i < Main.projectileTexture.Length; i++) {
+					if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1) {
 						found = true;
 						break;
 					}
 				}
-				if (!found)
-				{
+				if (!found) {
 					searchFilter.SetText(searchFilter.Text.Substring(0, searchFilter.Text.Length - 1));
 				}
 			}
 		}
 
 		private bool updateneeded;
-		internal void UpdateGrid()
-		{
+		internal void UpdateGrid() {
 			if (!updateneeded) { return; }
 			updateneeded = false;
 
 			projectileGrid.Clear();
-			for (int i = 1; i < Main.projectileTexture.Length; i++)
-			{
-				if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
-				{
+			for (int i = 1; i < Main.projectileTexture.Length; i++) {
+				if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1) {
 					var box = new ProjectileSlot(i);
 					projectileGrid._items.Add(box);
 					projectileGrid._innerList.Append(box);
@@ -258,21 +238,17 @@ namespace ModdersToolkit.Tools.Projectiles
 			projectileGrid._innerList.Recalculate();
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateGrid();
-			if (step && stepPrevious)
-			{
+			if (step && stepPrevious) {
 				step = false;
 			}
 			stepPrevious = step;
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
@@ -283,8 +259,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
 		public int type;
-		public ProjectileSlot(int type)
-		{
+		public ProjectileSlot(int type) {
 			this.type = type;
 			//this.Height.Set(20f, 0f);
 			//this.Width.Set(20f, 0f);
@@ -296,8 +271,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 
 		internal int frameCounter = 0;
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			frameCounter++;
 			CalculatedStyle dimensions = base.GetInnerDimensions();
 			spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
@@ -312,14 +286,11 @@ namespace ModdersToolkit.Tools.Projectiles
 
 			float drawScale = 1f;
 			float availableWidth = (float)backgroundTexture.Width * scale;
-			if (width > availableWidth || height > availableWidth)
-			{
-				if (width > height)
-				{
+			if (width > availableWidth || height > availableWidth) {
+				if (width > height) {
 					drawScale = availableWidth / width;
 				}
-				else
-				{
+				else {
 					drawScale = availableWidth / height;
 				}
 			}
@@ -329,13 +300,11 @@ namespace ModdersToolkit.Tools.Projectiles
 
 
 			Main.spriteBatch.Draw(texture, drawPosition, new Rectangle(0, y, width, height), Color.White, 0, Vector2.Zero, drawScale, SpriteEffects.None, 0);
-			if (IsMouseHovering)
-			{
+			if (IsMouseHovering) {
 				Main.hoverItemName = Lang.GetProjectileName(type).Value;
 			}
 		}
-		public override void Click(UIMouseEvent evt)
-		{
+		public override void Click(UIMouseEvent evt) {
 			Main.NewText("Spawn projectile " + type);
 			Projectile p = Main.projectile[Projectile.NewProjectile(
 				Main.LocalPlayer.Center + new Vector2(0, -40),
@@ -346,20 +315,16 @@ namespace ModdersToolkit.Tools.Projectiles
 				Main.myPlayer,
 				ProjectilesUI.ai0DataProperty.Data,
 				ProjectilesUI.ai1DataProperty.Data)];
-			if (ProjectilesUI.hostile.Data.HasValue)
-			{
+			if (ProjectilesUI.hostile.Data.HasValue) {
 				p.hostile = ProjectilesUI.hostile.Data.Value;
 			}
-			if (ProjectilesUI.friendly.Data.HasValue)
-			{
+			if (ProjectilesUI.friendly.Data.HasValue) {
 				p.friendly = ProjectilesUI.friendly.Data.Value;
 			}
-			if (ProjectilesUI.aiStyleDataProperty.Data != -1)
-			{
+			if (ProjectilesUI.aiStyleDataProperty.Data != -1) {
 				p.aiStyle = ProjectilesUI.aiStyleDataProperty.Data;
 			}
-			if (p.modProjectile != null)
-			{
+			if (p.modProjectile != null) {
 				p.modProjectile.drawOffsetX = ProjectilesUI.drawOffsetXDataProperty.Data;
 				p.modProjectile.drawOriginOffsetX = ProjectilesUI.drawOriginOffsetXDataProperty.Data;
 				p.modProjectile.drawOriginOffsetY = ProjectilesUI.drawOriginOffsetYDataProperty.Data;
@@ -371,24 +336,19 @@ namespace ModdersToolkit.Tools.Projectiles
 			//p.friendly = ;
 		}
 
-		public override int CompareTo(object obj)
-		{
+		public override int CompareTo(object obj) {
 			return type.CompareTo((obj as ProjectileSlot).type);
 		}
 	}
 
 	class ProjectilesUIGlobalItem : GlobalProjectile
 	{
-		public override bool PreAI(Projectile projectile)
-		{
-			if (ProjectilesUI.freeze?.Selected ?? false)
-			{
+		public override bool PreAI(Projectile projectile) {
+			if (ProjectilesUI.freeze?.Selected ?? false) {
 				projectile.velocity = Vector2.Zero;
 			}
-			if (ProjectilesUI.pause?.Selected ?? false)
-			{
-				if (ProjectilesUI.step)
-				{
+			if (ProjectilesUI.pause?.Selected ?? false) {
+				if (ProjectilesUI.step) {
 					return true;
 				}
 				return false;

@@ -1,9 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Terraria;
+﻿using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -14,14 +9,12 @@ namespace ModdersToolkit.Tools.Dusts
 	{
 		//internal static UserInterface userInterface;
 		internal static DustUI dustUI;
-		internal override void Initialize()
-		{
+		internal override void Initialize() {
 			toggleTooltip = "Click to toggle Dust Tool";
 		}
 
 		// should ui even initialize during load? are static members nulled out on reload?
-		internal override void ClientInitialize()
-		{
+		internal override void ClientInitialize() {
 			userInterface = new UserInterface();
 			//dustUI = new DustUI(userInterface);
 			//dustUI.Activate();
@@ -38,10 +31,8 @@ namespace ModdersToolkit.Tools.Dusts
 		//		userInterface.Update(Main._drawInterfaceGameTime);
 		//	}
 		//}
-		internal override void UIDraw()
-		{
-			if (visible)
-			{
+		internal override void UIDraw() {
+			if (visible) {
 				dustUI.Draw(Main.spriteBatch);
 				//if (showProjectileHitboxes) drawProjectileHitboxes();
 			}
@@ -49,14 +40,11 @@ namespace ModdersToolkit.Tools.Dusts
 
 		internal static int shaderCount;
 		internal static int dustCount;
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
+		internal override void PostSetupContent() {
+			if (!Main.dedServ) {
 				int count = 0;
 				ArmorShaderData shader;
-				do
-				{
+				do {
 					shader = GameShaders.Armor.GetSecondaryShader(count + 1, Main.LocalPlayer);
 					count++;
 				} while (shader != null);
@@ -64,10 +52,10 @@ namespace ModdersToolkit.Tools.Dusts
 
 				count = Terraria.ID.DustID.Count;
 				ModDust dust;
-				while (true)
-				{
+				while (true) {
 					dust = ModDust.GetDust(count);
-					if (dust == null) break;
+					if (dust == null)
+						break;
 					count++;
 				}
 				dustCount = count;

@@ -1,15 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
 
 namespace ModdersToolkit.Tools.Spawns
 {
@@ -19,13 +12,11 @@ namespace ModdersToolkit.Tools.Spawns
 		public UIList checklistList;
 		private UserInterface userInterface;
 
-		public SpawnUI(UserInterface userInterface)
-		{
+		public SpawnUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
 			mainPanel.Left.Set(-250f, 1f);
@@ -89,8 +80,7 @@ namespace ModdersToolkit.Tools.Spawns
 			Append(mainPanel);
 		}
 
-		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void CalculateButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.NewText("Calculating....");
 
 			SpawnTool.CalculateSpawns();
@@ -98,15 +88,12 @@ namespace ModdersToolkit.Tools.Spawns
 			checklistList.Clear();
 
 			float total = 0;
-			foreach (var spawn in SpawnTool.spawns)
-			{
+			foreach (var spawn in SpawnTool.spawns) {
 				total += spawn.Value;
 			}
 
-			if (total > 0)
-			{
-				foreach (var spawn in SpawnTool.spawns)
-				{
+			if (total > 0) {
+				foreach (var spawn in SpawnTool.spawns) {
 					UINPCSpawnInfo spawnInfo = new UINPCSpawnInfo(spawn.Key, spawn.Value / total);
 					checklistList.Add(spawnInfo);
 				}
@@ -117,10 +104,8 @@ namespace ModdersToolkit.Tools.Spawns
 			//Main.NewText($"activeNPCs: {Main.LocalPlayer.activeNPCs}");
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}

@@ -1,18 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.Core;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using ModdersToolkit.UIElements;
-using System.Collections.Generic;
-using Terraria.DataStructures;
-using System.Linq;
-using System.Reflection;
-using System.IO;
-using System.Diagnostics;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Textures
 {
@@ -20,8 +17,7 @@ namespace ModdersToolkit.Tools.Textures
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public TextureUI(UserInterface userInterface)
-		{
+		public TextureUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
@@ -49,8 +45,7 @@ namespace ModdersToolkit.Tools.Textures
 
 		static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.Left.Set(-350f, 1f);
 			mainPanel.Top.Set(-620f, 1f);
@@ -147,17 +142,13 @@ namespace ModdersToolkit.Tools.Textures
 		}
 
 		internal FileSystemWatcher modSourcesWatcher;
-		private void WatchModSources_OnSelectedChanged()
-		{
-			if (modSourcesWatcher != null)
-			{
+		private void WatchModSources_OnSelectedChanged() {
+			if (modSourcesWatcher != null) {
 				modSourcesWatcher.Dispose();
 			}
 
-			if (watchModSources.Selected)
-			{
-				if (!Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name))
-				{
+			if (watchModSources.Selected) {
+				if (!Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name)) {
 					Main.NewText("Error somehow");
 					return;
 				}
@@ -172,14 +163,12 @@ namespace ModdersToolkit.Tools.Textures
 				modSourcesWatcher.IncludeSubdirectories = true;
 
 				// Add event handlers.
-				modSourcesWatcher.Changed += (a, b) =>
-				{
+				modSourcesWatcher.Changed += (a, b) => {
 					watchedFileChangedSources = true;
 					watcherCooldownSources = defaultWatcherCooldown;
 					watchedFileChangedSourcesFileName = b.FullPath;
 				};
-				modSourcesWatcher.Renamed += (a, b) =>
-				{
+				modSourcesWatcher.Renamed += (a, b) => {
 					watchedFileChangedSources = true;
 					watcherCooldownSources = defaultWatcherCooldown;
 					watchedFileChangedSourcesFileName = b.FullPath;
@@ -191,36 +180,28 @@ namespace ModdersToolkit.Tools.Textures
 		}
 
 		//private void ExportImageButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		private void EditImageButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
-			if (selectedTexture2D == null)
-			{
+		private void EditImageButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
+			if (selectedTexture2D == null) {
 				Main.NewText("No texture selected");
 			}
-			else
-			{
+			else {
 				Process.Start(path);
 			}
 		}
 
-		private void SelectedTexture2DChanged()
-		{
-			if (selectedTexture2D == null)
-			{
+		private void SelectedTexture2DChanged() {
+			if (selectedTexture2D == null) {
 				Main.NewText("No texture selected");
 			}
-			else
-			{
-				using (Stream stream = File.OpenWrite(path))
-				{
+			else {
+				using (Stream stream = File.OpenWrite(path)) {
 					selectedTexture2D.SaveAsPng(stream, selectedTexture2D.Width, selectedTexture2D.Height);
 				}
 				//if (!File.Exists(path))
 				//{
 				//	File.WriteAllText(path, "// Write code statements here");
 				//}
-				if (watcher != null)
-				{
+				if (watcher != null) {
 					watcher.Dispose();
 				}
 
@@ -244,39 +225,31 @@ namespace ModdersToolkit.Tools.Textures
 			}
 		}
 
-		private void OnWatchedFileRenamed(object sender, RenamedEventArgs e)
-		{
+		private void OnWatchedFileRenamed(object sender, RenamedEventArgs e) {
 			watchedFileChanged = true;
 			watcherCooldown = defaultWatcherCooldown;
 		}
 
-		private void OnWatchedFileChanged(object sender, FileSystemEventArgs e)
-		{
+		private void OnWatchedFileChanged(object sender, FileSystemEventArgs e) {
 			watchedFileChanged = true;
 			watcherCooldown = defaultWatcherCooldown;
 		}
 
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 
-			if (watchedFileChanged)
-			{
+			if (watchedFileChanged) {
 				if (watcherCooldown > 0)
 					watcherCooldown--;
-				if (watcherCooldown == 0)
-				{
+				if (watcherCooldown == 0) {
 					Texture2D file;
-					using (Stream stream = File.OpenRead(path))
-					{
+					using (Stream stream = File.OpenRead(path)) {
 						file = Texture2D.FromStream(Main.instance.GraphicsDevice, stream);
 					}
-					if (file.Width != selectedTexture2D.Width || file.Height != selectedTexture2D.Height)
-					{
+					if (file.Width != selectedTexture2D.Width || file.Height != selectedTexture2D.Height) {
 						Main.NewText("Width or height changed, aborting.");
 					}
-					else
-					{
+					else {
 						Color[] c = new Color[file.Width * file.Height];
 						file.GetData<Color>(c, 0, c.Length);
 						selectedTexture2D.SetData<Color>(c);
@@ -286,12 +259,10 @@ namespace ModdersToolkit.Tools.Textures
 				}
 			}
 
-			if (watchedFileChangedSources)
-			{
+			if (watchedFileChangedSources) {
 				if (watcherCooldownSources > 0)
 					watcherCooldownSources--;
-				if (watcherCooldownSources == 0)
-				{
+				if (watcherCooldownSources == 0) {
 					watchedFileChangedSources = false;
 					string dir = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 					string innername = watchedFileChangedSourcesFileName.Substring(dir.Length);
@@ -301,8 +272,7 @@ namespace ModdersToolkit.Tools.Textures
 					FieldInfo texturesField = typeof(Mod).GetField("textures", BindingFlags.Instance | BindingFlags.NonPublic);
 					var textures = (Dictionary<string, Texture2D>)texturesField.GetValue(selectedMod);
 
-					if (!textures.ContainsKey(innernamenoext))
-					{
+					if (!textures.ContainsKey(innernamenoext)) {
 						Main.NewText("Detected png change, but file not present at load: " + innername);
 						return;
 					}
@@ -310,17 +280,14 @@ namespace ModdersToolkit.Tools.Textures
 					Texture2D modTexture = textures[innernamenoext];
 
 					Texture2D file;
-					using (Stream stream = File.OpenRead(watchedFileChangedSourcesFileName))
-					{
+					using (Stream stream = File.OpenRead(watchedFileChangedSourcesFileName)) {
 						file = Texture2D.FromStream(Main.instance.GraphicsDevice, stream);
 					}
 
-					if (file.Width != modTexture.Width || file.Height != modTexture.Height)
-					{
+					if (file.Width != modTexture.Width || file.Height != modTexture.Height) {
 						Main.NewText("Width or height changed, aborting.");
 					}
-					else
-					{
+					else {
 						Color[] c = new Color[file.Width * file.Height];
 						file.GetData<Color>(c, 0, c.Length);
 						modTexture.SetData<Color>(c);
@@ -332,40 +299,33 @@ namespace ModdersToolkit.Tools.Textures
 			if (!updateneeded) { return; }
 			updateneeded = false;
 
-			if (modList.Count == 0)
-			{
-				foreach (var otherMod in ModLoader.Mods)
-				{
+			if (modList.Count == 0) {
+				foreach (var otherMod in ModLoader.Mods) {
 					UITextPanel<string> button = new UITextPanel<string>(otherMod.DisplayName);
-					button.OnClick += (a, b) =>
-					{
+					button.OnClick += (a, b) => {
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSources.Selected = false;
 						watchModSources.Clickable = Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
-						if(watchModSources.Clickable)
+						if (watchModSources.Clickable)
 							watchModSources.Selected = true;
 					};
 					modList.Add(button);
 				}
 			}
 
-			if (selectedMod != null)
-			{
+			if (selectedMod != null) {
 				textureList.Clear();
 				FieldInfo texturesField = typeof(Mod).GetField("textures", BindingFlags.Instance | BindingFlags.NonPublic);
 				var textures = (Dictionary<string, Texture2D>)texturesField.GetValue(selectedMod);
-				foreach (var textureEntry in textures)
-				{
-					if (searchFilter.Text.Length > 0)
-					{
+				foreach (var textureEntry in textures) {
+					if (searchFilter.Text.Length > 0) {
 						if (textureEntry.Key.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) == -1)
 							continue;
 					}
 					UIImage image = new UIHoverImage(textureEntry.Value, textureEntry.Key);
 					//image.ImageScale = Math.Min(1f, 60f/textureEntry.Value.Height);
-					image.OnClick += (a, b) =>
-					{
+					image.OnClick += (a, b) => {
 						selectedTexture2D = textureEntry.Value;
 						currentTexture.SetText("Current: " + textureEntry.Key);
 						SelectedTexture2DChanged();
@@ -375,10 +335,8 @@ namespace ModdersToolkit.Tools.Textures
 			}
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}

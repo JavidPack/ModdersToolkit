@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
 using System;
-using Terraria.GameContent.UI.Chat;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
+using Terraria.UI;
 
 namespace ModdersToolkit.UIElements
 {
@@ -20,34 +18,27 @@ namespace ModdersToolkit.UIElements
 		internal bool partOfGroup;
 		internal int groupID;
 
-		public bool Selected
-		{
+		public bool Selected {
 			get { return selected; }
-			set
-			{
-				if (value != selected)
-				{
+			set {
+				if (value != selected) {
 					selected = value;
 					OnSelectedChanged?.Invoke();
 				}
 			}
 		}
 
-		public override void Click(UIMouseEvent evt)
-		{
-			if (!partOfGroup)
-			{
+		public override void Click(UIMouseEvent evt) {
+			if (!partOfGroup) {
 				Selected = !Selected;
 				Recalculate();
 			}
-			else
-			{
+			else {
 				(Parent as UIRadioButtonGroup).ButtonClicked(groupID);
 			}
 		}
 
-		public UIRadioButton(string text, string tooltip, float textScale = 1, bool large = false) : base(text, textScale, large)
-		{
+		public UIRadioButton(string text, string tooltip, float textScale = 1, bool large = false) : base(text, textScale, large) {
 			this.tooltip = tooltip;
 			this._toggleTexture = TextureManager.Load("Images/UI/Settings_Toggle");
 			text = "   " + text;
@@ -55,8 +46,7 @@ namespace ModdersToolkit.UIElements
 			Recalculate();
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			base.DrawSelf(spriteBatch);
 			CalculatedStyle innerDimensions = base.GetInnerDimensions();
 			Vector2 pos = new Vector2(innerDimensions.X, innerDimensions.Y);

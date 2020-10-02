@@ -1,15 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
 
 namespace ModdersToolkit.Tools.Spawns
 {
@@ -27,8 +19,7 @@ namespace ModdersToolkit.Tools.Spawns
 		//	this.Height.Set(backgroundTexture.Height * scale, 0f);
 		//}
 
-		public UINPCSlot(NPC npc)
-		{
+		public UINPCSlot(NPC npc) {
 			this.npc = npc;
 			this.npcType = npc.type;
 			this.Width.Set(backgroundTexture.Width * scale, 0f);
@@ -38,17 +29,14 @@ namespace ModdersToolkit.Tools.Spawns
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
 		const int frameDelay = 7;
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			Main.instance.LoadNPC(npcType);
 			Texture2D npcTexture = Main.npcTexture[npcType];
 
-			if (++frameTimer > frameDelay)
-			{
+			if (++frameTimer > frameDelay) {
 				frameCounter = frameCounter + 1;
 				frameTimer = 0;
-				if (frameCounter >= Main.npcFrameCount[npcType] - 1)
-				{
+				if (frameCounter >= Main.npcFrameCount[npcType] - 1) {
 					frameCounter = 0;
 				}
 			}
@@ -64,14 +52,11 @@ namespace ModdersToolkit.Tools.Spawns
 
 			float drawScale = 2f;
 			float availableWidth = (float)backgroundTexture.Width * scale;
-			if (width * drawScale > availableWidth || height * drawScale > availableWidth)
-			{
-				if (width > height)
-				{
+			if (width * drawScale > availableWidth || height * drawScale > availableWidth) {
+				if (width > height) {
 					drawScale = availableWidth / width;
 				}
-				else
-				{
+				else {
 					drawScale = availableWidth / height;
 				}
 			}
@@ -83,14 +68,12 @@ namespace ModdersToolkit.Tools.Spawns
 
 			Main.spriteBatch.Draw(npcTexture, drawPosition, npcDrawRectangle, color, 0, Vector2.Zero, drawScale, SpriteEffects.None, 0);
 
-			if (IsMouseHovering)
-			{
+			if (IsMouseHovering) {
 				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
 			}
 		}
 
-		public override int CompareTo(object obj)
-		{
+		public override int CompareTo(object obj) {
 			UINPCSlot other = obj as UINPCSlot;
 			return /*-1 * */npcType.CompareTo(other.npcType);
 		}

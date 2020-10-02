@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModdersToolkit.Tools.Dusts;
+using ModdersToolkit.UIElements;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools.Dusts;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {

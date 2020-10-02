@@ -13,14 +13,12 @@ namespace ModdersToolkit.Tools.REPL
 
 		public override string Description => "Enter the C# REPL";
 
-		public override void Action(CommandCaller caller, string input, string[] args)
-		{
+		public override void Action(CommandCaller caller, string input, string[] args) {
 			Console.ForegroundColor = ConsoleColor.Yellow;
 			Console.WriteLine("Type c# code. Empty line to finish.");
 
 			string buffer = "";
-			while (true)
-			{
+			while (true) {
 				//Console.ForegroundColor = ConsoleColor.Cyan;
 				//var key = Console.ReadKey(false);
 				//if (key.Key == ConsoleKey.Tab)
@@ -59,58 +57,49 @@ namespace ModdersToolkit.Tools.REPL
 				if (readline == "")
 					break;
 				Console.ForegroundColor = ConsoleColor.Yellow;
-				
+
 				REPLTool.replBackend.Action(readline);
 			}
 			Console.ResetColor();
 		}
 
-		public void TabAction(string buffer)
-		{
+		public void TabAction(string buffer) {
 			string[] completions = REPLTool.replBackend.GetCompletions(buffer);
-			if (buffer.StartsWith("using "))
-			{
+			if (buffer.StartsWith("using ")) {
 				string pre = buffer.Substring(6);
 				completions = REPLTool.replBackend.namespaces.ToArray().Where(x => x.StartsWith(pre)).Select(x => x.Substring(pre.Length)).ToArray();
 			}
-			if (completions == null)
-			{
+			if (completions == null) {
 				return;
 			}
 
 			string prefix = LongestCommonPrefix2(completions);
-			if (prefix == "")
-			{
-				if (completions.Length > 0 && completions[0] != "")
-				{
+			if (prefix == "") {
+				if (completions.Length > 0 && completions[0] != "") {
 					string hint = "{" + string.Join(", ", completions) + "}";
-					if (hint.Length > 400)
-					{
+					if (hint.Length > 400) {
 						hint = hint.Substring(0, 400) + "...";
 					}
 					//AddChunkedLine(hint, CodeType.Hint);
 				}
 			}
-			else
-			{
+			else {
 				Console.WriteLine(completions);
 				//
 				//codeTextBox.Write(prefix);
 			}
 		}
 
-		public string LongestCommonPrefix2(string[] strs)
-		{
-			if (strs.Length == 0) return String.Empty;
+		public string LongestCommonPrefix2(string[] strs) {
+			if (strs.Length == 0)
+				return String.Empty;
 			Array.Sort(strs);
 
 			var first = strs[0];
 			var last = strs[strs.Length - 1];
 			var strbuilder = new StringBuilder();
-			for (int i = 0; i < first.Length; i++)
-			{
-				if (first[i] != last[i])
-				{
+			for (int i = 0; i < first.Length; i++) {
+				if (first[i] != last[i]) {
 					break;
 				}
 				strbuilder.Append(first[i]);

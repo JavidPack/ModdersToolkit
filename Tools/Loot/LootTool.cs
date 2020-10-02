@@ -1,13 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
@@ -18,29 +11,23 @@ namespace ModdersToolkit.Tools.Loot
 
 		// expert toggle?
 
-		internal override void Initialize()
-		{
+		internal override void Initialize() {
 			toggleTooltip = "Click to toggle NPC Loot Tool";
 			loots = new Dictionary<int, int>();
 		}
 
-		internal override void ClientInitialize()
-		{
+		internal override void ClientInitialize() {
 			userInterface = new UserInterface();
 		}
 
-		internal override void UIDraw()
-		{
-			if (visible)
-			{
+		internal override void UIDraw() {
+			if (visible) {
 				lootUI.Draw(Main.spriteBatch);
 			}
 		}
 
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
+		internal override void PostSetupContent() {
+			if (!Main.dedServ) {
 				lootUI = new LootUI(userInterface);
 				lootUI.Activate();
 				userInterface.SetState(lootUI);
@@ -55,23 +42,20 @@ namespace ModdersToolkit.Tools.Loot
 
 		public const int NumberLootExperiments = 500;
 		internal static Dictionary<int, int> loots;
-		internal static void CalculateLoot(int npcid)
-		{
+		internal static void CalculateLoot(int npcid) {
 			loots.Clear();
 
 			int[] killCounts = new int[NPC.killCount.Length];
 			Utils.Swap(ref killCounts, ref NPC.killCount);
 
 			NPC[] npcs = new NPC[201];
-			for (int i = 0; i < npcs.Length; i++)
-			{
+			for (int i = 0; i < npcs.Length; i++) {
 				npcs[i] = new NPC();
 			}
 			Utils.Swap(ref npcs, ref Main.npc);
 
 			Item[] items = new Item[401];
-			for (int i = 0; i < items.Length; i++)
-			{
+			for (int i = 0; i < items.Length; i++) {
 				items[i] = new Item();
 			}
 			Utils.Swap(ref items, ref Main.item);
@@ -81,30 +65,24 @@ namespace ModdersToolkit.Tools.Loot
 			int type;
 			int stack;
 
-			for (int i = 0; i < NumberLootExperiments; i++)
-			{
+			for (int i = 0; i < NumberLootExperiments; i++) {
 				NPC npc = Main.npc[NPC.NewNPC(0, 0, npcid)];
 				npc.NPCLoot();
 				npc.active = false;
 
-				foreach (var item in Main.item)
-				{
-					if (item.active)
-					{
+				foreach (var item in Main.item) {
+					if (item.active) {
 						type = item.type;
 						stack = item.stack;
-						if (type == ItemID.PlatinumCoin)
-						{
+						if (type == ItemID.PlatinumCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 1000000;
 						}
-						else if (type == ItemID.GoldCoin)
-						{
+						else if (type == ItemID.GoldCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 10000;
 						}
-						else if (type == ItemID.SilverCoin)
-						{
+						else if (type == ItemID.SilverCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 100;
 						}
@@ -112,8 +90,7 @@ namespace ModdersToolkit.Tools.Loot
 						loots[type] = currentCount + stack;
 						item.active = false;
 					}
-					else
-					{
+					else {
 						break;
 					}
 				}

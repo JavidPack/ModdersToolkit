@@ -1,17 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Text;
 using ModdersToolkit.UIElements;
-using ModdersToolkit.Tools;
-using Terraria.Graphics.Shaders;
 using ReLogic.OS;
+using System;
+using System.Text;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.Graphics.Shaders;
+using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Dusts
 {
@@ -19,25 +15,22 @@ namespace ModdersToolkit.Tools.Dusts
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
-		public DustUI(UserInterface userInterface)
-		{
+		public DustUI(UserInterface userInterface) {
 			this.userInterface = userInterface;
 		}
 
 		internal DustChooserUI dustChooserUI;
 		private bool showDustChooser;
-		public bool ShowDustChooser
-		{
+		public bool ShowDustChooser {
 			get { return showDustChooser; }
-			set
-			{
-				if (value)
-				{
-					if (!HasChild(dustChooserUI)) Append(dustChooserUI);
+			set {
+				if (value) {
+					if (!HasChild(dustChooserUI))
+						Append(dustChooserUI);
 				}
-				else
-				{
-					if (HasChild(dustChooserUI)) RemoveChild(dustChooserUI);
+				else {
+					if (HasChild(dustChooserUI))
+						RemoveChild(dustChooserUI);
 				}
 				showDustChooser = value;
 			}
@@ -68,8 +61,7 @@ namespace ModdersToolkit.Tools.Dusts
 		// random jitter on all floats?
 
 		// TODO, browser and Eyedropper, and Intents-Open other tool to select from it.
-		public override void OnInitialize()
-		{
+		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			//mainPanel.SetPadding(0);
 			mainPanel.Left.Set(-290f, 1f);
@@ -229,8 +221,7 @@ namespace ModdersToolkit.Tools.Dusts
 			Append(mainPanel);
 		}
 
-		private void CopyCodeButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void CopyCodeButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			int width = widthDataProperty.Data;
 			int height = heightDataProperty.Data;
 			int type = typeDataProperty.Data;
@@ -242,8 +233,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 			StringBuilder s = new StringBuilder();
 			bool nonOneChance = spawnChanceDataProperty.Data != 1f;
-			if (nonOneChance)
-			{
+			if (nonOneChance) {
 				s.Append($"if (Main.rand.NextFloat() < {spawnChanceDataProperty.Data}f)" + Environment.NewLine);
 				s.Append($"{{" + Environment.NewLine);
 			}
@@ -251,16 +241,13 @@ namespace ModdersToolkit.Tools.Dusts
 
 			s.Append($"\t// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle." + Environment.NewLine);
 			s.Append($"\tVector2 position = Main.LocalPlayer.Center;" + Environment.NewLine);
-			if (NewDustRadioButton.Selected)
-			{
+			if (NewDustRadioButton.Selected) {
 				s.Append($"\tdust = Main.dust[Terraria.Dust.NewDust(position, {width}, {height}, {type}, {speedX}f, {speedY}f, {alpha}, new Color({color.R},{color.G},{color.B}), {scale}f)];" + Environment.NewLine);
 			}
-			else if (NewDustPerfectRadioButton.Selected)
-			{
+			else if (NewDustPerfectRadioButton.Selected) {
 				s.Append($"\tdust = Terraria.Dust.NewDustPerfect(position, {type}, new Vector2({speedX}f, {speedY}f), {alpha}, new Color({color.R},{color.G},{color.B}), {scale}f);" + Environment.NewLine);
 			}
-			else
-			{
+			else {
 				s.Append($"\tdust = Terraria.Dust.NewDustDirect(position, {width}, {height}, {type}, {speedX}f, {speedY}f, {alpha}, new Color({color.R},{color.G},{color.B}), {scale}f);" + Environment.NewLine);
 			}
 
@@ -270,13 +257,12 @@ namespace ModdersToolkit.Tools.Dusts
 			if (noLightCheckbox.Selected)
 				s.Append($"\tdust.noLight = true;" + Environment.NewLine);
 
-			if(shaderDataProperty.Data > 0)
+			if (shaderDataProperty.Data > 0)
 				s.Append($"\tdust.shader = GameShaders.Armor.GetSecondaryShader({shaderDataProperty.Data}, Main.LocalPlayer);" + Environment.NewLine);
 
 			if (fadeInDataProperty.Data > 0)
 				s.Append($"\tdust.fadeIn = {fadeInDataProperty.Data}f;" + Environment.NewLine);
-			if (nonOneChance)
-			{
+			if (nonOneChance) {
 				s.Append($"}}" + Environment.NewLine);
 			}
 
@@ -285,8 +271,7 @@ namespace ModdersToolkit.Tools.Dusts
 			Main.NewText("Copied Dust spawning code to clipboard");
 		}
 
-		private void ResetButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
+		private void ResetButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			noGravityCheckbox.Selected = false;
 			noLightCheckbox.Selected = false;
 			showSpawnRectangleCheckbox.Selected = false;
@@ -309,20 +294,16 @@ namespace ModdersToolkit.Tools.Dusts
 			colorDataProperty.Data = Color.White;
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			SpawnDusts();
-			if (mainPanel.ContainsPoint(Main.MouseScreen))
-			{
+			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 			DrawSpawnRectangle();
 		}
 
-		private void DrawSpawnRectangle()
-		{
-			if (showSpawnRectangleCheckbox.Selected)
-			{
+		private void DrawSpawnRectangle() {
+			if (showSpawnRectangleCheckbox.Selected) {
 				int width = widthDataProperty.Data;
 				int height = heightDataProperty.Data;
 				Vector2 position = Main.LocalPlayer.Center + new Vector2(0, -30) - new Vector2(width / 2, height / 2);
@@ -334,9 +315,9 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 
 		//realtype for moddust?
-		private void SpawnDusts()
-		{
-			if (Main.rand.NextFloat() >= spawnChanceDataProperty.Data) return;
+		private void SpawnDusts() {
+			if (Main.rand.NextFloat() >= spawnChanceDataProperty.Data)
+				return;
 
 			int width = widthDataProperty.Data;
 			int height = heightDataProperty.Data;
@@ -348,21 +329,20 @@ namespace ModdersToolkit.Tools.Dusts
 			float scale = scaleDataProperty.Data;
 			Vector2 position = Main.LocalPlayer.Center + new Vector2(0, -30) - new Vector2(width / 2, height / 2);
 			Dust dust;
-			if (NewDustRadioButton.Selected)
-			{
+			if (NewDustRadioButton.Selected) {
 				dust = Main.dust[Terraria.Dust.NewDust(position, width, height, type, speedX, speedY, alpha, color, scale)];
 			}
-			else if (NewDustPerfectRadioButton.Selected)
-			{
+			else if (NewDustPerfectRadioButton.Selected) {
 				position = Main.LocalPlayer.Center + new Vector2(0, -30);
 				dust = Terraria.Dust.NewDustPerfect(position, type, new Vector2(speedX, speedY), alpha, color, scale);
 			}
-			else
-			{
+			else {
 				dust = Terraria.Dust.NewDustDirect(position, width, height, type, speedX, speedY, alpha, color, scale);
 			}
-			if (noGravityCheckbox.Selected) dust.noGravity = true;
-			if (noLightCheckbox.Selected) dust.noLight = true;
+			if (noGravityCheckbox.Selected)
+				dust.noGravity = true;
+			if (noLightCheckbox.Selected)
+				dust.noLight = true;
 			dust.shader = GameShaders.Armor.GetSecondaryShader(shaderDataProperty.Data, Main.LocalPlayer);
 			dust.fadeIn = fadeInDataProperty.Data;
 

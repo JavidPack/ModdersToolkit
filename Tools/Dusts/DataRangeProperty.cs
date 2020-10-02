@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using ModdersToolkit.UIElements;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Terraria;
 
 namespace ModdersToolkit.Tools.Dusts
@@ -13,11 +10,9 @@ namespace ModdersToolkit.Tools.Dusts
 		internal float min = 0f;
 		internal float max = 5f;
 		private float data = 1f;
-		internal float Data
-		{
+		internal float Data {
 			get { return data; }
-			set
-			{
+			set {
 				data = value;
 				range.input.SetText(data.ToString("0.00"));
 			}
@@ -25,8 +20,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 		public UIRange<float> range;
 
-		public FullFloatDataRangeProperty(string label, float defaultValue, float min, float max)
-		{
+		public FullFloatDataRangeProperty(string label, float defaultValue, float min, float max) {
 			data = defaultValue;
 			this.min = min;
 			this.max = max;
@@ -36,21 +30,17 @@ namespace ModdersToolkit.Tools.Dusts
 			Data = data;
 		}
 
-		public FullFloatDataRangeProperty(UIFloatRangedDataValue inData)
-		{
+		public FullFloatDataRangeProperty(UIFloatRangedDataValue inData) {
 			range = new UIRange<float>(inData.label, inData.GetProportion, inData.SetProportion, ValidateInput);
 			range.Width.Set(0, 1f);
 		}
 
-		private void ValidateInput()
-		{
+		private void ValidateInput() {
 			float result;
-			if (float.TryParse(range.input.Text, out result))
-			{
+			if (float.TryParse(range.input.Text, out result)) {
 				Data = result;
 			}
-			else
-			{
+			else {
 				Data = data;
 			}
 		}
@@ -60,11 +50,9 @@ namespace ModdersToolkit.Tools.Dusts
 	{
 		internal int max = 5;
 		private int data = 1;
-		internal int Data
-		{
+		internal int Data {
 			get { return data; }
-			set
-			{
+			set {
 				data = value;
 				range.input.SetText(data.ToString());
 			}
@@ -72,8 +60,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 		public UIRange<int> range;
 
-		public IntDataRangeProperty(string label, int defaultValue, int max, bool fine = false)
-		{
+		public IntDataRangeProperty(string label, int defaultValue, int max, bool fine = false) {
 			data = defaultValue;
 			this.max = max;
 			range = new UIRange<int>(label, () => (float)Data / max, (s) => { Data = (int)(s * max); }, ValidateInput, fine);
@@ -83,15 +70,12 @@ namespace ModdersToolkit.Tools.Dusts
 			Data = data;
 		}
 
-		private void ValidateInput()
-		{
+		private void ValidateInput() {
 			int result;
-			if (int.TryParse(range.input.Text, out result))
-			{
+			if (int.TryParse(range.input.Text, out result)) {
 				Data = result;
 			}
-			else
-			{
+			else {
 				Data = data;
 			}
 		}
@@ -101,12 +85,10 @@ namespace ModdersToolkit.Tools.Dusts
 	{
 		private Color data = Color.White;
 		public event Action OnValueChanged;
-		internal Color Data
-		{
+		internal Color Data {
 			get { return data; }
-			set
-			{
-				if(data != value) {
+			set {
+				if (data != value) {
 					OnValueChanged?.Invoke();
 				}
 				data = value;
@@ -117,8 +99,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 		public UIRange<float> range;
 
-		public ColorDataRangeProperty(string label)
-		{
+		public ColorDataRangeProperty(string label) {
 			//Main.hslToRgb(amount, 1f, 0.5f)
 			range = new UIRange<float>(label, () => Main.rgbToHsl(Data).X, (s) => { Data = Main.hslToRgb(s, 1f, 0.5f); }, ValidateInput);
 			range.Width.Set(0, 1f);
@@ -126,8 +107,7 @@ namespace ModdersToolkit.Tools.Dusts
 			Data = data;
 		}
 
-		private void ValidateInput()
-		{
+		private void ValidateInput() {
 			//int result;
 			//if (int.TryParse(range.input.Text, out result))
 			//{
