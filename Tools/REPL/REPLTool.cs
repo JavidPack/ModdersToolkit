@@ -17,13 +17,13 @@ namespace ModdersToolkit.Tools.REPL
 		internal static REPLUI moddersToolkitUI;
 		internal static bool EyedropperActive;
 
-		internal override void Initialize()
+		public override void Initialize()
 		{
 			replBackend = new REPLBackend();
 			ToggleTooltip = "Click to toggle C# REPL";
 		}
 
-		internal override void ClientInitialize()
+        public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
 			moddersToolkitUI = new REPLUI(Interface);
@@ -31,19 +31,16 @@ namespace ModdersToolkit.Tools.REPL
 			Interface.SetState(moddersToolkitUI);
 		}
 
-		//internal override void ScreenResolutionChanged()
-		//{
-		//	ModdersToolkitUserInterface.Recalculate();
-		//}
-		//internal override void UIUpdate()
-		//{
-		//	if (visible)
-		//	{
-		//		userInterface.Update(Main._drawInterfaceGameTime);
-		//	}
-		//}
+        public override void ClientTerminate()
+        {
+            Interface = default;
+            
+			moddersToolkitUI?.Deactivate();
+            moddersToolkitUI = default;
+        }
 
-		internal override void WorldDraw()
+
+        public override void WorldDraw()
 		{
 			if (Visible)
 			{
@@ -68,7 +65,7 @@ namespace ModdersToolkit.Tools.REPL
 			}
 		}
 
-		internal override void UIDraw()
+		public override void UIDraw()
 		{
 			if (Visible)
 			{
@@ -76,7 +73,7 @@ namespace ModdersToolkit.Tools.REPL
 			}
 		}
 
-		internal override void Toggled()
+        public override void Toggled()
 		{
 			Main.drawingPlayerChat = false;
 			if (Visible)
@@ -98,5 +95,17 @@ namespace ModdersToolkit.Tools.REPL
 			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X - borderWidth, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
 			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X + (int)size.X, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
 		}
+
+        //internal override void ScreenResolutionChanged()
+        //{
+        //	ModdersToolkitUserInterface.Recalculate();
+        //}
+        //internal override void UIUpdate()
+        //{
+        //	if (visible)
+        //	{
+        //		userInterface.Update(Main._drawInterfaceGameTime);
+        //	}
+        //}
 	}
 }
