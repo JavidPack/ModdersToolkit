@@ -15,28 +15,28 @@ namespace ModdersToolkit.Tools
 		/// Initializes this Tool. Called during Load.
 		/// Useful for initializing data.
 		/// </summary>
-		internal virtual void Initialize() { }
+		public virtual void Initialize() { }
 
-        /// <summary>
-        /// Initializes this Tool. Called during Unload.
-        /// Useful for cleaning and disposing data.
-        /// </summary>
-		internal virtual void Terminate() { }
+		/// <summary>
+		/// Initializes this Tool. Called during Unload.
+		/// Useful for cleaning and disposing data.
+		/// </summary>
+        public virtual void Terminate() { }
 
 		/// <summary>
 		/// Initializes this Tool. Called during Load after Initialize only on SP and Clients.
 		/// Useful for initializing UI.
 		/// </summary>
-		internal virtual void ClientInitialize() { }
+        public virtual void ClientInitialize() { }
 
         /// <summary>
         /// Terminates this Tool. Called during Unload before Terminate only on SP and Clients.
         /// Useful for cleaning and disposing data.
         /// </summary>
-		internal virtual void ClientTerminate() { }
+		public virtual void ClientTerminate() { }
 
 
-        internal virtual void ScreenResolutionChanged()
+        public virtual void ScreenResolutionChanged()
 		{
 			Interface?.Recalculate();
 		}
@@ -49,15 +49,15 @@ namespace ModdersToolkit.Tools
 			}
 		}
 
-		internal virtual void UIDraw() { }
+        public virtual void UIDraw() { }
 
-		internal virtual void WorldDraw() { }
+        public virtual void WorldDraw() { }
 
-		internal virtual void DrawUpdateToggle() { }
+        public virtual void DrawUpdateToggle() { }
 
-		internal virtual void Toggled() { }
+        public virtual void Toggled() { }
 
-		internal virtual void PostSetupContent() { }
+        public virtual void PostSetupContent() { }
 
 		//	internal virtual void UIDraw() { }
 
