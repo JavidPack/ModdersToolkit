@@ -15,19 +15,54 @@ namespace ModdersToolkit.Tools.Spawns
     internal class SpawnTool : Tool
 	{
 		internal static SpawnUI spawnUI;
+        internal static Dictionary<int, int> spawns;
 
-		internal override void Initialize()
+        // This is a clone of vanilla code:
+        internal static bool noSpawnCycle;
+        internal static int defaultSpawnRate = 600;
+        internal static int defaultMaxSpawns = 5;
+        internal static int spawnRate = defaultSpawnRate;
+        internal static int maxSpawns = defaultMaxSpawns;
+        public static int sWidth = 1920;
+        public static int sHeight = 1080;
+        internal static int spawnRangeX = (int)((double)(NPC.sWidth / 16) * 0.7);
+        internal static int spawnRangeY = (int)((double)(NPC.sHeight / 16) * 0.7);
+        public static int safeRangeX = (int)((double)(NPC.sWidth / 16) * 0.52);
+        public static int safeRangeY = (int)((double)(NPC.sHeight / 16) * 0.52);
+        internal static int activeRangeX = (int)((double)NPC.sWidth * 2.1);
+        internal static int activeRangeY = (int)((double)NPC.sHeight * 2.1);
+        internal static int townRangeX = NPC.sWidth;
+        internal static int townRangeY = NPC.sHeight;
+        internal static int spawnSpaceX = 3;
+        internal static int spawnSpaceY = 3;
+
+
+		public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle NPC Spawn Tool";
 			spawns = new Dictionary<int, int>();
 		}
 
-		internal override void ClientInitialize()
+		public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
+            spawnUI = new SpawnUI(Interface);
+            spawnUI.Activate();
+
+            Interface.SetState(spawnUI);
 		}
 
-		internal override void UIDraw()
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+			spawnUI.Deactivate();
+            spawnUI = default;
+        }
+
+
+        public override void UIDraw()
 		{
 			if (Visible)
 			{
@@ -35,18 +70,7 @@ namespace ModdersToolkit.Tools.Spawns
 			}
 		}
 
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				spawnUI = new SpawnUI(Interface);
-				spawnUI.Activate();
-				Interface.SetState(spawnUI);
-			}
-		}
-
-		internal static Dictionary<int, int> spawns;
-		internal static void CalculateSpawns()
+        internal static void CalculateSpawns()
 		{
 			spawns.Clear();
 
@@ -67,26 +91,7 @@ namespace ModdersToolkit.Tools.Spawns
 			return 200;
 		}
 
-		// This is a clone of vanilla code:
-		internal static bool noSpawnCycle;
-		internal static int defaultSpawnRate = 600;
-		internal static int defaultMaxSpawns = 5;
-		internal static int spawnRate = defaultSpawnRate;
-		internal static int maxSpawns = defaultMaxSpawns;
-		public static int sWidth = 1920;
-		public static int sHeight = 1080;
-		internal static int spawnRangeX = (int)((double)(NPC.sWidth / 16) * 0.7);
-		internal static int spawnRangeY = (int)((double)(NPC.sHeight / 16) * 0.7);
-		public static int safeRangeX = (int)((double)(NPC.sWidth / 16) * 0.52);
-		public static int safeRangeY = (int)((double)(NPC.sHeight / 16) * 0.52);
-		internal static int activeRangeX = (int)((double)NPC.sWidth * 2.1);
-		internal static int activeRangeY = (int)((double)NPC.sHeight * 2.1);
-		internal static int townRangeX = NPC.sWidth;
-		internal static int townRangeY = NPC.sHeight;
-		internal static int spawnSpaceX = 3;
-		internal static int spawnSpaceY = 3;
-
-		public static void SpawnNPC()
+        public static void SpawnNPC()
 		{
 			if (noSpawnCycle)
 			{
