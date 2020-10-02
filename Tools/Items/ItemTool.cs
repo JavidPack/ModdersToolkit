@@ -16,33 +16,37 @@ namespace ModdersToolkit.Tools.Items
 		internal static ItemUI itemUI;
 		internal static FieldInfo globalItemsField;
 
-		internal override void Initialize()
+        public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Item Tool";
 			globalItemsField = typeof(Item).GetField("globalItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
 
-		internal override void ClientInitialize()
+		public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
+            itemUI = new ItemUI(Interface);
+            itemUI.Activate();
+
+            Interface.SetState(itemUI);
 		}
 
-		internal override void UIDraw()
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+			itemUI?.Deactivate();
+            itemUI = default;
+        }
+
+
+        public override void UIDraw()
 		{
 			if (Visible)
 			{
 				itemUI.Draw(Main.spriteBatch);
 			}
 		}
-
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				itemUI = new ItemUI(Interface);
-				itemUI.Activate();
-				Interface.SetState(itemUI);
-			}
-		}
-	}
+    }
 }

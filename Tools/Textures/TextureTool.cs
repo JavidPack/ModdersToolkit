@@ -13,29 +13,37 @@ namespace ModdersToolkit.Tools.Textures
     internal class TextureTool: Tool
 	{
 		internal static TextureUI textureUI;
-		internal override void Initialize()
+
+		public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Texture Tool";
 		}
-		internal override void ClientInitialize()
+
+        public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
+            textureUI = new TextureUI(Interface);
+            textureUI.Activate();
+
+            Interface.SetState(textureUI);
 		}
-		internal override void UIDraw()
-		{
+
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+			textureUI?.Deactivate();
+            textureUI = default;
+        }
+
+
+        public override void UIDraw()
+        {
 			if (Visible)
 			{
 				textureUI.Draw(Main.spriteBatch);
 			}
 		}
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				textureUI = new TextureUI(Interface);
-				textureUI.Activate();
-				Interface.SetState(textureUI);
-			}
-		}
-	}
+    }
 }
