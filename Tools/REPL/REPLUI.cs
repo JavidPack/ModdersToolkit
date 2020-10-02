@@ -16,7 +16,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.REPL
 {
-	class REPLUI : UIState
+	internal class REPLUI : UIState
 	{
 		public static bool visible = false;
 		private static readonly string codeArrow = ">";
@@ -93,7 +93,7 @@ namespace ModdersToolkit.REPL
 			resetButton.Left.Set(26 * 1, 0f);
 			keyboardPanel.Append(resetButton);
 
-			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"), "Tile Selector");
+			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/eyedropper"), "Tile Selector");
 			eyeDropperButton.Height.Pixels = 20;
 			//eyeDropperButton.Width.Pixels = 20;
 			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
@@ -101,7 +101,7 @@ namespace ModdersToolkit.REPL
 			eyeDropperButton.Left.Set(26 * 2, 0f);
 			keyboardPanel.Append(eyeDropperButton);
 
-			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/CopyCodeButton"), "Open External Editor");
+			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/CopyCodeButton"), "Open External Editor");
 			openText.OnClick += OpenTextButton_OnClick;
 			openText.Top.Set(-26, 1f);
 			openText.Left.Set(26 * 3, 0f);

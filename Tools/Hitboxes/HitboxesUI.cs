@@ -7,7 +7,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Hitboxes
 {
-	class HitboxesUI : UIState
+	internal class HitboxesUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;

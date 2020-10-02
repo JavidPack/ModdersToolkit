@@ -6,25 +6,35 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {
-	class UIPlaygroundTool : Tool
+	internal class UIPlaygroundTool : Tool
 	{
 		// TODO: Parallax to teach nesting
 
 		internal static UIPlaygroundUI uiPlaygroundUI;
 
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle UI Playground Tool";
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle UI Playground Tool";
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-			uiPlaygroundUI = new UIPlaygroundUI(userInterface);
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			uiPlaygroundUI = new UIPlaygroundUI(Interface);
 			uiPlaygroundUI.Activate();
-			userInterface.SetState(uiPlaygroundUI);
+
+			Interface.SetState(uiPlaygroundUI);
 
 			//On.Terraria.UI.UIElement.DrawSelf += UIElement_DrawSelf;
 			On.Terraria.UI.UIElement.Draw += UIElement_Draw;
 		}
+
+		public override void ClientTerminate() {
+			Interface = null;
+
+			uiPlaygroundUI?.Deactivate();
+			uiPlaygroundUI = null;
+		}
+
 
 		private void UIElement_Draw(On.Terraria.UI.UIElement.orig_Draw orig, UIElement self, SpriteBatch spriteBatch) {
 			//private void UIElement_DrawSelf(On.Terraria.UI.UIElement.orig_DrawSelf orig, UIElement self, SpriteBatch spriteBatch) {
@@ -95,8 +105,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 			}
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
+		public override void UIDraw() {
+			if (Visible) {
 				uiPlaygroundUI.Draw(Main.spriteBatch);
 			}
 		}

@@ -5,35 +5,44 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
 {
-	class LootTool : Tool
+	internal class LootTool : Tool
 	{
 		internal static LootUI lootUI;
 
 		// expert toggle?
 
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle NPC Loot Tool";
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle NPC Loot Tool";
 			loots = new Dictionary<int, int>();
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			lootUI = new LootUI(Interface);
+			lootUI.Activate();
+
+			Interface.SetState(lootUI);
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
+		public override void ClientTerminate() {
+			Interface = null;
+
+			lootUI?.Deactivate();
+			lootUI = null;
+		}
+
+		public override void Terminate() {
+			loots?.Clear();
+			loots = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
 				lootUI.Draw(Main.spriteBatch);
 			}
 		}
-
-		internal override void PostSetupContent() {
-			if (!Main.dedServ) {
-				lootUI = new LootUI(userInterface);
-				lootUI.Activate();
-				userInterface.SetState(lootUI);
-			}
-		}
-
 
 		// calculate loot. 
 		// Prevent downed somehow?
@@ -42,6 +51,7 @@ namespace ModdersToolkit.Tools.Loot
 
 		public const int NumberLootExperiments = 500;
 		internal static Dictionary<int, int> loots;
+
 		internal static void CalculateLoot(int npcid) {
 			loots.Clear();
 
@@ -49,9 +59,11 @@ namespace ModdersToolkit.Tools.Loot
 			Utils.Swap(ref killCounts, ref NPC.killCount);
 
 			NPC[] npcs = new NPC[201];
+
 			for (int i = 0; i < npcs.Length; i++) {
 				npcs[i] = new NPC();
 			}
+
 			Utils.Swap(ref npcs, ref Main.npc);
 
 			Item[] items = new Item[401];
@@ -74,6 +86,7 @@ namespace ModdersToolkit.Tools.Loot
 					if (item.active) {
 						type = item.type;
 						stack = item.stack;
+
 						if (type == ItemID.PlatinumCoin) {
 							type = ItemID.CopperCoin;
 							stack = stack * 1000000;
@@ -86,6 +99,7 @@ namespace ModdersToolkit.Tools.Loot
 							type = ItemID.CopperCoin;
 							stack = stack * 100;
 						}
+
 						loots.TryGetValue(type, out currentCount);
 						loots[type] = currentCount + stack;
 						item.active = false;

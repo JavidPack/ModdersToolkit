@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
 {
-	class LootUI : UIState
+	internal class LootUI : UIState
 	{
 		internal UIMoneyDisplay money;
 		internal UIPanel mainPanel;

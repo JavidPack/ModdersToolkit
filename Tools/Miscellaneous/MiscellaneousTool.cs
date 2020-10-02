@@ -11,7 +11,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
-	class MiscellaneousTool : Tool
+	internal class MiscellaneousTool : Tool
 	{
 		internal static MiscellaneousUI miscellaneousUI;
 		internal static bool showNPCInfo;
@@ -23,15 +23,17 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		internal static IDictionary<SoundType, IDictionary<string, int>> sounds; // reference to private field in SoundLoader
 																				 //internal static readonly IdDictionary Search = IdDictionary.Create<SoundID, int>();
 
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Miscellaneous Tool";
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Miscellaneous Tool";
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-			miscellaneousUI = new MiscellaneousUI(userInterface);
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			miscellaneousUI = new MiscellaneousUI(Interface);
 			miscellaneousUI.Activate();
-			userInterface.SetState(miscellaneousUI);
+
+			Interface.SetState(miscellaneousUI);
 
 			On.Terraria.Main.PlaySound_int_int_int_int_float_float += Main_PlaySound_int_int_int_int_float_float;
 
@@ -43,6 +45,17 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 			// TODO: IdDictionary-type soundID
 		}
+
+		public override void ClientTerminate() {
+			modSounds = null;
+			sounds = null;
+
+			Interface = null;
+
+			miscellaneousUI?.Deactivate();
+			miscellaneousUI = null;
+		}
+
 
 		private Microsoft.Xna.Framework.Audio.SoundEffectInstance Main_PlaySound_int_int_int_int_float_float(On.Terraria.Main.orig_PlaySound_int_int_int_int_float_float orig, int type, int x, int y, int Style, float volumeScale, float pitchOffset) {
 			var result = orig(type, x, y, Style, volumeScale, pitchOffset); // null results are off screen
@@ -79,14 +92,14 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			return result;
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
+		public override void UIDraw() {
+			if (Visible) {
 				miscellaneousUI.Draw(Main.spriteBatch);
 			}
 		}
 	}
 
-	class NPCInfoGlobalNPC : GlobalNPC
+	internal class NPCInfoGlobalNPC : GlobalNPC
 	{
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) {
 			if (MiscellaneousTool.showNPCInfo) {
@@ -141,7 +154,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 	}
 
-	class TileGridModWorld : ModWorld
+	internal class TileGridModWorld : ModWorld
 	{
 		public override void PostDrawTiles() {
 			if (MiscellaneousTool.showTileGrid) {

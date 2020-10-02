@@ -6,39 +6,37 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.REPL
 {
-	class REPLTool : Tool
+	internal class REPLTool : Tool
 	{
 		internal static REPLBackend replBackend;
 		//internal static UserInterface ModdersToolkitUserInterface;
 		internal static REPLUI moddersToolkitUI;
 		internal static bool EyedropperActive;
 
-		internal override void Initialize() {
+		public override void Initialize() {
 			replBackend = new REPLBackend();
-			toggleTooltip = "Click to toggle C# REPL";
+			ToggleTooltip = "Click to toggle C# REPL";
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-			moddersToolkitUI = new REPLUI(userInterface);
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			moddersToolkitUI = new REPLUI(Interface);
 			moddersToolkitUI.Activate();
-			userInterface.SetState(moddersToolkitUI);
+
+			Interface.SetState(moddersToolkitUI);
 		}
 
-		//internal override void ScreenResolutionChanged()
-		//{
-		//	ModdersToolkitUserInterface.Recalculate();
-		//}
-		//internal override void UIUpdate()
-		//{
-		//	if (visible)
-		//	{
-		//		userInterface.Update(Main._drawInterfaceGameTime);
-		//	}
-		//}
+		public override void ClientTerminate() {
+			Interface = null;
 
-		internal override void WorldDraw() {
-			if (visible) {
+			moddersToolkitUI?.Deactivate();
+			moddersToolkitUI = null;
+		}
+
+
+		public override void WorldDraw() {
+			if (Visible) {
 				if (EyedropperActive) {
 					Point tileCoords = Main.MouseWorld.ToTileCoordinates();
 					Vector2 worldCoords = tileCoords.ToVector2() * 16;
@@ -58,18 +56,18 @@ namespace ModdersToolkit.Tools.REPL
 			}
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
+		public override void UIDraw() {
+			if (Visible) {
 				moddersToolkitUI.Draw(Main.spriteBatch);
 			}
 		}
 
-		internal override void Toggled() {
+		public override void Toggled() {
 			Main.drawingPlayerChat = false;
-			if (visible) {
+			if (Visible) {
 				Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Focus();
 			}
-			if (!visible) {
+			if (!Visible) {
 				Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Unfocus();
 			}
 		}
@@ -82,5 +80,17 @@ namespace ModdersToolkit.Tools.REPL
 			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X - borderWidth, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
 			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X + (int)size.X, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
 		}
+
+		//internal override void ScreenResolutionChanged()
+		//{
+		//	ModdersToolkitUserInterface.Recalculate();
+		//}
+		//internal override void UIUpdate()
+		//{
+		//	if (visible)
+		//	{
+		//		userInterface.Update(Main._drawInterfaceGameTime);
+		//	}
+		//}
 	}
 }

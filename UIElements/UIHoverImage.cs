@@ -4,7 +4,7 @@ using Terraria.GameContent.UI.Elements;
 
 namespace ModdersToolkit.UIElements
 {
-	class UIHoverImage : UIImage
+	internal class UIHoverImage : UIImage
 	{
 		internal string hoverText;
 

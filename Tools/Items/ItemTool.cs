@@ -4,31 +4,36 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Items
 {
-	class ItemTool : Tool
+	internal class ItemTool : Tool
 	{
 		internal static ItemUI itemUI;
 		internal static FieldInfo globalItemsField;
 
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Item Tool";
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Item Tool";
 			globalItemsField = typeof(Item).GetField("globalItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			itemUI = new ItemUI(Interface);
+			itemUI.Activate();
+
+			Interface.SetState(itemUI);
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
+		public override void ClientTerminate() {
+			Interface = null;
+
+			itemUI?.Deactivate();
+			itemUI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
 				itemUI.Draw(Main.spriteBatch);
-			}
-		}
-
-		internal override void PostSetupContent() {
-			if (!Main.dedServ) {
-				itemUI = new ItemUI(userInterface);
-				itemUI.Activate();
-				userInterface.SetState(itemUI);
 			}
 		}
 	}

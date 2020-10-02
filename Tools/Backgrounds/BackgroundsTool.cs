@@ -4,48 +4,62 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Backgrounds
 {
-	class BackgroundsTool : Tool
+	internal class BackgroundsTool : Tool
 	{
-		internal static BackgroundsUI backgroundsUI;
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Background Tool";
+		internal static BackgroundsUI UI { get; private set; }
+
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Background Tool";
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-			backgroundsUI = new BackgroundsUI(userInterface);
-			backgroundsUI.Activate();
-			userInterface.SetState(backgroundsUI);
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			UI = new BackgroundsUI(Interface);
+			UI.Activate();
+
+			Interface.SetState(UI);
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
-				backgroundsUI.Draw(Main.spriteBatch);
-			}
+		public override void ClientTerminate() {
+			Interface = null;
+
+			UI.Deactivate();
+			UI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible)
+				UI.Draw(Main.spriteBatch);
 		}
 	}
 
-	class BackgroundsToolGlobalBgStyle : GlobalBgStyle
+	internal class BackgroundsToolGlobalBgStyle : GlobalBgStyle
 	{
 		public override void ChooseSurfaceBgStyle(ref int style) {
 			if (Main.gameMenu)
 				return;
-			int choice = BackgroundsTool.backgroundsUI.surfaceBgStyleDataProperty.Data;
+
+			int choice = BackgroundsTool.UI.surfaceBgStyleDataProperty.Data;
+
 			if (choice > -1)
 				style = choice;
 
-			if (BackgroundsTool.backgroundsUI.quickChangeCheckbox.Selected)
+			if (BackgroundsTool.UI.quickChangeCheckbox.Selected)
 				Main.quickBG = 10;
 		}
 
 		public override void ChooseUgBgStyle(ref int style) {
 			if (Main.gameMenu)
 				return;
-			int choice = BackgroundsTool.backgroundsUI.undergroundBgStyleDataProperty.Data;
+
+			int choice = BackgroundsTool.UI.undergroundBgStyleDataProperty.Data;
+
 			if (choice > -1)
 				style = choice;
 
-			if (BackgroundsTool.backgroundsUI.quickChangeCheckbox.Selected)
+			if (BackgroundsTool.UI.quickChangeCheckbox.Selected)
 				Main.quickBG = 10;
 		}
 
@@ -53,14 +67,10 @@ namespace ModdersToolkit.Tools.Backgrounds
 			if (Main.gameMenu)
 				return;
 			for (int i = 0; i < 7; i++) {
-				var data = BackgroundsTool.backgroundsUI.undergroundTextureDataProperties[i].Data;
+				var data = BackgroundsTool.UI.undergroundTextureDataProperties[i].Data;
 				if (data > -1)
 					textureSlots[i] = data;
 			}
-		}
-
-		public override void ModifyFarSurfaceFades(int style, float[] fades, float transitionSpeed) {
-			base.ModifyFarSurfaceFades(style, fades, transitionSpeed);
 		}
 	}
 }

@@ -43,7 +43,7 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		int cols = 1;
+		private int cols = 1;
 
 		public UIGrid(int columns = 1) {
 			cols = columns;

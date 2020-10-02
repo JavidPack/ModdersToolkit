@@ -3,25 +3,34 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Textures
 {
-	class TextureTool : Tool
+	internal class TextureTool : Tool
 	{
 		internal static TextureUI textureUI;
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Texture Tool";
+
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Texture Tool";
 		}
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
+
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			textureUI = new TextureUI(Interface);
+			textureUI.Activate();
+
+			Interface.SetState(textureUI);
 		}
-		internal override void UIDraw() {
-			if (visible) {
+
+		public override void ClientTerminate() {
+			Interface = null;
+
+			textureUI?.Deactivate();
+			textureUI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
 				textureUI.Draw(Main.spriteBatch);
-			}
-		}
-		internal override void PostSetupContent() {
-			if (!Main.dedServ) {
-				textureUI = new TextureUI(userInterface);
-				textureUI.Activate();
-				userInterface.SetState(textureUI);
 			}
 		}
 	}

@@ -9,15 +9,20 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-	class PlayerLayerUI : UIState
+	internal class PlayerLayerUI : UIState
 	{
 		internal UIPanel mainPanel;
-		private UserInterface userInterface;
-		public PlayerLayerUI(UserInterface userInterface) {
-			this.userInterface = userInterface;
-		}
+		private UserInterface _userInterface;
 
 		public UIList playerLayerList;
+		public List<Terraria.ModLoader.PlayerLayer> playerLayers = new List<Terraria.ModLoader.PlayerLayer>();
+		public List<UICheckbox> playerLayersCheckboxes = new List<UICheckbox>();
+		public bool updateNeeded;
+
+
+		public PlayerLayerUI(UserInterface userInterface) {
+			this._userInterface = userInterface;
+		}
 
 		public override void OnInitialize() {
 			mainPanel = new UIPanel();
@@ -43,9 +48,9 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			mainPanel.Append(playerLayerList);
 
 			// this will initialize grid
-			updateneeded = true;
+			updateNeeded = true;
 
-			var playerLayerListScrollbar = new UIElements.FixedUIScrollbar(userInterface);
+			var playerLayerListScrollbar = new UIElements.FixedUIScrollbar(_userInterface);
 			playerLayerListScrollbar.SetView(100f, 1000f);
 			playerLayerListScrollbar.Top.Pixels = top;// + spacing;
 			playerLayerListScrollbar.Height.Set(-top /*- spacing*/, 1f);
@@ -56,12 +61,9 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			Append(mainPanel);
 		}
 
-		public List<Terraria.ModLoader.PlayerLayer> playerLayers = new List<Terraria.ModLoader.PlayerLayer>();
-		public List<UICheckbox> playerLayersCheckboxes = new List<UICheckbox>();
-		public bool updateneeded;
 		internal void UpdateList() {
-			if (!updateneeded) { return; }
-			updateneeded = false;
+			if (!updateNeeded) { return; }
+			updateNeeded = false;
 
 			playerLayerList.Clear();
 			playerLayersCheckboxes.Clear();
@@ -90,18 +92,18 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		internal void InformLayers(List<Terraria.ModLoader.PlayerLayer> layers) {
 			foreach (var layer in layers) {
 				if (!PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer)) {
-					updateneeded = true;
+					updateNeeded = true;
 					break;
 				}
 			}
-			if (updateneeded) {
+			if (updateNeeded) {
 				playerLayers.Clear();
 				playerLayers.AddRange(layers);
 			}
 		}
 	}
 
-	class PlayerLayerModPlayer : ModPlayer
+	internal class PlayerLayerModPlayer : ModPlayer
 	{
 		public override void ModifyDrawHeadLayers(List<PlayerHeadLayer> layers) {
 			// TODO
@@ -110,8 +112,9 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		public override void ModifyDrawLayers(List<Terraria.ModLoader.PlayerLayer> layers) {
 			PlayerLayerTool.playerLayerUI.InformLayers(layers);
 
-			if (PlayerLayerTool.playerLayerUI.updateneeded)
+			if (PlayerLayerTool.playerLayerUI.updateNeeded)
 				return;
+
 			foreach (var layer in layers) {
 				if (PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer)) {
 					var layerIndex = PlayerLayerTool.playerLayerUI.playerLayers.IndexOf(layer);

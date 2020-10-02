@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.UIElements
 {
-	class NewUITextBox : UITextPanel<string>
+	internal class NewUITextBox : UITextPanel<string>
 	{
 		internal bool focused = false;
 		private int _cursor;
@@ -151,7 +151,7 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		static bool JustPressed(Keys key) {
+		private static bool JustPressed(Keys key) {
 			return Main.inputText.IsKeyDown(key) && !Main.oldInputText.IsKeyDown(key);
 		}
 

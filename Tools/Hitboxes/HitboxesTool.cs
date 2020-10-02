@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Hitboxes
 {
-	class HitboxesTool : Tool
+	internal class HitboxesTool : Tool
 	{
 		//internal static UserInterface userInterface;
 		internal static HitboxesUI hitboxesUI;
@@ -19,16 +19,121 @@ namespace ModdersToolkit.Tools.Hitboxes
 		internal static bool showWorldItemHitboxes;
 		//internal static HitboxesGlobalItem hitboxesGlobalItem;
 
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Hitboxes Tool";
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Hitboxes Tool";
 			//hitboxesGlobalItem = (HitboxesGlobalItem)ModdersToolkit.instance.GetGlobalItem("HitboxesGlobalItem");
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-			hitboxesUI = new HitboxesUI(userInterface);
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			hitboxesUI = new HitboxesUI(Interface);
 			hitboxesUI.Activate();
-			userInterface.SetState(hitboxesUI);
+
+			Interface.SetState(hitboxesUI);
+		}
+
+		public override void ClientTerminate() {
+			Interface = null;
+
+			hitboxesUI?.Deactivate();
+			hitboxesUI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
+				hitboxesUI.Draw(Main.spriteBatch);
+			}
+		}
+
+		public override void WorldDraw() {
+			if (Visible || keepShowingHitboxes) {
+				if (showPlayerMeleeHitboxes)
+					DrawPlayerMeleeHitboxes();
+				if (showNPCHitboxes)
+					DrawNPCHitboxes();
+				if (showProjectileHitboxes)
+					DrawProjectileHitboxes();
+				// TODO: TileCollideStyle hitboxes? different?
+				if (showProjectileDamageHitboxes)
+					DrawProjectileDamageHitboxes();
+				if (showTEPositions)
+					DrawTileEntityPositions();
+				if (showWorldItemHitboxes)
+					DrawWorldItemHitboxes();
+			}
+		}
+
+		private void DrawPlayerMeleeHitboxes() {
+			for (int i = 0; i < 256; i++) {
+				//if (hitboxesGlobalItem.meleeHitbox[i].HasValue)
+				if (HitboxesGlobalItem.meleeHitbox[i].HasValue) {
+					Rectangle hitbox = HitboxesGlobalItem.meleeHitbox[i].Value;
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					hitbox = Main.ReverseGravitySupport(hitbox);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.MediumPurple * 0.6f);
+					HitboxesGlobalItem.meleeHitbox[i] = null;
+				}
+			}
+		}
+
+		private void DrawNPCHitboxes() {
+			for (int i = 0; i < 200; i++) {
+				NPC npc = Main.npc[i];
+				if (npc.active) {
+					Rectangle hitbox = npc.getRect();
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					hitbox = Main.ReverseGravitySupport(hitbox);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
+				}
+			}
+		}
+
+		private void DrawWorldItemHitboxes() {
+			for (int i = 0; i < 400; i++) {
+				Item item = Main.item[i];
+				if (item.active) {
+					Rectangle hitbox = item.getRect();
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					hitbox = Main.ReverseGravitySupport(hitbox);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Teal * 0.6f);
+				}
+			}
+		}
+
+		private void DrawProjectileHitboxes() {
+			for (int i = 0; i < 1000; i++) {
+				Projectile projectile = Main.projectile[i];
+				if (projectile.active) {
+					Rectangle hitbox = projectile.getRect();
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					hitbox = Main.ReverseGravitySupport(hitbox);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Orange * 0.6f);
+				}
+			}
+		}
+
+		private void DrawProjectileDamageHitboxes() {
+			for (int i = 0; i < 1000; i++) {
+				Projectile projectile = Main.projectile[i];
+				if (projectile.active) {
+					Rectangle hitbox = projectile.getRect();
+					ProjectileLoader.ModifyDamageHitbox(projectile, ref hitbox);
+					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+					hitbox = Main.ReverseGravitySupport(hitbox);
+					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.OrangeRed * 0.6f);
+				}
+			}
+		}
+
+		private void DrawTileEntityPositions() {
+			foreach (var pair in TileEntity.ByPosition) {
+				Rectangle locationRectangle = new Rectangle(pair.Key.X * 16, pair.Key.Y * 16, 16, 16);
+				locationRectangle.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
+				locationRectangle = Main.ReverseGravitySupport(locationRectangle);
+				Main.spriteBatch.Draw(Main.magicPixel, locationRectangle, Color.Green * 0.6f);
+			}
 		}
 
 		//internal override void ScreenResolutionChanged()
@@ -42,103 +147,9 @@ namespace ModdersToolkit.Tools.Hitboxes
 		//		userInterface.Update(Main._drawInterfaceGameTime);
 		//	}
 		//}
-		internal override void UIDraw() {
-			if (visible) {
-				hitboxesUI.Draw(Main.spriteBatch);
-			}
-		}
-
-		internal override void WorldDraw() {
-			if (visible || keepShowingHitboxes) {
-				if (showPlayerMeleeHitboxes)
-					drawPlayerMeleeHitboxes();
-				if (showNPCHitboxes)
-					drawNPCHitboxes();
-				if (showProjectileHitboxes)
-					drawProjectileHitboxes();
-				// TODO: TileCollideStyle hitboxes? different?
-				if (showProjectileDamageHitboxes)
-					drawProjectileDamageHitboxes();
-				if (showTEPositions)
-					drawTileEntityPositions();
-				if (showWorldItemHitboxes)
-					drawWorldItemHitboxes();
-			}
-		}
-
-		private void drawPlayerMeleeHitboxes() {
-			for (int i = 0; i < 256; i++) {
-				//if (hitboxesGlobalItem.meleeHitbox[i].HasValue)
-				if (HitboxesGlobalItem.meleeHitbox[i].HasValue) {
-					Rectangle hitbox = HitboxesGlobalItem.meleeHitbox[i].Value;
-					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.MediumPurple * 0.6f);
-					HitboxesGlobalItem.meleeHitbox[i] = null;
-				}
-			}
-		}
-
-		private void drawNPCHitboxes() {
-			for (int i = 0; i < 200; i++) {
-				NPC npc = Main.npc[i];
-				if (npc.active) {
-					Rectangle hitbox = npc.getRect();
-					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
-				}
-			}
-		}
-
-		private void drawWorldItemHitboxes() {
-			for (int i = 0; i < 400; i++) {
-				Item item = Main.item[i];
-				if (item.active) {
-					Rectangle hitbox = item.getRect();
-					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Teal * 0.6f);
-				}
-			}
-		}
-
-		private void drawProjectileHitboxes() {
-			for (int i = 0; i < 1000; i++) {
-				Projectile projectile = Main.projectile[i];
-				if (projectile.active) {
-					Rectangle hitbox = projectile.getRect();
-					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Orange * 0.6f);
-				}
-			}
-		}
-
-		private void drawProjectileDamageHitboxes() {
-			for (int i = 0; i < 1000; i++) {
-				Projectile projectile = Main.projectile[i];
-				if (projectile.active) {
-					Rectangle hitbox = projectile.getRect();
-					ProjectileLoader.ModifyDamageHitbox(projectile, ref hitbox);
-					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.OrangeRed * 0.6f);
-				}
-			}
-		}
-
-		private void drawTileEntityPositions() {
-			foreach (var pair in TileEntity.ByPosition) {
-				Rectangle locationRectangle = new Rectangle(pair.Key.X * 16, pair.Key.Y * 16, 16, 16);
-				locationRectangle.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-				locationRectangle = Main.ReverseGravitySupport(locationRectangle);
-				Main.spriteBatch.Draw(Main.magicPixel, locationRectangle, Color.Green * 0.6f);
-			}
-		}
 	}
 
-	class HitboxesGlobalItem : GlobalItem
+	internal class HitboxesGlobalItem : GlobalItem
 	{
 		internal static Rectangle?[] meleeHitbox = new Rectangle?[256];
 		// Is this ok to load in server?

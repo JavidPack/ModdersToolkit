@@ -8,12 +8,12 @@ using Terraria.UI;
 
 namespace ModdersToolkit.UIElements
 {
-	class UIRadioButton : UIText
+	internal class UIRadioButton : UIText
 	{
 		private Texture2D _toggleTexture;
 		public event Action OnSelectedChanged;
 
-		string tooltip = "";
+		private string tooltip = "";
 		private bool selected = false;
 		internal bool partOfGroup;
 		internal int groupID;

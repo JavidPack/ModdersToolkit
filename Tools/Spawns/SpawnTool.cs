@@ -9,51 +9,10 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-	class SpawnTool : Tool
+	internal class SpawnTool : Tool
 	{
 		internal static SpawnUI spawnUI;
-
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle NPC Spawn Tool";
-			spawns = new Dictionary<int, int>();
-		}
-
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-		}
-
-		internal override void UIDraw() {
-			if (visible) {
-				spawnUI.Draw(Main.spriteBatch);
-			}
-		}
-
-		internal override void PostSetupContent() {
-			if (!Main.dedServ) {
-				spawnUI = new SpawnUI(userInterface);
-				spawnUI.Activate();
-				userInterface.SetState(spawnUI);
-			}
-		}
-
 		internal static Dictionary<int, int> spawns;
-		internal static void CalculateSpawns() {
-			spawns.Clear();
-
-			for (int i = 0; i < 10000; i++) {
-				SpawnNPC();
-			}
-		}
-
-		public static int NewNPC(int X, int Y, int Type, int Start = 0, float ai0 = 0f, float ai1 = 0f, float ai2 = 0f, float ai3 = 0f, int Target = 255) {
-			int currentCount;
-			spawns.TryGetValue(Type, out currentCount);
-			spawns[Type] = currentCount + 1;
-
-			//Main.NewText("Spawn " + Type);
-
-			return 200;
-		}
 
 		// This is a clone of vanilla code:
 		internal static bool noSpawnCycle;
@@ -73,6 +32,53 @@ namespace ModdersToolkit.Tools.Spawns
 		internal static int townRangeY = NPC.sHeight;
 		internal static int spawnSpaceX = 3;
 		internal static int spawnSpaceY = 3;
+
+
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle NPC Spawn Tool";
+			spawns = new Dictionary<int, int>();
+		}
+
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			spawnUI = new SpawnUI(Interface);
+			spawnUI.Activate();
+
+			Interface.SetState(spawnUI);
+		}
+
+		public override void ClientTerminate() {
+			Interface = null;
+
+			spawnUI.Deactivate();
+			spawnUI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
+				spawnUI.Draw(Main.spriteBatch);
+			}
+		}
+
+		internal static void CalculateSpawns() {
+			spawns.Clear();
+
+			for (int i = 0; i < 10000; i++) {
+				SpawnNPC();
+			}
+		}
+
+		public static int NewNPC(int X, int Y, int Type, int Start = 0, float ai0 = 0f, float ai1 = 0f, float ai2 = 0f, float ai3 = 0f, int Target = 255) {
+			int currentCount;
+			spawns.TryGetValue(Type, out currentCount);
+			spawns[Type] = currentCount + 1;
+
+			//Main.NewText("Spawn " + Type);
+
+			return 200;
+		}
 
 		public static void SpawnNPC() {
 			if (noSpawnCycle) {

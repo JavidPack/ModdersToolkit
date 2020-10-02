@@ -8,7 +8,7 @@ using Terraria.UI;
 namespace ModdersToolkit.UIElements
 {
 	// TODO, tri-state checkbox.
-	class UICheckbox : UIText
+	internal class UICheckbox : UIText
 	{
 		internal static Texture2D checkboxTexture;
 		internal static Texture2D checkmarkTexture;
@@ -27,7 +27,7 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		string tooltip = "";
+		private string tooltip = "";
 
 		private bool selected = false;
 		public bool Selected {
@@ -79,14 +79,14 @@ namespace ModdersToolkit.UIElements
 	}
 
 
-	class UICheckbox2<T> : UICheckbox2
+	internal class UICheckbox2<T> : UICheckbox2
 	{
 		public UICheckbox2(UIBoolDataValue data, float textScale = 1, bool large = false) : base(data, textScale, large) {
 		}
 	}
 
 
-	class UICheckbox2 : UIText
+	internal class UICheckbox2 : UIText
 	{
 		internal static Texture2D checkboxTexture;
 		internal static Texture2D checkmarkTexture;
@@ -118,7 +118,7 @@ namespace ModdersToolkit.UIElements
 		}
 	}
 
-	class UITriStateCheckbox : UIText
+	internal class UITriStateCheckbox : UIText
 	{
 		internal static Texture2D checkboxTexture;
 		internal static Texture2D checkmarkTexture;

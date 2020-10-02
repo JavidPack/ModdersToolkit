@@ -12,14 +12,10 @@ namespace ModdersToolkit.Tools.Projectiles
 	// TODO: DrawOffsetX and Y setting
 	// Also NPC drawOffsetY
 
-	class ProjectilesUI : UIState
+	internal class ProjectilesUI : UIState
 	{
 		internal UIPanel mainPanel;
-		private UserInterface userInterface;
-		public ProjectilesUI(UserInterface userInterface) {
-			this.userInterface = userInterface;
-		}
-
+		private UserInterface _userInterface;
 		internal static UIFloatRangedDataValue speedXDataProperty;
 		internal static UIFloatRangedDataValue speedYDataProperty;
 		internal static UIFloatRangedDataValue ai0DataProperty;
@@ -38,8 +34,12 @@ namespace ModdersToolkit.Tools.Projectiles
 		internal static bool stepPrevious;
 		internal static bool step;
 
-		UIGrid projectileGrid;
+		private UIGrid projectileGrid;
 		internal NewUITextBox searchFilter;
+
+		public ProjectilesUI(UserInterface userInterface) {
+			this._userInterface = userInterface;
+		}
 
 		public override void OnInitialize() {
 			mainPanel = new UIPanel();
@@ -82,7 +82,7 @@ namespace ModdersToolkit.Tools.Projectiles
 
 			searchFilter = new NewUITextBox("Search", 0.85f);
 			searchFilter.SetPadding(0);
-			searchFilter.OnTextChanged += () => { ValidateInput(); updateneeded = true; };
+			searchFilter.OnTextChanged += () => { ValidateInput(); updateNeeded = true; };
 			searchFilter.Top.Set(top, 0f);
 			searchFilter.Left.Set(text2.GetInnerDimensions().Width, 0f);
 			searchFilter.Width.Set(-text2.GetInnerDimensions().Width, 1f);
@@ -170,7 +170,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			pause.Top.Set(top, 0f);
 			mainPanel.Append(pause);
 
-			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/next"), "Step");
+			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/next"), "Step");
 			stepButton.OnClick += (s, e) => step = true;
 			stepButton.Top.Set(top - 6, 0f);
 			stepButton.Left.Set(80, 0f);
@@ -192,9 +192,9 @@ namespace ModdersToolkit.Tools.Projectiles
 			mainPanel.Append(projectileGrid);
 
 			// this will initialize grid
-			updateneeded = true;
+			updateNeeded = true;
 
-			var projectileGridScrollbar = new UIElements.FixedUIScrollbar(userInterface);
+			var projectileGridScrollbar = new UIElements.FixedUIScrollbar(_userInterface);
 			projectileGridScrollbar.SetView(100f, 1000f);
 			projectileGridScrollbar.Top.Pixels = top;// + spacing;
 			projectileGridScrollbar.Height.Set(-top /*- spacing*/, 1f);
@@ -220,10 +220,10 @@ namespace ModdersToolkit.Tools.Projectiles
 			}
 		}
 
-		private bool updateneeded;
+		private bool updateNeeded;
 		internal void UpdateGrid() {
-			if (!updateneeded) { return; }
-			updateneeded = false;
+			if (!updateNeeded) { return; }
+			updateNeeded = false;
 
 			projectileGrid.Clear();
 			for (int i = 1; i < Main.projectileTexture.Length; i++) {
@@ -254,7 +254,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 	}
 
-	class ProjectileSlot : UIElement
+	internal class ProjectileSlot : UIElement
 	{
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
@@ -341,7 +341,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 	}
 
-	class ProjectilesUIGlobalItem : GlobalProjectile
+	internal class ProjectilesUIGlobalItem : GlobalProjectile
 	{
 		public override bool PreAI(Projectile projectile) {
 			if (ProjectilesUI.freeze?.Selected ?? false) {

@@ -8,7 +8,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.UIElements
 {
-	class UIRange<T> : UIElement
+	internal class UIRange<T> : UIElement
 	{
 		internal UIText label;
 		internal UISlider slider;
@@ -52,7 +52,7 @@ namespace ModdersToolkit.UIElements
 			data.SetValue(data.Data);
 		}
 
-		bool debugDraw = false;
+		private bool debugDraw = false;
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			if (debugDraw) {
 				Rectangle hitbox = GetInnerDimensions().ToRectangle();
@@ -101,7 +101,7 @@ namespace ModdersToolkit.UIElements
 				//slider.HAlign = .25f;
 				Append(slider);
 
-				minus = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/ButtonMinus"));
+				minus = new UIImageButton(ModdersToolkit.Instance.GetTexture("UIElements/ButtonMinus"));
 				minus.OnClick += Minus_OnClick;
 				//minus.Height.Set(16, 0f);
 				minus.Width.Set(0, .125f);
@@ -111,7 +111,7 @@ namespace ModdersToolkit.UIElements
 				//minus.HAlign = .625f;
 				Append(minus);
 
-				plus = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/ButtonPlus"));
+				plus = new UIImageButton(ModdersToolkit.Instance.GetTexture("UIElements/ButtonPlus"));
 				plus.OnClick += Plus_OnClick;
 				//plus.Height.Set(16, 0f);
 				plus.Width.Set(0, .125f);

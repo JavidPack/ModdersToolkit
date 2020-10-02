@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-	class UINPCSpawnInfo : UIElement
+	internal class UINPCSpawnInfo : UIElement
 	{
 		internal UINPCSlot npcSlot;
 		internal UIText information;

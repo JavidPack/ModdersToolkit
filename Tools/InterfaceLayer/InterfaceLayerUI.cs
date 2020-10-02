@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.InterfaceLayer
 {
-	class InterfaceLayerUI : UIState
+	internal class InterfaceLayerUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;

@@ -22,34 +22,36 @@ namespace ModdersToolkit
 {
 	public class ModdersToolkit : Mod
 	{
-		internal static ModdersToolkit instance;
 		internal static List<Tool> tools;
-		int lastSeenScreenWidth;
-		int lastSeenScreenHeight;
-		bool visible;
+
+		private int lastSeenScreenWidth;
+		private int lastSeenScreenHeight;
+		private bool visible;
 
 		public override void Load() {
-			instance = this;
+			Instance = this;
 
 			tools = new List<Tool>();
+
 			if (Platform.IsWindows) // REPL tool not working non-windows yet. Is this the attribute problem?
 			{
 				tools.Add(new Tools.REPL.REPLTool());
 			}
-			tools.Add(new Tools.Hitboxes.HitboxesTool());
-			tools.Add(new Tools.Dusts.DustTool());
-			tools.Add(new Tools.Items.ItemTool());
-			tools.Add(new Tools.Projectiles.ProjectilesTool());
-			tools.Add(new Tools.PlayerLayer.PlayerLayerTool());
-			tools.Add(new Tools.InterfaceLayer.InterfaceLayerTool());
-			tools.Add(new Tools.Spawns.SpawnTool());
-			tools.Add(new Tools.Textures.TextureTool());
+
+			AddTool(new Tools.Hitboxes.HitboxesTool());
+			AddTool(new Tools.Dusts.DustTool());
+			AddTool(new Tools.Items.ItemTool());
+			AddTool(new Tools.Projectiles.ProjectilesTool());
+			AddTool(new Tools.PlayerLayer.PlayerLayerTool());
+			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
+			AddTool(new Tools.Spawns.SpawnTool());
+			AddTool(new Tools.Textures.TextureTool());
 			if (Platform.IsWindows)
 				tools.Add(new Tools.Shaders.ShaderTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
-			tools.Add(new Tools.UIPlayground.UIPlaygroundTool());
-			tools.Add(new Tools.Backgrounds.BackgroundsTool());
-			tools.Add(new Tools.Miscellaneous.MiscellaneousTool());
+			AddTool(new Tools.UIPlayground.UIPlaygroundTool());
+			AddTool(new Tools.Backgrounds.BackgroundsTool());
+			AddTool(new Tools.Miscellaneous.MiscellaneousTool());
 
 			tools.ForEach(tool => tool.Initialize());
 
@@ -73,8 +75,11 @@ namespace ModdersToolkit
 
 				tools.ForEach(tool => tool.Terminate());
 			}
+
+			tools?.Clear();
 			tools = null;
-			instance = null;
+
+			Instance = null;
 
 			UIElements.UICheckbox.checkboxTexture = null;
 			UIElements.UICheckbox.checkmarkTexture = null;
@@ -84,6 +89,8 @@ namespace ModdersToolkit
 			UIElements.UITriStateCheckbox.checkmarkTexture = null;
 			UIElements.UITriStateCheckbox.checkXTexture = null;
 		}
+
+		public void AddTool(Tool tool) => tools.Add(tool);
 
 		public override void PostSetupContent() {
 			tools.ForEach(tool => tool.PostSetupContent());
@@ -143,7 +150,6 @@ namespace ModdersToolkit
 			Tools.InterfaceLayer.InterfaceLayerTool.interfaceLayerUI.ModifyInterfaceLayers(layers);
 		}
 
-		Tool lastVisibleTool;
 		internal void DrawUpdateToggles() {
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
 			// calculate?
@@ -163,18 +169,18 @@ namespace ModdersToolkit
 					Main.PlaySound(visible ? SoundID.MenuOpen : SoundID.MenuClose);
 
 					if (!visible) {
-						lastVisibleTool = null;
+						LastVisibleTool = null;
 						foreach (var otherTool in tools) {
-							if (otherTool.visible) {
-								lastVisibleTool = otherTool;
-								lastVisibleTool.visible = false;
-								lastVisibleTool.Toggled();
+							if (otherTool.Visible) {
+								LastVisibleTool = otherTool;
+								LastVisibleTool.Visible = false;
+								LastVisibleTool.Toggled();
 							}
 						}
 					}
-					if (visible && lastVisibleTool != null) {
-						lastVisibleTool.visible = true;
-						lastVisibleTool.Toggled();
+					if (visible && LastVisibleTool != null) {
+						LastVisibleTool.Visible = true;
+						LastVisibleTool.Toggled();
 					}
 				}
 			}
@@ -187,7 +193,7 @@ namespace ModdersToolkit
 			if (visible) {
 				yPosition -= 18;
 				foreach (var tool in tools) {
-					toggleTexture = tool.visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
+					toggleTexture = tool.Visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
 
 					toggleToolkitButtonRectangle = new Rectangle(xPosition, yPosition, toggleTexture.Width, toggleTexture.Height);
 					toggleToolkitButtonHover = false;
@@ -196,24 +202,28 @@ namespace ModdersToolkit
 						toggleToolkitButtonHover = true;
 						if (Main.mouseLeft && Main.mouseLeftRelease) {
 							foreach (var otherTool in tools) {
-								if (tool != otherTool && otherTool.visible) {
-									otherTool.visible = false;
+								if (tool != otherTool && otherTool.Visible) {
+									otherTool.Visible = false;
 									otherTool.Toggled();
 								}
 							}
-							tool.visible = !tool.visible;
-							Main.PlaySound(tool.visible ? SoundID.MenuOpen : SoundID.MenuClose);
+							tool.Visible = !tool.Visible;
+							Main.PlaySound(tool.Visible ? SoundID.MenuOpen : SoundID.MenuClose);
 							tool.Toggled();
 						}
 					}
 					Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White);
 					if (toggleToolkitButtonHover) {
 						Main.HoverItem = new Item();
-						Main.hoverItemName = tool.toggleTooltip;
+						Main.hoverItemName = tool.ToggleTooltip;
 					}
 					xPosition += 18;
 				}
 			}
 		}
+
+		public Tool LastVisibleTool { get; private set; }
+
+		public static ModdersToolkit Instance { get; private set; }
 	}
 }

@@ -12,8 +12,8 @@ namespace ModdersToolkit.REPL
 {
 	public class REPLBackend
 	{
-		CompilerContext compilerContext;
-		Evaluator evaluator;
+		private CompilerContext compilerContext;
+		private Evaluator evaluator;
 		internal List<string> namespaces;
 
 		public REPLBackend() {
@@ -65,13 +65,13 @@ namespace ModdersToolkit.REPL
 			}
 		}
 
-		static string GetTopLevelNamespace(Type t) {
+		private static string GetTopLevelNamespace(Type t) {
 			string ns = t.Namespace ?? "";
 			int firstDot = ns.IndexOf('.');
 			return firstDot == -1 ? ns : ns.Substring(0, firstDot);
 		}
 
-		static string GetNamespace(Type t) {
+		private static string GetNamespace(Type t) {
 			string ns = t.Namespace ?? "";
 			int firstDot = ns.IndexOf('.');
 			return firstDot == -1 ? ns : ns.Substring(0, firstDot);
@@ -127,7 +127,7 @@ namespace ModdersToolkit.REPL
 		public ConsoleTextWriter() {
 		}
 
-		string buffer = "";
+		private string buffer = "";
 		public override void Write(char value) {
 			if (value == '\n') {
 				Console.ForegroundColor = ConsoleColor.Red;
@@ -149,7 +149,7 @@ namespace ModdersToolkit.REPL
 		public MainNewTextTextWriter() {
 		}
 
-		string buffer = "";
+		private string buffer = "";
 		public override void Write(char value) {
 			if (value == '\n') {
 				REPLTool.moddersToolkitUI.AddChunkedLine(buffer, CodeType.Error);

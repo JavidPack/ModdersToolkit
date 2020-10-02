@@ -10,33 +10,37 @@ namespace ModdersToolkit.Tools.Shaders
 	{
 		internal static ShaderUI shaderUI;
 
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Shader Tool";
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Shader Tool";
 		}
 
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
 			Filters.Scene["ModdersToolkit:TestScreenShader"] = new Filter(new ScreenShaderData("FilterInvert"), EffectPriority.VeryHigh);
+
+			shaderUI = new ShaderUI(Interface);
+			shaderUI.Activate();
+
+			Interface.SetState(shaderUI);
 		}
 
-		internal override void UIDraw() {
-			if (visible) {
+		public override void ClientTerminate() {
+			Interface = null;
+
+			shaderUI.Deactivate();
+			shaderUI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
 				shaderUI.Draw(Main.spriteBatch);
 			}
 		}
 
-		internal override void PostSetupContent() {
-			if (Main.dedServ)
-				return;
-
-			shaderUI = new ShaderUI(userInterface);
-			shaderUI.Activate();
-			userInterface.SetState(shaderUI);
-		}
-
-		internal override void Toggled() {
+		public override void Toggled() {
 #if DEBUG
-			if (!visible) {
+			if (!Visible) {
 				shaderUI.RemoveAllChildren();
 				var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
 				isInitializedFieldInfo.SetValue(shaderUI, false);

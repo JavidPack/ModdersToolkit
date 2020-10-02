@@ -3,59 +3,61 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools
 {
-	abstract class Tool
+	public abstract class Tool
 	{
-		internal bool visible;
-		internal string toggleTooltip;
-		//internal virtual bool visible => _visible;
-		internal UserInterface userInterface;
-		//internal virtual UserInterface UserInterface => userInterface;
-
 		/// <summary>
 		/// Initializes this Tool. Called during Load.
 		/// Useful for initializing data.
 		/// </summary>
-		internal virtual void Initialize() { }
+		public virtual void Initialize() { }
 
 		/// <summary>
 		/// Initializes this Tool. Called during Unload.
 		/// Useful for cleaning and disposing data.
 		/// </summary>
-		internal virtual void Terminate() { }
+		public virtual void Terminate() { }
 
 		/// <summary>
 		/// Initializes this Tool. Called during Load after Initialize only on SP and Clients.
 		/// Useful for initializing UI.
 		/// </summary>
-		internal virtual void ClientInitialize() { }
+		public virtual void ClientInitialize() { }
 
 		/// <summary>
 		/// Terminates this Tool. Called during Unload before Terminate only on SP and Clients.
 		/// Useful for cleaning and disposing data.
 		/// </summary>
-		internal virtual void ClientTerminate() { }
+		public virtual void ClientTerminate() { }
 
-		internal virtual void ScreenResolutionChanged() {
-			userInterface?.Recalculate();
+
+		public virtual void ScreenResolutionChanged() {
+			Interface?.Recalculate();
 		}
 
 		internal virtual void UIUpdate() {
-			if (visible) {
-				userInterface?.Update(Main._drawInterfaceGameTime);
+			if (Visible) {
+				Interface?.Update(Main._drawInterfaceGameTime);
 			}
 		}
 
-		internal virtual void UIDraw() { }
+		public virtual void UIDraw() { }
 
-		internal virtual void WorldDraw() { }
+		public virtual void WorldDraw() { }
 
-		internal virtual void DrawUpdateToggle() { }
+		public virtual void DrawUpdateToggle() { }
 
-		internal virtual void Toggled() { }
+		public virtual void Toggled() { }
 
-		internal virtual void PostSetupContent() { }
+		public virtual void PostSetupContent() { }
 
 		//	internal virtual void UIDraw() { }
+
+
+		public bool Visible { get; internal set; }
+
+		public string ToggleTooltip { get; protected set; }
+
+		public UserInterface Interface { get; internal set; }
 	}
 
 	//class ToolTest : Tool

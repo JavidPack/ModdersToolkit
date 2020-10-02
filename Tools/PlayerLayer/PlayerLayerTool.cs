@@ -3,25 +3,34 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-	class PlayerLayerTool : Tool
+	internal class PlayerLayerTool : Tool
 	{
 		internal static PlayerLayerUI playerLayerUI;
-		internal override void Initialize() {
-			toggleTooltip = "Click to toggle Player Layer Tool";
+
+		public override void Initialize() {
+			ToggleTooltip = "Click to toggle Player Layer Tool";
 		}
-		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
+
+		public override void ClientInitialize() {
+			Interface = new UserInterface();
+
+			playerLayerUI = new PlayerLayerUI(Interface);
+			playerLayerUI.Activate();
+
+			Interface.SetState(playerLayerUI);
 		}
-		internal override void UIDraw() {
-			if (visible) {
+
+		public override void ClientTerminate() {
+			Interface = null;
+
+			playerLayerUI.Deactivate();
+			playerLayerUI = null;
+		}
+
+
+		public override void UIDraw() {
+			if (Visible) {
 				playerLayerUI.Draw(Main.spriteBatch);
-			}
-		}
-		internal override void PostSetupContent() {
-			if (!Main.dedServ) {
-				playerLayerUI = new PlayerLayerUI(userInterface);
-				playerLayerUI.Activate();
-				userInterface.SetState(playerLayerUI);
 			}
 		}
 	}

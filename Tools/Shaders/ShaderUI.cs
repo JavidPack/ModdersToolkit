@@ -18,7 +18,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Shaders
 {
-	class ShaderUI : UIState
+	internal class ShaderUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -33,16 +33,16 @@ namespace ModdersToolkit.Tools.Shaders
 		// Automatically apply shader via checkbox, rather than Acid Dye
 		// Test New shaders without binding to anything, Select pass name?
 
-		static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
-		static string shaderFilename = "ModdersToolkit_Shader.fx";
-		static string shaderFilePath = Path.Combine(cacheFolder, shaderFilename);
-		static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
+		private static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
+		private static string shaderFilename = "ModdersToolkit_Shader.fx";
+		private static string shaderFilePath = Path.Combine(cacheFolder, shaderFilename);
+		private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
-		static string exeFilename = "fxcompiler.exe";
-		static string exePath = Path.Combine(cacheFolder, exeFilename);
+		private static string exeFilename = "fxcompiler.exe";
+		private static string exePath = Path.Combine(cacheFolder, exeFilename);
 
-		static string exeVersionFileName = "ModdersToolkitFXBuilderVersion.txt";
-		static string exeVersionPath = Path.Combine(cacheFolder, exeVersionFileName);
+		private static string exeVersionFileName = "ModdersToolkitFXBuilderVersion.txt";
+		private static string exeVersionPath = Path.Combine(cacheFolder, exeVersionFileName);
 
 		public bool updateneeded;
 
@@ -54,8 +54,8 @@ namespace ModdersToolkit.Tools.Shaders
 		private UICheckbox watchModSourcesCheckbox;
 		internal UICheckbox forceShaderCheckbox;
 
-		Dusts.ColorDataRangeProperty colorDataProperty;
-		UIFloatRangedDataValue intensityData;
+		private Dusts.ColorDataRangeProperty colorDataProperty;
+		private UIFloatRangedDataValue intensityData;
 
 		private UIRadioButton armorShaderRadioButton;
 		private UIRadioButton screenShaderRadioButton;
@@ -279,7 +279,7 @@ namespace ModdersToolkit.Tools.Shaders
 			Append(mainPanel);
 		}
 
-		const string ArmorShaderTemplate = @"sampler uImage0 : register(s0);
+		private const string ArmorShaderTemplate = @"sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 float3 uColor;
 float3 uSecondaryColor;
@@ -308,7 +308,7 @@ technique Technique1
     }
 }";
 
-		const string ScreenShaderTemplate = @"sampler uImage0 : register(s0);
+		private const string ScreenShaderTemplate = @"sampler uImage0 : register(s0);
 sampler uImage1 : register(s1); // Automatically Images/Misc/Perlin via Force Shader testing option
 sampler uImage2 : register(s2); // Automatically Images/Misc/noise via Force Shader testing option
 sampler uImage3 : register(s3);
@@ -376,8 +376,8 @@ technique Technique1
 			RunShaderCompileCommand(shaderFilePath);
 		}
 
-		const int fxcompilerVersion = 1;
-		bool fxCompilerUpToDate = false;
+		private const int fxcompilerVersion = 1;
+		private bool fxCompilerUpToDate = false;
 		private void RunShaderCompileCommand(string file) {
 			// Ensure shader compiler exists
 			if (File.Exists(exeVersionPath)) {
@@ -394,13 +394,13 @@ technique Technique1
 					PipelineDLL = "Microsoft.Xna.Framework.Content.Pipeline.dll";
 
 				Directory.CreateDirectory(cacheFolder);
-				ModdersToolkit.instance.Logger.Info("Unpacking fxbuilder.exe and Pipeline dlls");
-				File.WriteAllBytes(exePath, ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{exeFilename}"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, WCFXCompilerDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{WCFXCompilerDLL}"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, EffectImporterDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{EffectImporterDLL}"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, PipelineDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{PipelineDLL}"));
+				ModdersToolkit.Instance.Logger.Info("Unpacking fxbuilder.exe and Pipeline dlls");
+				File.WriteAllBytes(exePath, ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{exeFilename}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, WCFXCompilerDLL), ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{WCFXCompilerDLL}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, EffectImporterDLL), ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{EffectImporterDLL}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, PipelineDLL), ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{PipelineDLL}"));
 				File.WriteAllText(exeVersionPath, fxcompilerVersion.ToString());
-				ModdersToolkit.instance.Logger.Info("Unpacking complete");
+				ModdersToolkit.Instance.Logger.Info("Unpacking complete");
 				fxCompilerUpToDate = true;
 			}
 
