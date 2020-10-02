@@ -13,29 +13,37 @@ namespace ModdersToolkit.Tools.Projectiles
     internal class ProjectilesTool : Tool
 	{
 		internal static ProjectilesUI projectileUI;
-		internal override void Initialize()
+
+		public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Projectile Tool";
 		}
-		internal override void ClientInitialize()
+
+		public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
+            projectileUI = new ProjectilesUI(Interface);
+            projectileUI.Activate();
+
+            Interface.SetState(projectileUI);
 		}
-		internal override void UIDraw()
+
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+			projectileUI?.Deactivate();
+            projectileUI = default;
+        }
+
+
+        public override void UIDraw()
 		{
 			if (Visible)
 			{
 				projectileUI.Draw(Main.spriteBatch);
 			}
 		}
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				projectileUI = new ProjectilesUI(Interface);
-				projectileUI.Activate();
-				Interface.SetState(projectileUI);
-			}
-		}
-	}
+    }
 }
