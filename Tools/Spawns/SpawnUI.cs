@@ -13,7 +13,7 @@ using ModdersToolkit.Tools;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-	class SpawnUI : UIState
+    internal class SpawnUI : UIState
 	{
 		internal UIPanel mainPanel;
 		public UIList checklistList;

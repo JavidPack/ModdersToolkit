@@ -12,7 +12,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-	class SpawnTool : Tool
+    internal class SpawnTool : Tool
 	{
 		internal static SpawnUI spawnUI;
 

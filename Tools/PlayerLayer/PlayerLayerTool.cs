@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-	class PlayerLayerTool : Tool
+    internal class PlayerLayerTool : Tool
 	{
 		internal static PlayerLayerUI playerLayerUI;
 		internal override void Initialize()

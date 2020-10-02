@@ -13,7 +13,7 @@ using ModdersToolkit.Tools;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-	class UINPCSlot : UIElement
+    internal class UINPCSlot : UIElement
 	{
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
@@ -37,7 +37,7 @@ namespace ModdersToolkit.Tools.Spawns
 
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
-		const int frameDelay = 7;
+        private const int frameDelay = 7;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			Main.instance.LoadNPC(npcType);

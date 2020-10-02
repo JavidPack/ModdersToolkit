@@ -16,7 +16,7 @@ using System.Diagnostics;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
-	class MiscellaneousTool : Tool
+    internal class MiscellaneousTool : Tool
 	{
 		internal static MiscellaneousUI miscellaneousUI;
 		internal static bool showNPCInfo;
@@ -95,7 +95,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 	}
 
-	class NPCInfoGlobalNPC : GlobalNPC
+    internal class NPCInfoGlobalNPC : GlobalNPC
 	{
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
 		{
@@ -150,7 +150,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 	}
 
-	class TileGridModWorld : ModWorld
+    internal class TileGridModWorld : ModWorld
 	{
 		public override void PostDrawTiles()
 		{

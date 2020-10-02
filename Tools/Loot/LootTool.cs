@@ -12,7 +12,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Loot
 {
-	class LootTool : Tool
+    internal class LootTool : Tool
 	{
 		internal static LootUI lootUI;
 

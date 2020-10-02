@@ -15,7 +15,7 @@ using Terraria.DataStructures;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
-	class MiscellaneousUI : UIState
+    internal class MiscellaneousUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -108,7 +108,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Append(mainPanel);
 		}
 
-		Tile[,] snapshot;
+        private Tile[,] snapshot;
 		private void TakeWorldSnapshot_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.NewText("Taking Snapshot");
 			snapshot = new Tile[Main.maxTilesX, Main.maxTilesY];
@@ -134,7 +134,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Main.NewText("Restoring Snapshot Complete");
 		}
 
-		static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
+        private static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		private void GenerateTownSprite_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			Main.NewText("Creating TownNPC sprite from current Player");

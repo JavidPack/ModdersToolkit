@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace ModdersToolkit.Tools.Shaders
 {
-	class ShaderPlayer : ModPlayer
+    internal class ShaderPlayer : ModPlayer
 	{
 		public override void UpdateBiomeVisuals() {
 			if (Platform.IsWindows) {

@@ -16,7 +16,7 @@ namespace ModdersToolkit.UIElements
 	//
 	//}
 
-	class UI2DRange<T> : UIElement
+    internal class UI2DRange<T> : UIElement
 	{
 		private UIRangedDataValue<T> dataX;
 		private UIRangedDataValue<T> dataY;

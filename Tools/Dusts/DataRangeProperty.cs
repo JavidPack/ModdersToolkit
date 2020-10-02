@@ -8,7 +8,7 @@ using Terraria;
 
 namespace ModdersToolkit.Tools.Dusts
 {
-	class FullFloatDataRangeProperty
+    internal class FullFloatDataRangeProperty
 	{
 		internal float min = 0f;
 		internal float max = 5f;
@@ -56,7 +56,7 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 	}
 
-	class IntDataRangeProperty
+    internal class IntDataRangeProperty
 	{
 		internal int max = 5;
 		private int data = 1;
@@ -97,7 +97,7 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 	}
 
-	class ColorDataRangeProperty
+    internal class ColorDataRangeProperty
 	{
 		private Color data = Color.White;
 		public event Action OnValueChanged;

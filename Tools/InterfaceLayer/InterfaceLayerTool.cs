@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.InterfaceLayer
 {
-	class InterfaceLayerTool: Tool
+    internal class InterfaceLayerTool: Tool
 	{
 		internal static InterfaceLayerUI interfaceLayerUI;
 		internal override void Initialize()

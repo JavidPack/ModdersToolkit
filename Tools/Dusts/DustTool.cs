@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Dusts
 {
-	class DustTool : Tool
+    internal class DustTool : Tool
 	{
 		//internal static UserInterface userInterface;
 		internal static DustUI dustUI;

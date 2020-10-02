@@ -17,7 +17,7 @@ using Terraria.UI.Chat;
 
 namespace ModdersToolkit.UIElements
 {
-	class UISlider : UIElement
+    internal class UISlider : UIElement
 	{
 		private Color _color;
 		private Func<string> _TextDisplayFunction;
@@ -50,8 +50,8 @@ namespace ModdersToolkit.UIElements
 			colorRange = isHue;
 		}
 
-		int paddingY = 4;
-		int paddingX = 5;
+        private int paddingY = 4;
+        private int paddingX = 5;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			CalculatedStyle dimensions = base.GetInnerDimensions();

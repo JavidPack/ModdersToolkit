@@ -16,7 +16,7 @@ using System;
 
 namespace ModdersToolkit.Tools.Textures
 {
-	class TextureUI : UIState
+    internal class TextureUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -43,11 +43,11 @@ namespace ModdersToolkit.Tools.Textures
 		internal NewUITextBox searchFilter;
 		private UICheckbox watchModSources;
 
-		static string filename = "ModdersToolkit_Texture.png";
-		static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
-		static string path = Path.Combine(folder, filename);
+        private static string filename = "ModdersToolkit_Texture.png";
+        private static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
+        private static string path = Path.Combine(folder, filename);
 
-		static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
+        private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
 		public override void OnInitialize()
 		{

@@ -6,7 +6,7 @@ namespace ModdersToolkit.UIElements
 {
 	public class FixedUIScrollbar : UIScrollbar
 	{
-		UserInterface userInterface;
+        private UserInterface userInterface;
 
 		public FixedUIScrollbar(UserInterface userInterface)
 		{

@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Hitboxes
 {
-	class HitboxesTool : Tool
+    internal class HitboxesTool : Tool
 	{
 		//internal static UserInterface userInterface;
 		internal static HitboxesUI hitboxesUI;
@@ -159,7 +159,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		}
 	}
 
-	class HitboxesGlobalItem : GlobalItem
+    internal class HitboxesGlobalItem : GlobalItem
 	{
 		internal static Rectangle?[] meleeHitbox = new Rectangle?[256];
 		// Is this ok to load in server?

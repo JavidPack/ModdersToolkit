@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-	class PlayerLayerUI : UIState
+    internal class PlayerLayerUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -112,7 +112,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		}
 	}
 
-	class PlayerLayerModPlayer : ModPlayer
+    internal class PlayerLayerModPlayer : ModPlayer
 	{
 		public override void ModifyDrawHeadLayers(List<PlayerHeadLayer> layers)
 		{

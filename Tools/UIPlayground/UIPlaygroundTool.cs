@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {
-	class UIPlaygroundTool : Tool
+    internal class UIPlaygroundTool : Tool
 	{
 		// TODO: Parallax to teach nesting
 

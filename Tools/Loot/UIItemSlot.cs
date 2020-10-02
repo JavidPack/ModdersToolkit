@@ -14,7 +14,7 @@ using ReLogic.Graphics;
 
 namespace ModdersToolkit.Tools.Loot
 {
-	class UIItemSlot : UIElement
+    internal class UIItemSlot : UIElement
 	{
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
@@ -31,7 +31,7 @@ namespace ModdersToolkit.Tools.Loot
 
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
-		const int frameDelay = 7;
+        private const int frameDelay = 7;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (item != null)

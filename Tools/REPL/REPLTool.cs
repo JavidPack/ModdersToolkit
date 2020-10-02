@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.REPL
 {
-	class REPLTool : Tool
+    internal class REPLTool : Tool
 	{
 		internal static REPLBackend replBackend;
 		//internal static UserInterface ModdersToolkitUserInterface;

@@ -11,7 +11,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Items
 {
-	class ItemTool : Tool
+    internal class ItemTool : Tool
 	{
 		internal static ItemUI itemUI;
 		internal static FieldInfo globalItemsField;

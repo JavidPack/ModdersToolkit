@@ -16,9 +16,9 @@ using System.Collections.Generic;
 namespace ModdersToolkit.Tools.Dusts
 {
 	// todo, Confirm button?
-	class DustChooserUI : UIPanel
+    internal class DustChooserUI : UIPanel
 	{
-		UIGrid dustGrid;
+        private UIGrid dustGrid;
 
 		private UserInterface userInterface;
 		public DustChooserUI(UserInterface userInterface)
@@ -87,7 +87,7 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 	}
 
-	class DustSlot : UIElement
+    internal class DustSlot : UIElement
 	{
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
@@ -109,7 +109,8 @@ namespace ModdersToolkit.Tools.Dusts
 
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
-		const int frameDelay = 7;
+
+        private const int frameDelay = 7;
 		//internal int frameCounter = 0;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{

@@ -8,9 +8,9 @@ using Terraria.Graphics;
 
 namespace ModdersToolkit.UIElements
 {
-	class UIRadioButtonGroup : UIElement
+    internal class UIRadioButtonGroup : UIElement
 	{
-		int idCount = 0;
+        private int idCount = 0;
 		public UIRadioButtonGroup()
 		{
 			this.Height.Set(20f, 0f);

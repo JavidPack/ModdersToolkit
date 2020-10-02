@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace ModdersToolkit.Tools.Items
 {
-	class ItemUI : UIState
+    internal class ItemUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -19,7 +19,7 @@ namespace ModdersToolkit.Tools.Items
 			this.userInterface = userInterface;
 		}
 
-		UIIntRangedDataValue damageData;
+        private UIIntRangedDataValue damageData;
 		internal static UIIntRangedDataValue holdoutXData;
 		internal static UIIntRangedDataValue holdoutYData;
 		internal static UICheckbox playerMeleeCheckbox;
@@ -280,7 +280,7 @@ namespace ModdersToolkit.Tools.Items
 		}
 	}
 
-	class ItemUIGlobalItem : GlobalItem
+    internal class ItemUIGlobalItem : GlobalItem
 	{
 		public override Vector2? HoldoutOffset(int type)
 		{

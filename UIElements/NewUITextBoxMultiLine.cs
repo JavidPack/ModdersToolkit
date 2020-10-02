@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ModdersToolkit.UIElements
 {
-	class NewUITextBoxMultiLine : UITextPanel<string>
+    internal class NewUITextBoxMultiLine : UITextPanel<string>
 	{
 		internal bool focused = false;
 		private int _cursor;
@@ -200,7 +200,7 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		static bool JustPressed(Keys key)
+        private static bool JustPressed(Keys key)
 		{
 			return Main.inputText.IsKeyDown(key) && !Main.oldInputText.IsKeyDown(key);
 		}

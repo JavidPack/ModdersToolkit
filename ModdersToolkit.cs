@@ -25,9 +25,9 @@ namespace ModdersToolkit
 	{
         internal static List<Tool> tools;
 
-        int lastSeenScreenWidth;
-		int lastSeenScreenHeight;
-		bool visible;
+        private int lastSeenScreenWidth;
+        private int lastSeenScreenHeight;
+        private bool visible;
 
 		public override void Load()
 		{

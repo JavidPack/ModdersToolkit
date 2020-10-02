@@ -8,7 +8,7 @@ using ModdersToolkit.Tools.Dusts;
 
 namespace ModdersToolkit.Tools.UIPlayground
 {
-	class UIPlaygroundUI : UIState
+    internal class UIPlaygroundUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -378,7 +378,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 		}
 	}
 
-	class DebugDrawUIPanel : UIPanel
+    internal class DebugDrawUIPanel : UIPanel
 	{
 		protected override void DrawChildren(SpriteBatch spriteBatch) {
 			base.DrawChildren(spriteBatch);

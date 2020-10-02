@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Projectiles
 {
-	class ProjectilesTool : Tool
+    internal class ProjectilesTool : Tool
 	{
 		internal static ProjectilesUI projectileUI;
 		internal override void Initialize()

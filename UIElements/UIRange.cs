@@ -11,7 +11,7 @@ using ModdersToolkit.Tools.Dusts;
 
 namespace ModdersToolkit.UIElements
 {
-	class UIRange<T> : UIElement
+    internal class UIRange<T> : UIElement
 	{
 		internal UIText label;
 		internal UISlider slider;
@@ -56,7 +56,7 @@ namespace ModdersToolkit.UIElements
 			data.SetValue(data.Data);
 		}
 
-		bool debugDraw = false;
+        private bool debugDraw = false;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (debugDraw)

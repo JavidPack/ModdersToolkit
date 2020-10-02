@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Textures
 {
-	class TextureTool: Tool
+    internal class TextureTool: Tool
 	{
 		internal static TextureUI textureUI;
 		internal override void Initialize()

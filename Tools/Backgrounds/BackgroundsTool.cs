@@ -10,10 +10,11 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Backgrounds
 {
-	class BackgroundsTool : Tool
+	internal class BackgroundsTool : Tool
 	{
-		internal static BackgroundsUI backgroundsUI;
-		internal override void Initialize()
+        internal static BackgroundsUI UI { get; private set; }
+
+        internal override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Background Tool";
 		}
@@ -21,31 +22,33 @@ namespace ModdersToolkit.Tools.Backgrounds
 		internal override void ClientInitialize()
 		{
 			Interface = new UserInterface();
-			backgroundsUI = new BackgroundsUI(Interface);
-			backgroundsUI.Activate();
-			Interface.SetState(backgroundsUI);
+
+			UI = new BackgroundsUI(Interface);
+			UI.Activate();
+			
+            Interface.SetState(UI);
 		}
 
 		internal override void UIDraw()
 		{
 			if (Visible)
-			{
-				backgroundsUI.Draw(Main.spriteBatch);
-			}
-		}
+                UI.Draw(Main.spriteBatch);
+        }
 	}
 
-	class BackgroundsToolGlobalBgStyle : GlobalBgStyle
+    internal class BackgroundsToolGlobalBgStyle : GlobalBgStyle
 	{
 		public override void ChooseSurfaceBgStyle(ref int style)
 		{
 			if (Main.gameMenu)
 				return;
-			int choice = BackgroundsTool.backgroundsUI.surfaceBgStyleDataProperty.Data;
-			if (choice > -1)
+
+			int choice = BackgroundsTool.UI.surfaceBgStyleDataProperty.Data;
+			
+            if (choice > -1)
 				style = choice;
 
-			if(BackgroundsTool.backgroundsUI.quickChangeCheckbox.Selected)
+			if(BackgroundsTool.UI.quickChangeCheckbox.Selected)
 				Main.quickBG = 10;
 		}
 
@@ -53,11 +56,13 @@ namespace ModdersToolkit.Tools.Backgrounds
 		{
 			if (Main.gameMenu)
 				return;
-			int choice = BackgroundsTool.backgroundsUI.undergroundBgStyleDataProperty.Data;
+
+			int choice = BackgroundsTool.UI.undergroundBgStyleDataProperty.Data;
+
 			if (choice > -1)
 				style = choice;
 
-			if (BackgroundsTool.backgroundsUI.quickChangeCheckbox.Selected)
+			if (BackgroundsTool.UI.quickChangeCheckbox.Selected)
 				Main.quickBG = 10;
 		}
 
@@ -67,15 +72,10 @@ namespace ModdersToolkit.Tools.Backgrounds
 				return;
 			for (int i = 0; i < 7; i++)
 			{
-				var data = BackgroundsTool.backgroundsUI.undergroundTextureDataProperties[i].Data;
+				var data = BackgroundsTool.UI.undergroundTextureDataProperties[i].Data;
 				if (data > -1)
 					textureSlots[i] = data;
 			}
 		}
-
-		public override void ModifyFarSurfaceFades(int style, float[] fades, float transitionSpeed)
-		{
-			base.ModifyFarSurfaceFades(style, fades, transitionSpeed);
-		}
-	}
+    }
 }

@@ -9,9 +9,9 @@ using Terraria.UI.Chat;
 
 namespace ModdersToolkit.UIElements
 {
-	class UICodeEntry : UIText
+    internal class UICodeEntry : UIText
 	{
-		static int NextNum = 100;
+        private static int NextNum = 100;
 		internal int num;
 		internal CodeType codeType;
 		public UICodeEntry(string text, CodeType type, float textScale = 1, bool large = false) : base(text, textScale = 1, large = false)

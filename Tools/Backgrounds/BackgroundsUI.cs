@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Backgrounds
 {
-	class BackgroundsUI : UIState
+    internal class BackgroundsUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;

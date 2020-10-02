@@ -8,7 +8,7 @@ using Terraria.GameContent.UI.Elements;
 
 namespace ModdersToolkit.Tools.Loot
 {
-	class UILootInfo : UIElement
+    internal class UILootInfo : UIElement
 	{
 		internal UIItemSlot itemSlot;
 		internal UIText information;

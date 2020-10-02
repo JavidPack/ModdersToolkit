@@ -18,7 +18,7 @@ namespace ModdersToolkit.Tools.Projectiles
 	// TODO: DrawOffsetX and Y setting
 	// Also NPC drawOffsetY
 
-	class ProjectilesUI : UIState
+    internal class ProjectilesUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -45,7 +45,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		internal static bool stepPrevious;
 		internal static bool step;
 
-		UIGrid projectileGrid;
+        private UIGrid projectileGrid;
 		internal NewUITextBox searchFilter;
 
 		public override void OnInitialize()
@@ -278,7 +278,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 	}
 
-	class ProjectileSlot : UIElement
+    internal class ProjectileSlot : UIElement
 	{
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .6f;
@@ -377,7 +377,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 	}
 
-	class ProjectilesUIGlobalItem : GlobalProjectile
+    internal class ProjectilesUIGlobalItem : GlobalProjectile
 	{
 		public override bool PreAI(Projectile projectile)
 		{

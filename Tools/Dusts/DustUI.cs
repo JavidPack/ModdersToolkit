@@ -15,7 +15,7 @@ using ReLogic.OS;
 
 namespace ModdersToolkit.Tools.Dusts
 {
-	class DustUI : UIState
+    internal class DustUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -43,26 +43,27 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 		}
 
-		UICheckbox noGravityCheckbox;
-		UICheckbox noLightCheckbox;
-		UICheckbox showSpawnRectangleCheckbox;
-		UICheckbox useCustomColorCheckbox;
+        private UICheckbox noGravityCheckbox;
+        private UICheckbox noLightCheckbox;
+        private UICheckbox showSpawnRectangleCheckbox;
+        private UICheckbox useCustomColorCheckbox;
 
-		UIRadioButton NewDustRadioButton;
-		UIRadioButton NewDustPerfectRadioButton;
-		UIRadioButton NewDustDirectRadioButton;
+        private UIRadioButton NewDustRadioButton;
+        private UIRadioButton NewDustPerfectRadioButton;
+        private UIRadioButton NewDustDirectRadioButton;
 
-		UIFloatRangedDataValue scaleDataProperty;
-		UIIntRangedDataValue widthDataProperty;
-		UIIntRangedDataValue heightDataProperty;
+        private UIFloatRangedDataValue scaleDataProperty;
+        private UIIntRangedDataValue widthDataProperty;
+        private UIIntRangedDataValue heightDataProperty;
 		internal IntDataRangeProperty typeDataProperty;
-		UIIntRangedDataValue alphaDataProperty;
-		UIIntRangedDataValue shaderDataProperty;
-		UIFloatRangedDataValue speedXDataProperty;
-		UIFloatRangedDataValue speedYDataProperty;
-		UIFloatRangedDataValue fadeInDataProperty;
-		UIFloatRangedDataValue spawnChanceDataProperty;
-		ColorDataRangeProperty colorDataProperty;
+        private UIIntRangedDataValue alphaDataProperty;
+        private UIIntRangedDataValue shaderDataProperty;
+        private UIFloatRangedDataValue speedXDataProperty;
+        private UIFloatRangedDataValue speedYDataProperty;
+        private UIFloatRangedDataValue fadeInDataProperty;
+        private UIFloatRangedDataValue spawnChanceDataProperty;
+
+        private ColorDataRangeProperty colorDataProperty;
 		// Color slider
 		// customdata?
 		// random jitter on all floats?

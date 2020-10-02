@@ -18,7 +18,7 @@ using Terraria.Graphics;
 
 namespace ModdersToolkit.REPL
 {
-	class REPLUI : UIState
+    internal class REPLUI : UIState
 	{
 		public static bool visible = false;
 		private static readonly string codeArrow = ">";

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ModdersToolkit.Tools.Loot
 {
-	class UIMoneyDisplay : UIElement
+    internal class UIMoneyDisplay : UIElement
 	{
 		public long coins;
 		public UIMoneyDisplay()

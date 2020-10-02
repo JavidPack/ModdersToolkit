@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ModdersToolkit.Tools.InterfaceLayer
 {
-	class InterfaceLayerUI : UIState
+    internal class InterfaceLayerUI : UIState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;

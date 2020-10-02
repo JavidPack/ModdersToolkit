@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace ModdersToolkit.Tools.REPL
 {
-	class REPLConsoleCommand : ModCommand
+    internal class REPLConsoleCommand : ModCommand
 	{
 		public override CommandType Type => CommandType.Console;
 
