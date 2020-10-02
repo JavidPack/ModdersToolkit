@@ -15,15 +15,15 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		internal static PlayerLayerUI playerLayerUI;
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Player Layer Tool";
+			ToggleTooltip = "Click to toggle Player Layer Tool";
 		}
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				playerLayerUI.Draw(Main.spriteBatch);
 			}
@@ -32,9 +32,9 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		{
 			if (!Main.dedServ)
 			{
-				playerLayerUI = new PlayerLayerUI(userInterface);
+				playerLayerUI = new PlayerLayerUI(Interface);
 				playerLayerUI.Activate();
-				userInterface.SetState(playerLayerUI);
+				Interface.SetState(playerLayerUI);
 			}
 		}
 	}

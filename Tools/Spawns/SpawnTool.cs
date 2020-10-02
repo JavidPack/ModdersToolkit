@@ -18,18 +18,18 @@ namespace ModdersToolkit.Tools.Spawns
 
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle NPC Spawn Tool";
+			ToggleTooltip = "Click to toggle NPC Spawn Tool";
 			spawns = new Dictionary<int, int>();
 		}
 
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				spawnUI.Draw(Main.spriteBatch);
 			}
@@ -39,9 +39,9 @@ namespace ModdersToolkit.Tools.Spawns
 		{
 			if (!Main.dedServ)
 			{
-				spawnUI = new SpawnUI(userInterface);
+				spawnUI = new SpawnUI(Interface);
 				spawnUI.Activate();
-				userInterface.SetState(spawnUI);
+				Interface.SetState(spawnUI);
 			}
 		}
 

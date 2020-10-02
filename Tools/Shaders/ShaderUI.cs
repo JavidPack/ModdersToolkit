@@ -397,13 +397,13 @@ technique Technique1
 					PipelineDLL = "Microsoft.Xna.Framework.Content.Pipeline.dll";
 
 				Directory.CreateDirectory(cacheFolder);
-				ModdersToolkit.instance.Logger.Info("Unpacking fxbuilder.exe and Pipeline dlls");
-				File.WriteAllBytes(exePath, ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{exeFilename}"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, WCFXCompilerDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{WCFXCompilerDLL}"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, EffectImporterDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{EffectImporterDLL}"));
-				File.WriteAllBytes(Path.Combine(cacheFolder, PipelineDLL), ModdersToolkit.instance.GetFileBytes($"{LibReflectedBase}/{PipelineDLL}"));
+				ModdersToolkit.Instance.Logger.Info("Unpacking fxbuilder.exe and Pipeline dlls");
+				File.WriteAllBytes(exePath, ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{exeFilename}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, WCFXCompilerDLL), ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{WCFXCompilerDLL}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, EffectImporterDLL), ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{EffectImporterDLL}"));
+				File.WriteAllBytes(Path.Combine(cacheFolder, PipelineDLL), ModdersToolkit.Instance.GetFileBytes($"{LibReflectedBase}/{PipelineDLL}"));
 				File.WriteAllText(exeVersionPath, fxcompilerVersion.ToString());
-				ModdersToolkit.instance.Logger.Info("Unpacking complete");
+				ModdersToolkit.Instance.Logger.Info("Unpacking complete");
 				fxCompilerUpToDate = true;
 			}
 

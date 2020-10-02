@@ -16,13 +16,13 @@ namespace ModdersToolkit.Tools.Dusts
 		internal static DustUI dustUI;
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Dust Tool";
+			ToggleTooltip = "Click to toggle Dust Tool";
 		}
 
 		// should ui even initialize during load? are static members nulled out on reload?
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 			//dustUI = new DustUI(userInterface);
 			//dustUI.Activate();
 			//userInterface.SetState(dustUI);
@@ -40,7 +40,7 @@ namespace ModdersToolkit.Tools.Dusts
 		//}
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				dustUI.Draw(Main.spriteBatch);
 				//if (showProjectileHitboxes) drawProjectileHitboxes();
@@ -72,9 +72,9 @@ namespace ModdersToolkit.Tools.Dusts
 				}
 				dustCount = count;
 
-				dustUI = new DustUI(userInterface);
+				dustUI = new DustUI(Interface);
 				dustUI.Activate();
-				userInterface.SetState(dustUI);
+				Interface.SetState(dustUI);
 			}
 		}
 	}

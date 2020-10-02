@@ -25,16 +25,16 @@ namespace ModdersToolkit.Tools.Hitboxes
 
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Hitboxes Tool";
+			ToggleTooltip = "Click to toggle Hitboxes Tool";
 			//hitboxesGlobalItem = (HitboxesGlobalItem)ModdersToolkit.instance.GetGlobalItem("HitboxesGlobalItem");
 		}
 
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
-			hitboxesUI = new HitboxesUI(userInterface);
+			Interface = new UserInterface();
+			hitboxesUI = new HitboxesUI(Interface);
 			hitboxesUI.Activate();
-			userInterface.SetState(hitboxesUI);
+			Interface.SetState(hitboxesUI);
 		}
 
 		//internal override void ScreenResolutionChanged()
@@ -50,7 +50,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		//}
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				hitboxesUI.Draw(Main.spriteBatch);
 			}
@@ -58,7 +58,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 
 		internal override void WorldDraw()
 		{
-			if (visible || keepShowingHitboxes)
+			if (Visible || keepShowingHitboxes)
 			{ 
 				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();
 				if (showNPCHitboxes) drawNPCHitboxes();

@@ -13,14 +13,14 @@ namespace ModdersToolkit.Tools.UIPlayground
 		internal static UIPlaygroundUI uiPlaygroundUI;
 
 		internal override void Initialize() {
-			toggleTooltip = "Click to toggle UI Playground Tool";
+			ToggleTooltip = "Click to toggle UI Playground Tool";
 		}
 
 		internal override void ClientInitialize() {
-			userInterface = new UserInterface();
-			uiPlaygroundUI = new UIPlaygroundUI(userInterface);
+			Interface = new UserInterface();
+			uiPlaygroundUI = new UIPlaygroundUI(Interface);
 			uiPlaygroundUI.Activate();
-			userInterface.SetState(uiPlaygroundUI);
+			Interface.SetState(uiPlaygroundUI);
 
 			//On.Terraria.UI.UIElement.DrawSelf += UIElement_DrawSelf;
 			On.Terraria.UI.UIElement.Draw += UIElement_Draw;
@@ -96,7 +96,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 		}
 
 		internal override void UIDraw() {
-			if (visible) {
+			if (Visible) {
 				uiPlaygroundUI.Draw(Main.spriteBatch);
 			}
 		}

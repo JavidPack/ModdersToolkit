@@ -30,15 +30,15 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Miscellaneous Tool";
+			ToggleTooltip = "Click to toggle Miscellaneous Tool";
 		}
 
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
-			miscellaneousUI = new MiscellaneousUI(userInterface);
+			Interface = new UserInterface();
+			miscellaneousUI = new MiscellaneousUI(Interface);
 			miscellaneousUI.Activate();
-			userInterface.SetState(miscellaneousUI);
+			Interface.SetState(miscellaneousUI);
 
 			On.Terraria.Main.PlaySound_int_int_int_int_float_float += Main_PlaySound_int_int_int_int_float_float;
 
@@ -88,7 +88,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				miscellaneousUI.Draw(Main.spriteBatch);
 			}

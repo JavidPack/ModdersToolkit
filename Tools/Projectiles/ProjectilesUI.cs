@@ -182,7 +182,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			pause.Top.Set(top, 0f);
 			mainPanel.Append(pause);
 
-			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/next"), "Step");
+			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/next"), "Step");
 			stepButton.OnClick += (s, e) => step = true;
 			stepButton.Top.Set(top - 6, 0f);
 			stepButton.Left.Set(80, 0f);

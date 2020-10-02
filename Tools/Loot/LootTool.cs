@@ -20,18 +20,18 @@ namespace ModdersToolkit.Tools.Loot
 
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle NPC Loot Tool";
+			ToggleTooltip = "Click to toggle NPC Loot Tool";
 			loots = new Dictionary<int, int>();
 		}
 
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				lootUI.Draw(Main.spriteBatch);
 			}
@@ -41,9 +41,9 @@ namespace ModdersToolkit.Tools.Loot
 		{
 			if (!Main.dedServ)
 			{
-				lootUI = new LootUI(userInterface);
+				lootUI = new LootUI(Interface);
 				lootUI.Activate();
-				userInterface.SetState(lootUI);
+				Interface.SetState(lootUI);
 			}
 		}
 

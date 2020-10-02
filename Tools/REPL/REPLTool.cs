@@ -20,15 +20,15 @@ namespace ModdersToolkit.Tools.REPL
 		internal override void Initialize()
 		{
 			replBackend = new REPLBackend();
-			toggleTooltip = "Click to toggle C# REPL";
+			ToggleTooltip = "Click to toggle C# REPL";
 		}
 
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
-			moddersToolkitUI = new REPLUI(userInterface);
+			Interface = new UserInterface();
+			moddersToolkitUI = new REPLUI(Interface);
 			moddersToolkitUI.Activate();
-			userInterface.SetState(moddersToolkitUI);
+			Interface.SetState(moddersToolkitUI);
 		}
 
 		//internal override void ScreenResolutionChanged()
@@ -45,7 +45,7 @@ namespace ModdersToolkit.Tools.REPL
 
 		internal override void WorldDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				if (EyedropperActive)
 				{
@@ -70,7 +70,7 @@ namespace ModdersToolkit.Tools.REPL
 
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				moddersToolkitUI.Draw(Main.spriteBatch);
 			}
@@ -79,11 +79,11 @@ namespace ModdersToolkit.Tools.REPL
 		internal override void Toggled()
 		{
 			Main.drawingPlayerChat = false;
-			if (visible)
+			if (Visible)
 			{
 				Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Focus();
 			}
-			if (!visible)
+			if (!Visible)
 			{
 				Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Unfocus();
 			}

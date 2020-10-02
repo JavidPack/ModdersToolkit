@@ -15,15 +15,15 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 		internal static InterfaceLayerUI interfaceLayerUI;
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Interface Layer Tool";
+			ToggleTooltip = "Click to toggle Interface Layer Tool";
 		}
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				interfaceLayerUI.Draw(Main.spriteBatch);
 			}
@@ -32,9 +32,9 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 		{
 			if (!Main.dedServ)
 			{
-				interfaceLayerUI = new InterfaceLayerUI(userInterface);
+				interfaceLayerUI = new InterfaceLayerUI(Interface);
 				interfaceLayerUI.Activate();
-				userInterface.SetState(interfaceLayerUI);
+				Interface.SetState(interfaceLayerUI);
 			}
 		}
 	}

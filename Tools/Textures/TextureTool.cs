@@ -15,15 +15,15 @@ namespace ModdersToolkit.Tools.Textures
 		internal static TextureUI textureUI;
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Texture Tool";
+			ToggleTooltip = "Click to toggle Texture Tool";
 		}
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				textureUI.Draw(Main.spriteBatch);
 			}
@@ -32,9 +32,9 @@ namespace ModdersToolkit.Tools.Textures
 		{
 			if (!Main.dedServ)
 			{
-				textureUI = new TextureUI(userInterface);
+				textureUI = new TextureUI(Interface);
 				textureUI.Activate();
-				userInterface.SetState(textureUI);
+				Interface.SetState(textureUI);
 			}
 		}
 	}

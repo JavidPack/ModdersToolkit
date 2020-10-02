@@ -15,15 +15,15 @@ namespace ModdersToolkit.Tools.Projectiles
 		internal static ProjectilesUI projectileUI;
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Projectile Tool";
+			ToggleTooltip = "Click to toggle Projectile Tool";
 		}
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				projectileUI.Draw(Main.spriteBatch);
 			}
@@ -32,9 +32,9 @@ namespace ModdersToolkit.Tools.Projectiles
 		{
 			if (!Main.dedServ)
 			{
-				projectileUI = new ProjectilesUI(userInterface);
+				projectileUI = new ProjectilesUI(Interface);
 				projectileUI.Activate();
-				userInterface.SetState(projectileUI);
+				Interface.SetState(projectileUI);
 			}
 		}
 	}

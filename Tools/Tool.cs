@@ -4,19 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools
 {
-	abstract class Tool
+	public abstract class Tool
 	{
-		internal bool visible;
-		internal string toggleTooltip;
-		//internal virtual bool visible => _visible;
-		internal UserInterface userInterface;
-		//internal virtual UserInterface UserInterface => userInterface;
-
-		/// <summary>
+        /// <summary>
 		/// Initializes this Tool. Called during Load.
 		/// Useful for initializing data.
 		/// </summary>
@@ -40,16 +35,17 @@ namespace ModdersToolkit.Tools
         /// </summary>
 		internal virtual void ClientTerminate() { }
 
+
         internal virtual void ScreenResolutionChanged()
 		{
-			userInterface?.Recalculate();
+			Interface?.Recalculate();
 		}
 
 		internal virtual void UIUpdate()
 		{
-			if (visible)
+			if (Visible)
 			{
-				userInterface?.Update(Main._drawInterfaceGameTime);
+				Interface?.Update(Main._drawInterfaceGameTime);
 			}
 		}
 
@@ -64,6 +60,13 @@ namespace ModdersToolkit.Tools
 		internal virtual void PostSetupContent() { }
 
 		//	internal virtual void UIDraw() { }
+
+
+        public bool Visible { get; internal set; }
+
+        public string ToggleTooltip { get; protected set; }
+
+        public UserInterface Interface { get; internal set; }
 	}
 
 	//class ToolTest : Tool

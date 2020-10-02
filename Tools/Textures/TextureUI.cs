@@ -136,7 +136,7 @@ namespace ModdersToolkit.Tools.Textures
 			//exportImageButton.Left.Set(0, 0f);
 			//mainPanel.Append(exportImageButton);
 
-			UIHoverImageButton editImageButton = new UIHoverImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"), "Open Exported Image in Default Editor");
+			UIHoverImageButton editImageButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/eyedropper"), "Open Exported Image in Default Editor");
 			editImageButton.OnClick += EditImageButton_OnClick;
 			editImageButton.Top.Set(top + 5, 0f);
 			editImageButton.Left.Set(0, 0f);

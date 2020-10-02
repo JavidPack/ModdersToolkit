@@ -18,18 +18,18 @@ namespace ModdersToolkit.Tools.Items
 
 		internal override void Initialize()
 		{
-			toggleTooltip = "Click to toggle Item Tool";
+			ToggleTooltip = "Click to toggle Item Tool";
 			globalItemsField = typeof(Item).GetField("globalItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
 
 		internal override void ClientInitialize()
 		{
-			userInterface = new UserInterface();
+			Interface = new UserInterface();
 		}
 
 		internal override void UIDraw()
 		{
-			if (visible)
+			if (Visible)
 			{
 				itemUI.Draw(Main.spriteBatch);
 			}
@@ -39,9 +39,9 @@ namespace ModdersToolkit.Tools.Items
 		{
 			if (!Main.dedServ)
 			{
-				itemUI = new ItemUI(userInterface);
+				itemUI = new ItemUI(Interface);
 				itemUI.Activate();
-				userInterface.SetState(itemUI);
+				Interface.SetState(itemUI);
 			}
 		}
 	}
