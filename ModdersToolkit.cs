@@ -46,12 +46,12 @@ namespace ModdersToolkit
 			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
 			AddTool(new Tools.Spawns.SpawnTool());
 			AddTool(new Tools.Textures.TextureTool());
+			if (Platform.IsWindows)
+				tools.Add(new Tools.Shaders.ShaderTool());
+			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 			AddTool(new Tools.UIPlayground.UIPlaygroundTool());
 			AddTool(new Tools.Backgrounds.BackgroundsTool());
 			AddTool(new Tools.Miscellaneous.MiscellaneousTool());
-
-			if (Platform.IsWindows)
-				tools.Add(new Tools.Shaders.ShaderTool());
 
 			tools.ForEach(tool => tool.Initialize());
 

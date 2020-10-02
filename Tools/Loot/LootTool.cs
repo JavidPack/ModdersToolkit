@@ -73,7 +73,9 @@ namespace ModdersToolkit.Tools.Loot
 			Utils.Swap(ref items, ref Main.item);
 
 			//todo, 401 limit prevents good percentage calculations.
-			int currentCount, type, stack;
+			int currentCount;
+			int type;
+			int stack;
 
 			for (int i = 0; i < NumberLootExperiments; i++) {
 				NPC npc = Main.npc[NPC.NewNPC(0, 0, npcid)];
