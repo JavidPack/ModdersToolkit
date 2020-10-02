@@ -23,32 +23,32 @@ namespace ModdersToolkit.Tools.Hitboxes
 		internal static bool showWorldItemHitboxes;
 		//internal static HitboxesGlobalItem hitboxesGlobalItem;
 
-		internal override void Initialize()
+		public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Hitboxes Tool";
 			//hitboxesGlobalItem = (HitboxesGlobalItem)ModdersToolkit.instance.GetGlobalItem("HitboxesGlobalItem");
 		}
 
-		internal override void ClientInitialize()
+        public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
 			hitboxesUI = new HitboxesUI(Interface);
 			hitboxesUI.Activate();
+
 			Interface.SetState(hitboxesUI);
 		}
 
-		//internal override void ScreenResolutionChanged()
-		//{
-		//	userInterface.Recalculate();
-		//}
-		//internal override void UIUpdate()
-		//{
-		//	if (visible)
-		//	{
-		//		userInterface.Update(Main._drawInterfaceGameTime);
-		//	}
-		//}
-		internal override void UIDraw()
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+			hitboxesUI?.Deactivate();
+            hitboxesUI = default;
+        }
+
+
+        public override void UIDraw()
 		{
 			if (Visible)
 			{
@@ -56,21 +56,21 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 
-		internal override void WorldDraw()
+        public override void WorldDraw()
 		{
 			if (Visible || keepShowingHitboxes)
 			{ 
-				if (showPlayerMeleeHitboxes) drawPlayerMeleeHitboxes();
-				if (showNPCHitboxes) drawNPCHitboxes();
-				if (showProjectileHitboxes) drawProjectileHitboxes();
+				if (showPlayerMeleeHitboxes) DrawPlayerMeleeHitboxes();
+				if (showNPCHitboxes) DrawNPCHitboxes();
+				if (showProjectileHitboxes) DrawProjectileHitboxes();
 				// TODO: TileCollideStyle hitboxes? different?
-				if (showProjectileDamageHitboxes) drawProjectileDamageHitboxes();
-				if (showTEPositions) drawTileEntityPositions();
-				if (showWorldItemHitboxes) drawWorldItemHitboxes();
+				if (showProjectileDamageHitboxes) DrawProjectileDamageHitboxes();
+				if (showTEPositions) DrawTileEntityPositions();
+				if (showWorldItemHitboxes) DrawWorldItemHitboxes();
 			}
 		}
 
-		private void drawPlayerMeleeHitboxes()
+		private void DrawPlayerMeleeHitboxes()
 		{
 			for (int i = 0; i < 256; i++)
 			{
@@ -86,7 +86,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 
-		private void drawNPCHitboxes()
+		private void DrawNPCHitboxes()
 		{
 			for (int i = 0; i < 200; i++)
 			{
@@ -101,7 +101,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 		
-		private void drawWorldItemHitboxes()
+		private void DrawWorldItemHitboxes()
 		{
 			for (int i = 0; i < 400; i++)
 			{
@@ -116,7 +116,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 
-		private void drawProjectileHitboxes()
+		private void DrawProjectileHitboxes()
 		{
 			for (int i = 0; i < 1000; i++)
 			{
@@ -131,7 +131,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 
-		private void drawProjectileDamageHitboxes()
+		private void DrawProjectileDamageHitboxes()
 		{
 			for (int i = 0; i < 1000; i++)
 			{
@@ -147,7 +147,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 
-		private void drawTileEntityPositions()
+		private void DrawTileEntityPositions()
 		{
 			foreach (var pair in TileEntity.ByPosition)
 			{
@@ -157,9 +157,21 @@ namespace ModdersToolkit.Tools.Hitboxes
 				Main.spriteBatch.Draw(Main.magicPixel, locationRectangle, Color.Green * 0.6f);
 			}
 		}
+
+        //internal override void ScreenResolutionChanged()
+        //{
+        //	userInterface.Recalculate();
+        //}
+        //internal override void UIUpdate()
+        //{
+        //	if (visible)
+        //	{
+        //		userInterface.Update(Main._drawInterfaceGameTime);
+        //	}
+        //}
 	}
 
-    internal class HitboxesGlobalItem : GlobalItem
+	internal class HitboxesGlobalItem : GlobalItem
 	{
 		internal static Rectangle?[] meleeHitbox = new Rectangle?[256];
 		// Is this ok to load in server?
