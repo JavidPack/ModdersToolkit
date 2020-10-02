@@ -6,43 +6,54 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Shaders
 {
-	internal class ShaderTool : Tool
-	{
-		internal static ShaderUI shaderUI;
+    internal class ShaderTool : Tool
+    {
+        internal static ShaderUI shaderUI;
 
-		internal override void Initialize() {
-			ToggleTooltip = "Click to toggle Shader Tool";
-		}
+        public override void Initialize()
+        {
+            ToggleTooltip = "Click to toggle Shader Tool";
+        }
 
-		internal override void ClientInitialize() {
-			Interface = new UserInterface();
-			Filters.Scene["ModdersToolkit:TestScreenShader"] = new Filter(new ScreenShaderData("FilterInvert"), EffectPriority.VeryHigh);
-		}
+        public override void ClientInitialize()
+        {
+            Interface = new UserInterface();
+            Filters.Scene["ModdersToolkit:TestScreenShader"] = new Filter(new ScreenShaderData("FilterInvert"), EffectPriority.VeryHigh);
 
-		internal override void UIDraw() {
-			if (Visible) {
-				shaderUI.Draw(Main.spriteBatch);
-			}
-		}
+            shaderUI = new ShaderUI(Interface);
+            shaderUI.Activate();
 
-		internal override void PostSetupContent() {
-			if (Main.dedServ)
-				return;
+            Interface.SetState(shaderUI);
+        }
 
-			shaderUI = new ShaderUI(Interface);
-			shaderUI.Activate();
-			Interface.SetState(shaderUI);
-		}
+        public override void ClientTerminate()
+        {
+            Interface = default;
 
-		internal override void Toggled() {
+            shaderUI.Deactivate();
+            shaderUI = default;
+        }
+
+
+        public override void UIDraw()
+        {
+            if (Visible)
+            {
+                shaderUI.Draw(Main.spriteBatch);
+            }
+        }
+
+        public override void Toggled()
+        {
 #if DEBUG
-			if (!Visible) {
-				shaderUI.RemoveAllChildren();
-				var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
-				isInitializedFieldInfo.SetValue(shaderUI, false);
-				shaderUI.Activate();
-			}
+            if (!Visible)
+            {
+                shaderUI.RemoveAllChildren();
+                var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
+                isInitializedFieldInfo.SetValue(shaderUI, false);
+                shaderUI.Activate();
+            }
 #endif
-		}
-	}
+        }
+    }
 }
