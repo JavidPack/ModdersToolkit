@@ -26,15 +26,15 @@ namespace ModdersToolkit.Tools.Loot
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			lootUI?.Deactivate();
-			lootUI = default;
+			lootUI = null;
 		}
 
 		public override void Terminate() {
 			loots?.Clear();
-			loots = default;
+			loots = null;
 		}
 
 

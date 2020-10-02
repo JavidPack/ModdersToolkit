@@ -49,10 +49,10 @@ namespace ModdersToolkit.Tools.Spawns
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			spawnUI.Deactivate();
-			spawnUI = default;
+			spawnUI = null;
 		}
 
 

@@ -22,10 +22,10 @@ namespace ModdersToolkit.Tools.Backgrounds
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			UI.Deactivate();
-			UI = default;
+			UI = null;
 		}
 
 

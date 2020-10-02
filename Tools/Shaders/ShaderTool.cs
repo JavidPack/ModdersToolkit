@@ -25,10 +25,10 @@ namespace ModdersToolkit.Tools.Shaders
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			shaderUI.Deactivate();
-			shaderUI = default;
+			shaderUI = null;
 		}
 
 

@@ -29,12 +29,10 @@ namespace ModdersToolkit.Tools.UIPlayground
 		}
 
 		public override void ClientTerminate() {
-			On.Terraria.UI.UIElement.Draw -= UIElement_Draw;
-
-			Interface = default;
+			Interface = null;
 
 			uiPlaygroundUI?.Deactivate();
-			uiPlaygroundUI = default;
+			uiPlaygroundUI = null;
 		}
 
 

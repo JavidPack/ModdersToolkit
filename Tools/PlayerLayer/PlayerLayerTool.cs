@@ -21,10 +21,10 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			playerLayerUI.Deactivate();
-			playerLayerUI = default;
+			playerLayerUI = null;
 		}
 
 

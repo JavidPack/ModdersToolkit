@@ -47,15 +47,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 
 		public override void ClientTerminate() {
-			On.Terraria.Main.PlaySound_int_int_int_int_float_float -= Main_PlaySound_int_int_int_int_float_float;
+			modSounds = null;
+			sounds = null;
 
-			modSounds = default;
-			sounds = default;
-
-			Interface = default;
+			Interface = null;
 
 			miscellaneousUI?.Deactivate();
-			miscellaneousUI = default;
+			miscellaneousUI = null;
 		}
 
 

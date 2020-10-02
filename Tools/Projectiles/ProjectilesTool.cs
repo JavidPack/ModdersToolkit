@@ -21,10 +21,10 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			projectileUI?.Deactivate();
-			projectileUI = default;
+			projectileUI = null;
 		}
 
 

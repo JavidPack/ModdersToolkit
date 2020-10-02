@@ -24,10 +24,10 @@ namespace ModdersToolkit.Tools.Items
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			itemUI?.Deactivate();
-			itemUI = default;
+			itemUI = null;
 		}
 
 

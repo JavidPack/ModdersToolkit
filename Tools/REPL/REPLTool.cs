@@ -28,10 +28,10 @@ namespace ModdersToolkit.Tools.REPL
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			moddersToolkitUI?.Deactivate();
-			moddersToolkitUI = default;
+			moddersToolkitUI = null;
 		}
 
 

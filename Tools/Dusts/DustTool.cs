@@ -50,17 +50,17 @@ namespace ModdersToolkit.Tools.Dusts
 					dust = ModDust.GetDust(count);
 					count++; // We start the count one index prior to what it should be. Since this is a do-while, it'll always add one.
 				}
-				while (dust != default);
+				while (dust != null);
 
 				dustCount = count;
 			}
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			dustUI?.Deactivate();
-			dustUI = default;
+			dustUI = null;
 		}
 
 

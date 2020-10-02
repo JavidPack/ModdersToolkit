@@ -21,10 +21,10 @@ namespace ModdersToolkit.Tools.Textures
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			textureUI?.Deactivate();
-			textureUI = default;
+			textureUI = null;
 		}
 
 

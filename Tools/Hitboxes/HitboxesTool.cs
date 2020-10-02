@@ -34,10 +34,10 @@ namespace ModdersToolkit.Tools.Hitboxes
 		}
 
 		public override void ClientTerminate() {
-			Interface = default;
+			Interface = null;
 
 			hitboxesUI?.Deactivate();
-			hitboxesUI = default;
+			hitboxesUI = null;
 		}
 
 
