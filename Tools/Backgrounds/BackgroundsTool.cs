@@ -29,7 +29,16 @@ namespace ModdersToolkit.Tools.Backgrounds
             Interface.SetState(UI);
 		}
 
-		internal override void UIDraw()
+        internal override void ClientTerminate()
+        {
+            Interface = default;
+			
+            UI.Deactivate();
+            UI = default;
+        }
+
+
+        internal override void UIDraw()
 		{
 			if (Visible)
                 UI.Draw(Main.spriteBatch);
