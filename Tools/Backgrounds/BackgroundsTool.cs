@@ -14,12 +14,12 @@ namespace ModdersToolkit.Tools.Backgrounds
 	{
         internal static BackgroundsUI UI { get; private set; }
 
-        internal override void Initialize()
+        public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Background Tool";
 		}
 
-		internal override void ClientInitialize()
+        public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
 
@@ -29,7 +29,7 @@ namespace ModdersToolkit.Tools.Backgrounds
             Interface.SetState(UI);
 		}
 
-        internal override void ClientTerminate()
+        public override void ClientTerminate()
         {
             Interface = default;
 			
@@ -38,7 +38,7 @@ namespace ModdersToolkit.Tools.Backgrounds
         }
 
 
-        internal override void UIDraw()
+        public override void UIDraw()
 		{
 			if (Visible)
                 UI.Draw(Main.spriteBatch);
