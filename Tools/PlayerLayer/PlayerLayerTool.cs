@@ -13,29 +13,37 @@ namespace ModdersToolkit.Tools.PlayerLayer
     internal class PlayerLayerTool : Tool
 	{
 		internal static PlayerLayerUI playerLayerUI;
-		internal override void Initialize()
+
+		public override void Initialize()
 		{
 			ToggleTooltip = "Click to toggle Player Layer Tool";
 		}
-		internal override void ClientInitialize()
+
+        public override void ClientInitialize()
 		{
 			Interface = new UserInterface();
+
+            playerLayerUI = new PlayerLayerUI(Interface);
+            playerLayerUI.Activate();
+
+            Interface.SetState(playerLayerUI);
 		}
-		internal override void UIDraw()
+
+        public override void ClientTerminate()
+        {
+            Interface = default;
+
+            playerLayerUI.Deactivate();
+            playerLayerUI = default;
+		}
+
+
+        public override void UIDraw()
 		{
 			if (Visible)
 			{
 				playerLayerUI.Draw(Main.spriteBatch);
 			}
 		}
-		internal override void PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				playerLayerUI = new PlayerLayerUI(Interface);
-				playerLayerUI.Activate();
-				Interface.SetState(playerLayerUI);
-			}
-		}
-	}
+    }
 }

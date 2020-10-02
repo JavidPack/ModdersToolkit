@@ -12,15 +12,20 @@ namespace ModdersToolkit.Tools.PlayerLayer
     internal class PlayerLayerUI : UIState
 	{
 		internal UIPanel mainPanel;
-		private UserInterface userInterface;
+		private UserInterface _userInterface;
+
+        public UIList playerLayerList;
+        public List<Terraria.ModLoader.PlayerLayer> playerLayers = new List<Terraria.ModLoader.PlayerLayer>();
+        public List<UICheckbox> playerLayersCheckboxes = new List<UICheckbox>();
+        public bool updateNeeded;
+
+
 		public PlayerLayerUI(UserInterface userInterface)
 		{
-			this.userInterface = userInterface;
+			this._userInterface = userInterface;
 		}
 
-		public UIList playerLayerList;
-
-		public override void OnInitialize()
+        public override void OnInitialize()
 		{
 			mainPanel = new UIPanel();
 			mainPanel.Left.Set(-350f, 1f);
@@ -45,9 +50,9 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			mainPanel.Append(playerLayerList);
 
 			// this will initialize grid
-			updateneeded = true;
+			updateNeeded = true;
 
-			var playerLayerListScrollbar = new UIElements.FixedUIScrollbar(userInterface);
+			var playerLayerListScrollbar = new UIElements.FixedUIScrollbar(_userInterface);
 			playerLayerListScrollbar.SetView(100f, 1000f);
 			playerLayerListScrollbar.Top.Pixels = top;// + spacing;
 			playerLayerListScrollbar.Height.Set(-top /*- spacing*/, 1f);
@@ -58,13 +63,10 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			Append(mainPanel);
 		}
 
-		public List<Terraria.ModLoader.PlayerLayer> playerLayers = new List<Terraria.ModLoader.PlayerLayer>();
-		public List<UICheckbox> playerLayersCheckboxes = new List<UICheckbox>();
-		public bool updateneeded;
-		internal void UpdateList()
+        internal void UpdateList()
 		{
-			if (!updateneeded) { return; }
-			updateneeded = false;
+			if (!updateNeeded) { return; }
+			updateNeeded = false;
 
 			playerLayerList.Clear();
 			playerLayersCheckboxes.Clear();
@@ -100,11 +102,11 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			{
 				if (!PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer))
 				{
-					updateneeded = true;
+					updateNeeded = true;
 					break;
 				}
 			}
-			if (updateneeded)
+			if (updateNeeded)
 			{
 				playerLayers.Clear();
 				playerLayers.AddRange(layers);
@@ -123,7 +125,9 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		{
 			PlayerLayerTool.playerLayerUI.InformLayers(layers);
 
-			if (PlayerLayerTool.playerLayerUI.updateneeded) return;
+			if (PlayerLayerTool.playerLayerUI.updateNeeded) 
+                return;
+
 			foreach (var layer in layers)
 			{
 				if (PlayerLayerTool.playerLayerUI.playerLayers.Contains(layer))
