@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using ModdersToolkit.UIElements;
 using System;
+using System.Globalization;
 using Terraria;
 
 namespace ModdersToolkit.Tools.Dusts
@@ -108,15 +109,13 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 
 		private void ValidateInput() {
-			//int result;
-			//if (int.TryParse(range.input.Text, out result))
-			//{
-			//	Data = result;
-			//}
-			//else
-			//{
-			//	Data = data;
-			//}
+			int result;
+			if (int.TryParse(range.input.Text, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out result)) {
+				Data = new Color((result >> 16) & 0xFF, (result >> 8) & 0xFF, result & 0xFF);
+			}
+			else {
+				Data = data;
+			}
 			Data = data;
 		}
 	}
