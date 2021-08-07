@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
+using System;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
@@ -18,9 +20,10 @@ namespace ModdersToolkit.Tools.Hitboxes
 		public override void OnInitialize() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(0);
-			mainPanel.Left.Set(-190f, 1f);
+			float width = 184f;
+			mainPanel.Left.Set(-width - 40f, 1f);
 			mainPanel.Top.Set(-290f, 1f);
-			mainPanel.Width.Set(150f, 0f);
+			mainPanel.Width.Set(width, 0f);
 			mainPanel.Height.Set(180f, 0f);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
@@ -37,6 +40,28 @@ namespace ModdersToolkit.Tools.Hitboxes
 			keepShowingCheckbox.OnSelectedChanged += () => HitboxesTool.keepShowingHitboxes = keepShowingCheckbox.Selected;
 			mainPanel.Append(keepShowingCheckbox);
 			top += 20;
+
+			var texts = new[] { "Player Position", "Player Velocity", /*"NPC Position", "NPC Velocity", "Projectile Position",*/ "Projectile Velocity" };
+			Action<bool>[] actions = new Action<bool>[]
+			{
+				(bool selected) => HitboxesTool.showPlayerPosition = selected,
+				(bool selected) => HitboxesTool.showPlayerVelocity = selected,
+				//(bool selected) => HitboxesTool.showNPCPosition = selected,
+				//(bool selected) => HitboxesTool.showNPCVelocity = selected,
+				//(bool selected) => HitboxesTool.showProjectilePosition = selected,
+				(bool selected) => HitboxesTool.showProjectileVelocity = selected,
+			};
+
+			foreach (var nw in texts.Zip(actions, Tuple.Create)) {
+				Console.WriteLine(nw.Item1 + nw.Item2);
+
+				UICheckbox checkbox = new UICheckbox(nw.Item1, "");
+				checkbox.Top.Set(top, 0f);
+				checkbox.Left.Set(12f, 0f);
+				checkbox.OnSelectedChanged += () => nw.Item2.Invoke(checkbox.Selected);
+				mainPanel.Append(checkbox);
+				top += 20;
+			}
 
 			UICheckbox playerMeleeCheckbox = new UICheckbox("Player Melee", "");
 			playerMeleeCheckbox.Top.Set(top, 0f);
@@ -79,6 +104,10 @@ namespace ModdersToolkit.Tools.Hitboxes
 			worldItemCheckbox.OnSelectedChanged += () => HitboxesTool.showWorldItemHitboxes = worldItemCheckbox.Selected;
 			mainPanel.Append(worldItemCheckbox);
 			top += 20;
+
+			top += 6;
+			mainPanel.Top.Set(-top - 110f/* -290f*/, 1f);
+			mainPanel.Height.Set(top, 0f);
 
 			Append(mainPanel);
 		}

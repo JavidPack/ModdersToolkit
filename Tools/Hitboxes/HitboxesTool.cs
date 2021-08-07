@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using ReLogic.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -18,6 +20,14 @@ namespace ModdersToolkit.Tools.Hitboxes
 		internal static bool showTEPositions;
 		internal static bool showWorldItemHitboxes;
 		//internal static HitboxesGlobalItem hitboxesGlobalItem;
+
+		internal static bool showPlayerPosition;
+		internal static bool showPlayerVelocity;
+		internal static bool showNPCPosition;
+		internal static bool showNPCVelocity;
+		internal static bool showProjectilePosition;
+		internal static bool showProjectileVelocity;
+
 
 		public override void Initialize() {
 			ToggleTooltip = "Click to toggle Hitboxes Tool";
@@ -49,6 +59,14 @@ namespace ModdersToolkit.Tools.Hitboxes
 
 		public override void WorldDraw() {
 			if (Visible || keepShowingHitboxes) {
+
+				if (showPlayerPosition)
+					DrawPlayerPosition();
+				if(showPlayerVelocity)
+					DrawPlayerVelocity();
+				if (showProjectileVelocity)
+					DrawProjectileVelocity();
+
 				if (showPlayerMeleeHitboxes)
 					DrawPlayerMeleeHitboxes();
 				if (showNPCHitboxes)
@@ -62,6 +80,69 @@ namespace ModdersToolkit.Tools.Hitboxes
 					DrawTileEntityPositions();
 				if (showWorldItemHitboxes)
 					DrawWorldItemHitboxes();
+			}
+		}
+
+		private void DrawProjectileVelocity() {
+			var font = Main.fontMouseText;
+			for (int i = 0; i < Main.maxProjectiles; i++) {
+				Projectile p = Main.projectile[i];
+				if (p.active) {
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"velocity: {p.velocity.X:0.0}, {p.velocity.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -40), Color.Red, 0, Vector2.Zero, Vector2.One);
+					//Main.spriteBatch.DrawString(font, $"velocity: {p.velocity.X:0.0}, {p.velocity.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -40), Color.Red);
+					Vector2 end = p.Center + p.velocity * 30;
+					Utils.DrawLine(Main.spriteBatch, p.Center, end, Color.Red, Color.Red, 4);
+					var a = Math.Min(24, 4 * p.velocity.Length());
+					Vector2 startAdjustment = Vector2.Normalize(p.velocity).RotatedBy(Math.PI / 2) * 4;
+					Utils.DrawLine(Main.spriteBatch, startAdjustment + end, startAdjustment + end + Vector2.Normalize(end - p.Center).RotatedBy(0.9f * Math.PI) * a, Color.Red, Color.Red, 4);
+					Utils.DrawLine(Main.spriteBatch, startAdjustment + end, startAdjustment + end + Vector2.Normalize(end - p.Center).RotatedBy(-0.9f * Math.PI) * a, Color.Red, Color.Red, 4);
+
+					if(/*p.aiStyle == 2*/ true) {
+						// Consistent scale for velocities good for comprehension.
+						Vector2 velocityChange = p.velocity - p.oldVelocity;
+						Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"velocity change: {velocityChange.X:0.0}, {velocityChange.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.LightSkyBlue, 0, Vector2.Zero, Vector2.One);
+						DrawArrow(p.Center, velocityChange * 3, Color.LightSkyBlue);
+					}
+				}
+			}
+		}
+
+		private void DrawArrow(Vector2 center, Vector2 change, Color color, int lineWidth = 4) {
+			Vector2 end = center + change * 30; // Global scale for visualizing
+			Utils.DrawLine(Main.spriteBatch, center, end, color, color, lineWidth);
+			var arrrowHeadScale = Math.Min(24, 4 * change.Length());
+			Vector2 startAdjustment = Vector2.Normalize(change).RotatedBy(Math.PI / 2) * lineWidth;
+			Utils.DrawLine(Main.spriteBatch, startAdjustment + end, startAdjustment + end + Vector2.Normalize(end - center).RotatedBy(0.9f * Math.PI) * arrrowHeadScale, color, color, lineWidth);
+			Utils.DrawLine(Main.spriteBatch, startAdjustment + end, startAdjustment + end + Vector2.Normalize(end - center).RotatedBy(-0.9f * Math.PI) * arrrowHeadScale, color, color, lineWidth);
+		}
+
+		private void DrawPlayerVelocity() {
+			var font = Main.fontMouseText;
+			for (int i = 0; i < 256; i++) {
+				Player p = Main.player[i];
+				if (p.active) {
+					//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"velocity: {p.velocity.X:0.0}, {p.velocity.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -40), Color.Red, 0, Vector2.Zero, Vector2.One);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"velocity: {p.velocity.X:0}, {p.velocity.Y:0}", p.position - Main.screenPosition + new Vector2(5, -40), Color.Red, 0, Vector2.Zero, Vector2.One);
+					//Main.spriteBatch.DrawString(font, $"velocity: {p.velocity.X:0.0}, {p.velocity.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -40), Color.Red);
+					Vector2 end = p.Center + p.velocity * 30;
+					Utils.DrawLine(Main.spriteBatch, p.Center, end, Color.Red, Color.Red, 4);
+					var a = Math.Min(24, 4 * p.velocity.Length());
+					Vector2 startAdjustment = Vector2.Normalize(p.velocity).RotatedBy(Math.PI / 2) * 4;
+					Utils.DrawLine(Main.spriteBatch, startAdjustment + end, startAdjustment + end + Vector2.Normalize(end - p.Center).RotatedBy(0.9f * Math.PI) * a, Color.Red, Color.Red, 4);
+					Utils.DrawLine(Main.spriteBatch, startAdjustment + end, startAdjustment + end + Vector2.Normalize(end - p.Center).RotatedBy(-0.9f * Math.PI) * a, Color.Red, Color.Red, 4); 
+				}
+			}
+		}
+		private void DrawPlayerPosition() {
+			var font = Main.fontMouseText;
+			for (int i = 0; i < 256; i++) {
+				Player p = Main.player[i];
+				if (p.active) {
+					Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(p.position.X - Main.screenPosition.X), (int)(p.position.Y - Main.screenPosition.Y), 8, 8), Color.Black);
+					//Main.spriteBatch.DrawString(font, $"position: {p.position.X:0.0}, {p.position.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.Black);
+					//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"position: {p.position.X:0.0}, {p.position.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.White, 0, Vector2.Zero, Vector2.One);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"position: {p.position.X:0}, {p.position.Y:0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.White, 0, Vector2.Zero, Vector2.One);
+				}
 			}
 		}
 
