@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.Tools;
 using ReLogic.OS;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -51,6 +52,7 @@ namespace ModdersToolkit
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 			AddTool(new Tools.UIPlayground.UIPlaygroundTool());
 			AddTool(new Tools.Backgrounds.BackgroundsTool());
+			AddTool(new Tools.QuickTweak.QuickTweakTool());
 			AddTool(new Tools.Miscellaneous.MiscellaneousTool());
 
 			tools.ForEach(tool => tool.Initialize());
@@ -224,6 +226,31 @@ namespace ModdersToolkit
 					xPosition += 18;
 				}
 			}
+		}
+
+		// v0.16 - add ("AddTweakSimple", object)
+		//             - object - all instance fields will be displayed
+		//             - Type - all static fields
+		//             - FieldInfo - just 1 static field?
+		//             - (object, FieldInfo)/ValueTuple<object, FieldInfo> - Only specified instance field.
+		//				 nested objects?? pass in depth?
+		//			     get range from field itself? [Range(2f, 3f)]
+		public override object Call(params object[] args) {
+			try {
+				string messageType = args[0] as string;
+				switch (messageType) {
+					case "AddTweakSimple":
+						Tools.QuickTweak.QuickTweakTool.Call(args);
+						return "Success";
+					default:
+						Logger.Warn("Unknown Message type: " + messageType);
+						return "Failure";
+				}
+			}
+			catch (Exception e) {
+				Logger.Warn("Call Error: " + e.StackTrace + e.Message);
+			}
+			return "Failure";
 		}
 
 		public Tool LastVisibleTool { get; private set; }

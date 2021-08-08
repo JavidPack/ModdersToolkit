@@ -103,6 +103,10 @@ namespace ModdersToolkit.REPL
 				else {
 					REPLTool.moddersToolkitUI.AddChunkedLine(result.ToString(), CodeType.Output);
 				}
+				// TODO: store object for later, if next command is tweak, add to quick tweak menu
+				//if(result is object && !(result is ValueType)) {
+				//	Tools.QuickTweak.QuickTweakTool.AddTweak(result, "");
+				//}
 				//ModdersToolkit.instance.ModdersToolkitUI.replOutput.Add(new UICodeEntry(result.ToString(), CodeType.Output));
 			}
 			else {

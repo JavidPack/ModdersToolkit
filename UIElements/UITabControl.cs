@@ -10,6 +10,7 @@ namespace ModdersToolkit.UIElements
 		internal UIPanel mainPanel;
 		private List<UIPanel> panels;
 		private List<UIText> texts;
+		private int currentPanel = 0;
 
 		public UITabControl() {
 			panels = new List<UIPanel>();
@@ -67,7 +68,11 @@ namespace ModdersToolkit.UIElements
 
 				mainPanel.Append(panels[panelIndex]);
 				texts[panelIndex].TextColor = Color.White;
+				currentPanel = panelIndex;
 			}
 		}
+
+		public UIPanel GetPanel => panels[currentPanel];
+		public int GetPanelIndex => currentPanel;
 	}
 }
