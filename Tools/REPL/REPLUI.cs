@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModdersToolkit.Tools;
 using ModdersToolkit.Tools.REPL;
 using ModdersToolkit.UIElements;
 using System;
@@ -16,7 +17,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.REPL
 {
-	internal class REPLUI : UIState
+	internal class REPLUI : UIToolState
 	{
 		public static bool visible = false;
 		private static readonly string codeArrow = ">";
@@ -32,12 +33,11 @@ namespace ModdersToolkit.REPL
 		}
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			keyboardPanel = new UIPanel();
-			keyboardPanel.SetPadding(8);
-			keyboardPanel.Left.Set(-550f, 1f);
-			keyboardPanel.Top.Set(-370f, 1f);
-			keyboardPanel.Width.Set(500f, 0f);
-			keyboardPanel.Height.Set(300f, 0f);
+			keyboardPanel.SetPadding(6);
+			height = 300;
+			width = 500;
 			keyboardPanel.BackgroundColor = new Color(73, 94, 171);
 
 			codeTextBox = new NewUITextBoxMultiLine("Type code here", 1f);
@@ -113,6 +113,7 @@ namespace ModdersToolkit.REPL
 			runText.Left.Set(26 * 4, 0f);
 			keyboardPanel.Append(runText);
 
+			AdjustMainPanelDimensions(keyboardPanel);
 			Append(keyboardPanel);
 		}
 

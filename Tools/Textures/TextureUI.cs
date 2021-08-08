@@ -13,7 +13,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Textures
 {
-	internal class TextureUI : UIState
+	internal class TextureUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -46,12 +46,11 @@ namespace ModdersToolkit.Tools.Textures
 		private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.Left.Set(-350f, 1f);
-			mainPanel.Top.Set(-620f, 1f);
-			mainPanel.Width.Set(310f, 0f);
-			mainPanel.Height.Set(520f, 0f);
-			mainPanel.SetPadding(12);
+			width = 310;
+			height = 520;
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.PeachPuff * 0.8f;
 
 			int top = 0;
@@ -138,6 +137,7 @@ namespace ModdersToolkit.Tools.Textures
 			mainPanel.Append(editImageButton);
 
 			updateneeded = true;
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

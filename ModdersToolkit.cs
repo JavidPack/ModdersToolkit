@@ -153,7 +153,7 @@ namespace ModdersToolkit
 		internal void DrawUpdateToggles() {
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
 			// calculate?
-			int xPosition = Main.screenWidth - 230; //62; //78;
+			int xPosition = Main.screenWidth - 8 - tools.Count * 18;
 			int yPosition = Main.screenHeight - 36 + 10 - 25;
 
 			// TODO, use UI/Settings_Toggle
@@ -210,6 +210,10 @@ namespace ModdersToolkit
 							tool.Visible = !tool.Visible;
 							Main.PlaySound(tool.Visible ? SoundID.MenuOpen : SoundID.MenuClose);
 							tool.Toggled();
+							if (tool.Visible) {
+								LastVisibleTool = tool;
+								Main.playerInventory = false;
+							}
 						}
 					}
 					Main.spriteBatch.Draw(toggleTexture, toggleToolkitButtonRectangle.TopLeft(), Color.White);

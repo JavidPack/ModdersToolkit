@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.InterfaceLayer
 {
-	internal class InterfaceLayerUI : UIState
+	internal class InterfaceLayerUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -20,39 +20,38 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 		public UIList interfaceLayerList;
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.Left.Set(-350f, 1f);
-			mainPanel.Top.Set(-620f, 1f);
-			mainPanel.Width.Set(310f, 0f);
-			mainPanel.Height.Set(520f, 0f);
-			mainPanel.SetPadding(12);
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.Yellow * 0.8f;
 
-			int top = 0;
 			UIText text = new UIText("Interface Layer:", 0.85f);
-			text.Top.Set(top, 0f);
-			mainPanel.Append(text);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, text, ref height, ref width);
 
 			interfaceLayerList = new UIList();
-			interfaceLayerList.Top.Pixels = top;
 			//autoTrashGrid.Left.Pixels = spacing;
 			interfaceLayerList.Width.Set(-25f, 1f); // leave space for scroll?
-			interfaceLayerList.Height.Set(-top, 1f);
+			interfaceLayerList.Height.Set(-height, 1f);
+
+			interfaceLayerList.MinHeight.Set(480, 0f);
+			interfaceLayerList.MinWidth.Set(380, 0f);
+
 			interfaceLayerList.ListPadding = 6f;
-			mainPanel.Append(interfaceLayerList);
 
 			// this will initialize List
 			updateneeded = true;
 
 			var interfaceLayerListScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			interfaceLayerListScrollbar.SetView(100f, 1000f);
-			interfaceLayerListScrollbar.Top.Pixels = top;// + spacing;
-			interfaceLayerListScrollbar.Height.Set(-top /*- spacing*/, 1f);
+			interfaceLayerListScrollbar.Top.Pixels = height;// + spacing;
+			interfaceLayerListScrollbar.Height.Set(-height /*- spacing*/, 1f);
 			interfaceLayerListScrollbar.HAlign = 1f;
 			mainPanel.Append(interfaceLayerListScrollbar);
 			interfaceLayerList.SetScrollbar(interfaceLayerListScrollbar);
 
+			AppendToAndAdjustWidthHeight(mainPanel, interfaceLayerList, ref height, ref width);
+
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 
@@ -87,17 +86,35 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 			}
 		}
 
+		private string[] hideWhenAnyToolVisible = new[] { "Vanilla: Mouse Text" };
 		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
-			InformLayers(layers);
+			if(ModdersToolkit.Instance.LastVisibleTool?.Interface == this.userInterface) {
 
-			if (updateneeded)
-				return;
-			foreach (var layer in layers) {
-				if (interfaceLayers.Contains(layer.Name) && layer.Name != "ModdersToolkit: Tools") {
-					var layerIndex = interfaceLayers.IndexOf(layer.Name);
-					layer.Active = interfaceLayersCheckboxes[layerIndex].Selected;
+				InformLayers(layers);
+
+				if (updateneeded)
+					return;
+				foreach (var layer in layers) {
+					if (interfaceLayers.Contains(layer.Name) && layer.Name != "ModdersToolkit: Tools") {
+						var layerIndex = interfaceLayers.IndexOf(layer.Name);
+						layer.Active = interfaceLayersCheckboxes[layerIndex].Selected;
+					}
+					else {
+					}
 				}
-				else {
+			}
+			else {
+				foreach (var layer in layers) {
+					if (ModdersToolkit.Instance.LastVisibleTool != null && ModdersToolkit.Instance.LastVisibleTool.Visible) {
+						hideWhenAnyToolVisible = new string[] {
+							"Vanilla: Map / Minimap",
+							"Vanilla: Resource Bars",
+							"Vanilla: Info Accessories Bar"
+						};
+						// Inventory still a big issue. Maybe just set map and Main.playerInventory to false?
+						if (hideWhenAnyToolVisible.Contains(layer.Name))
+							layer.Active = false;
+					}
 				}
 			}
 		}

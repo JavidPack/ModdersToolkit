@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Spawns
 {
-	internal class SpawnUI : UIState
+	internal class SpawnUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		public UIList checklistList;
@@ -17,12 +17,11 @@ namespace ModdersToolkit.Tools.Spawns
 		}
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
-			mainPanel.Left.Set(-250f, 1f);
-			mainPanel.Top.Set(-420f, 1f);
-			mainPanel.Width.Set(200f, 0f);
-			mainPanel.Height.Set(350f, 0f);
+			height = 350;
+			width = 200;
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			UIText text = new UIText("NPC Spawns:", 0.85f);
@@ -77,6 +76,7 @@ namespace ModdersToolkit.Tools.Spawns
 			mainPanel.Append(checklistListScrollbar);
 			checklistList.SetScrollbar(checklistListScrollbar);
 
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

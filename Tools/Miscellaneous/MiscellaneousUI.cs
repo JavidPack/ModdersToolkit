@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
-	internal class MiscellaneousUI : UIState
+	internal class MiscellaneousUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -18,87 +18,57 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.SetPadding(0);
-			int width = 250;
-			int height = 270;
-			mainPanel.Left.Set(-40f - width, 1f);
-			mainPanel.Top.Set(-110f - height, 1f);
-			mainPanel.Width.Set(width, 0f);
-			mainPanel.Height.Set(height, 0f);
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			UIText text = new UIText("Miscellaneous:", 0.85f);
-			text.Top.Set(12f, 0f);
-			text.Left.Set(12f, 0f);
-			mainPanel.Append(text);
+			AppendToAndAdjustWidthHeight(mainPanel, text, ref height, ref width);
 
 			// checkboxes
-			int top = 32;
 			UICheckbox npcInfoCheckbox = new UICheckbox("NPC Info", "Show NPC ai values and other variables.");
-			npcInfoCheckbox.Top.Set(top, 0f);
-			npcInfoCheckbox.Left.Set(12f, 0f);
 			npcInfoCheckbox.OnSelectedChanged += () => MiscellaneousTool.showNPCInfo = npcInfoCheckbox.Selected;
-			mainPanel.Append(npcInfoCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, npcInfoCheckbox, ref height, ref width);
 
 			UICheckbox tileGridCheckbox = new UICheckbox("Tile Grid", "Show grid lines between tiles.");
-			tileGridCheckbox.Top.Set(top, 0f);
-			tileGridCheckbox.Left.Set(12f, 0f);
 			tileGridCheckbox.OnSelectedChanged += () => MiscellaneousTool.showTileGrid = tileGridCheckbox.Selected;
-			mainPanel.Append(tileGridCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, tileGridCheckbox, ref height, ref width);
 
 			UITextPanel<string> calculateChunkData = new UITextPanel<string>("Calculate Chunk Size");
 			calculateChunkData.SetPadding(4);
-			calculateChunkData.Width.Set(-10, 0.5f);
-			calculateChunkData.Top.Set(top, 0f);
+			//calculateChunkData.Width.Set(-10, 0.5f);
 			calculateChunkData.OnClick += CalculateButton_OnClick;
-			mainPanel.Append(calculateChunkData);
-			top += 30;
+			AppendToAndAdjustWidthHeight(mainPanel, calculateChunkData, ref height, ref width);
 
 
 			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite (WIP)");
 			generateTownSprite.SetPadding(4);
-			generateTownSprite.Width.Set(-10, 0.5f);
-			generateTownSprite.Top.Set(top, 0f);
 			generateTownSprite.OnClick += GenerateTownSprite_OnClick;
-			mainPanel.Append(generateTownSprite);
-			top += 30;
+			AppendToAndAdjustWidthHeight(mainPanel, generateTownSprite, ref height, ref width);
 
 
 			UICheckbox collisionCircleCheckbox = new UICheckbox("Collision Circle", "Show a circle of Collision.CanHit");
-			collisionCircleCheckbox.Top.Set(top, 0f);
-			collisionCircleCheckbox.Left.Set(12f, 0f);
 			collisionCircleCheckbox.OnSelectedChanged += () => MiscellaneousTool.showCollisionCircle = collisionCircleCheckbox.Selected;
-			mainPanel.Append(collisionCircleCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, collisionCircleCheckbox, ref height, ref width);
 
 			UICheckbox logSoundsCheckbox = new UICheckbox("Log Sounds", "Log Sound Styles and Types");
-			logSoundsCheckbox.Top.Set(top, 0f);
-			logSoundsCheckbox.Left.Set(12f, 0f);
 			logSoundsCheckbox.OnSelectedChanged += () => MiscellaneousTool.logSounds = logSoundsCheckbox.Selected;
-			mainPanel.Append(logSoundsCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, logSoundsCheckbox, ref height, ref width);
 
 			UITextPanel<string> takeWorldSnapshot = new UITextPanel<string>("Take World Snapshot (WIP)");
 			takeWorldSnapshot.SetPadding(4);
-			takeWorldSnapshot.Width.Set(-10, 0.5f);
-			takeWorldSnapshot.Top.Set(top, 0f);
 			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick;
 			;
-			mainPanel.Append(takeWorldSnapshot);
-			top += 30;
+			AppendToAndAdjustWidthHeight(mainPanel, takeWorldSnapshot, ref height, ref width);
 
 			UITextPanel<string> restoreWorldSnapshot = new UITextPanel<string>("Restore World Snapshot (WIP)");
 			restoreWorldSnapshot.SetPadding(4);
-			restoreWorldSnapshot.Width.Set(-10, 0.5f);
-			restoreWorldSnapshot.Top.Set(top, 0f);
 			restoreWorldSnapshot.OnClick += RestoreWorldSnapshot_OnClick;
 			;
-			mainPanel.Append(restoreWorldSnapshot);
-			top += 30;
+			AppendToAndAdjustWidthHeight(mainPanel, restoreWorldSnapshot, ref height, ref width);
 
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

@@ -12,7 +12,7 @@ namespace ModdersToolkit.Tools.Projectiles
 	// TODO: DrawOffsetX and Y setting
 	// Also NPC drawOffsetY
 
-	internal class ProjectilesUI : UIState
+	internal class ProjectilesUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface _userInterface;
@@ -42,14 +42,11 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			int width = 310;
-			int height = 610;
-			mainPanel.Left.Set(-40f - width, 1f);
-			mainPanel.Top.Set(-100f - height, 1f);
-			mainPanel.Width.Set(width, 0f);
-			mainPanel.Height.Set(height, 0f);
-			mainPanel.SetPadding(12);
+			width = 310;
+			height = 610;
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.Orange * 0.7f;
 
 			int top = 0;
@@ -202,6 +199,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			mainPanel.Append(projectileGridScrollbar);
 			projectileGrid.SetScrollbar(projectileGridScrollbar);
 
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

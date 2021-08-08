@@ -11,7 +11,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Dusts
 {
-	internal class DustUI : UIState
+	internal class DustUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -63,13 +63,11 @@ namespace ModdersToolkit.Tools.Dusts
 
 		// TODO, browser and Eyedropper, and Intents-Open other tool to select from it.
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			//mainPanel.SetPadding(0);
-			mainPanel.Left.Set(-290f, 1f);
-			mainPanel.Top.Set(-620f, 1f);
-			mainPanel.Width.Set(240f, 0f);
-			mainPanel.Height.Set(520f, 0f);
-			mainPanel.SetPadding(12);
+			width = 240;
+			height = 520;
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = new Color(173, 194, 171);
 
 			int top = 0;
@@ -219,6 +217,7 @@ namespace ModdersToolkit.Tools.Dusts
 			copyCodeButton.Left.Set(-20, 1f);
 			mainPanel.Append(copyCodeButton);
 
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

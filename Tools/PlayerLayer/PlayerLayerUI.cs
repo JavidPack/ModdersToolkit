@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
 {
-	internal class PlayerLayerUI : UIState
+	internal class PlayerLayerUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface _userInterface;
@@ -25,12 +25,11 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		}
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.Left.Set(-350f, 1f);
-			mainPanel.Top.Set(-620f, 1f);
-			mainPanel.Width.Set(310f, 0f);
-			mainPanel.Height.Set(520f, 0f);
-			mainPanel.SetPadding(12);
+			width = 310;
+			height = 520;
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.Yellow * 0.8f;
 
 			int top = 0;
@@ -58,6 +57,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			mainPanel.Append(playerLayerListScrollbar);
 			playerLayerList.SetScrollbar(playerLayerListScrollbar);
 
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

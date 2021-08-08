@@ -18,7 +18,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Shaders
 {
-	internal class ShaderUI : UIState
+	internal class ShaderUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -72,11 +72,10 @@ namespace ModdersToolkit.Tools.Shaders
 		internal HashSet<string> watchedFileChangedSourcesFileNames = new HashSet<string>();
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.Left.Set(-350f, 1f);
-			mainPanel.Top.Set(-740f, 1f);
-			mainPanel.Width.Set(310f, 0f);
-			mainPanel.Height.Set(640f, 0f);
+			width = 310;
+			height = 640;
 			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.PeachPuff * 0.8f;
 
@@ -276,6 +275,8 @@ namespace ModdersToolkit.Tools.Shaders
 			}
 
 			updateneeded = true;
+
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

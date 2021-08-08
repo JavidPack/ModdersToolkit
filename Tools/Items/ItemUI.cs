@@ -10,7 +10,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Items
 {
-	internal class ItemUI : UIState
+	internal class ItemUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -24,11 +24,10 @@ namespace ModdersToolkit.Tools.Items
 		internal static UICheckbox playerMeleeCheckbox;
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.Left.Set(-290f, 1f);
-			mainPanel.Top.Set(-620f, 1f);
-			mainPanel.Width.Set(240f, 0f);
-			mainPanel.Height.Set(520f, 0f);
+			width = 240;
+			height = 520;
 			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.Azure * 0.7f;
 
@@ -48,6 +47,7 @@ namespace ModdersToolkit.Tools.Items
 			tabControl.AddTab("Other", makeOtherPanel());
 			mainPanel.Append(tabControl);
 
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

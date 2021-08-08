@@ -37,16 +37,5 @@ namespace ModdersToolkit.Tools.Shaders
 				shaderUI.Draw(Main.spriteBatch);
 			}
 		}
-
-		public override void Toggled() {
-#if DEBUG
-			if (!Visible) {
-				shaderUI.RemoveAllChildren();
-				var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
-				isInitializedFieldInfo.SetValue(shaderUI, false);
-				shaderUI.Activate();
-			}
-#endif
-		}
 	}
 }

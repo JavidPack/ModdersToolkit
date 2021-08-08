@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Hitboxes
 {
-	internal class HitboxesUI : UIState
+	internal class HitboxesUI : UIToolState
 	{
 		internal UIPanel mainPanel;
 		private UserInterface userInterface;
@@ -18,28 +18,18 @@ namespace ModdersToolkit.Tools.Hitboxes
 		}
 
 		public override void OnInitialize() {
+			base.OnInitialize();
 			mainPanel = new UIPanel();
-			mainPanel.SetPadding(0);
-			float width = 184f;
-			mainPanel.Left.Set(-width - 40f, 1f);
-			mainPanel.Top.Set(-290f, 1f);
-			mainPanel.Width.Set(width, 0f);
-			mainPanel.Height.Set(180f, 0f);
+			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			UIText text = new UIText("Hitboxes:", 0.85f);
-			text.Top.Set(12f, 0f);
-			text.Left.Set(12f, 0f);
-			mainPanel.Append(text);
+			AppendToAndAdjustWidthHeight(mainPanel, text, ref height, ref width);
 
 			// checkboxes
-			int top = 32;
 			UICheckbox keepShowingCheckbox = new UICheckbox("Keep Showing", "Show hitboxes after leaving this tool");
-			keepShowingCheckbox.Top.Set(top, 0f);
-			keepShowingCheckbox.Left.Set(12f, 0f);
 			keepShowingCheckbox.OnSelectedChanged += () => HitboxesTool.keepShowingHitboxes = keepShowingCheckbox.Selected;
-			mainPanel.Append(keepShowingCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, keepShowingCheckbox, ref height, ref width);
 
 			var texts = new[] { "Player Position", "Player Velocity", /*"NPC Position", "NPC Velocity", "Projectile Position",*/ "Projectile Velocity" };
 			Action<bool>[] actions = new Action<bool>[]
@@ -56,59 +46,35 @@ namespace ModdersToolkit.Tools.Hitboxes
 				Console.WriteLine(nw.Item1 + nw.Item2);
 
 				UICheckbox checkbox = new UICheckbox(nw.Item1, "");
-				checkbox.Top.Set(top, 0f);
-				checkbox.Left.Set(12f, 0f);
 				checkbox.OnSelectedChanged += () => nw.Item2.Invoke(checkbox.Selected);
-				mainPanel.Append(checkbox);
-				top += 20;
+				AppendToAndAdjustWidthHeight(mainPanel, checkbox, ref height, ref width);
 			}
 
 			UICheckbox playerMeleeCheckbox = new UICheckbox("Player Melee", "");
-			playerMeleeCheckbox.Top.Set(top, 0f);
-			playerMeleeCheckbox.Left.Set(12f, 0f);
 			playerMeleeCheckbox.OnSelectedChanged += () => HitboxesTool.showPlayerMeleeHitboxes = playerMeleeCheckbox.Selected;
-			mainPanel.Append(playerMeleeCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, playerMeleeCheckbox, ref height, ref width);
 
 			UICheckbox npcCheckbox = new UICheckbox("NPC", "");
-			npcCheckbox.Top.Set(top, 0f);
-			npcCheckbox.Left.Set(12f, 0f);
 			npcCheckbox.OnSelectedChanged += () => HitboxesTool.showNPCHitboxes = npcCheckbox.Selected;
-			mainPanel.Append(npcCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, npcCheckbox, ref height, ref width);
 
 			UICheckbox projectileCheckbox = new UICheckbox("Projectile C", "Collision: Some projectiles have special collision logic");
-			projectileCheckbox.Top.Set(top, 0f);
-			projectileCheckbox.Left.Set(12f, 0f);
 			projectileCheckbox.OnSelectedChanged += () => HitboxesTool.showProjectileHitboxes = projectileCheckbox.Selected;
-			mainPanel.Append(projectileCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, projectileCheckbox, ref height, ref width);
 
 			UICheckbox projectileDamageCheckbox = new UICheckbox("Projectile D", "Damage: Hitboxes modified by ModifyDamageHitbox");
-			projectileDamageCheckbox.Top.Set(top, 0f);
-			projectileDamageCheckbox.Left.Set(12f, 0f);
 			projectileDamageCheckbox.OnSelectedChanged += () => HitboxesTool.showProjectileDamageHitboxes = projectileDamageCheckbox.Selected;
-			mainPanel.Append(projectileDamageCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, projectileDamageCheckbox, ref height, ref width);
 
 			UICheckbox teCheckbox = new UICheckbox("TE Position", "");
-			teCheckbox.Top.Set(top, 0f);
-			teCheckbox.Left.Set(12f, 0f);
 			teCheckbox.OnSelectedChanged += () => HitboxesTool.showTEPositions = teCheckbox.Selected;
-			mainPanel.Append(teCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, teCheckbox, ref height, ref width);
 
 			UICheckbox worldItemCheckbox = new UICheckbox("World Items", "");
-			worldItemCheckbox.Top.Set(top, 0f);
-			worldItemCheckbox.Left.Set(12f, 0f);
 			worldItemCheckbox.OnSelectedChanged += () => HitboxesTool.showWorldItemHitboxes = worldItemCheckbox.Selected;
-			mainPanel.Append(worldItemCheckbox);
-			top += 20;
+			AppendToAndAdjustWidthHeight(mainPanel, worldItemCheckbox, ref height, ref width);
 
-			top += 6;
-			mainPanel.Top.Set(-top - 110f/* -290f*/, 1f);
-			mainPanel.Height.Set(top, 0f);
-
+			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
 		}
 

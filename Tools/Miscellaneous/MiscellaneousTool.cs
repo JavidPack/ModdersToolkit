@@ -118,6 +118,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					return;
 					*/
 
+					// TODO: customize display info somehow? Toggles? Separate tab/panel?
+					// TODO: Draw modNPC or GlobalNPC field values similar to PrintItemInfo_OnClick.
 					int y = 5;
 					spriteBatch.DrawString(font, $"ai:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
 					y += 20;
@@ -131,6 +133,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					spriteBatch.DrawString(font, $"npc.immune[]: {npc.immune[Main.myPlayer]}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
 					y += 20;
 					spriteBatch.DrawString(font, $"spriteDirection: {npc.spriteDirection}  direction: {npc.direction}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+					y += 20;
+					spriteBatch.DrawString(font, $"defense: {npc.defense}  defDefense: {npc.defDefense}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
 					y += 20;
 					spriteBatch.DrawString(font, $"type: {npc.type} aiStyle: {npc.aiStyle} whoAmI: {npc.whoAmI}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
 					y += 20;
@@ -189,6 +193,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 				float max = 360f; // TODO: use a real circle drawing algorithm and adjustable radius
 				bool showTileCorners = Main.GameUpdateCount / 60 % 2 == 0;
+				showTileCorners = Main.LocalPlayer.direction == -1;
 				for (int i = 0; i < max; i++) {
 					float radians = MathHelper.TwoPi * (i / max);
 					Vector2 end = new Vector2(100, 0).RotatedBy(radians) + Main.LocalPlayer.Center;
@@ -196,7 +201,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					//Dust.QuickDust(end, noCollision ? Color.Green : Color.Red);
 
 					if (!showTileCorners)
-						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(end.X - Main.screenPosition.X), (int)(end.Y - Main.screenPosition.Y), 1, 1), noCollision ? Color.Green : Color.Red);
+						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(end.X - Main.screenPosition.X), (int)(end.Y - Main.screenPosition.Y), 2, 2), noCollision ? Color.Green : Color.Red);
 
 					var Position1 = Main.LocalPlayer.Center;
 					var Position2 = end;

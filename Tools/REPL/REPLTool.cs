@@ -63,6 +63,7 @@ namespace ModdersToolkit.Tools.REPL
 		}
 
 		public override void Toggled() {
+			base.Toggled();
 			Main.drawingPlayerChat = false;
 			if (Visible) {
 				Tools.REPL.REPLTool.moddersToolkitUI.codeTextBox.Focus();

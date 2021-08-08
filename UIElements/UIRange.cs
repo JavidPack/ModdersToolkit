@@ -25,6 +25,7 @@ namespace ModdersToolkit.UIElements
 		public UIRange(UIRangedDataValue<T> data) {
 			this.data = data;
 			this.Height.Set(20f, 0f);
+			this.MinHeight.Set(20f, 0f);
 			this._GetProportion = data.GetProportion;
 			this._SetProportion = data.SetProportion;
 

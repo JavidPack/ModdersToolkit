@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Reflection;
+using Terraria;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools
@@ -46,7 +47,17 @@ namespace ModdersToolkit.Tools
 
 		public virtual void DrawUpdateToggle() { }
 
-		public virtual void Toggled() { }
+		public virtual void Toggled() {
+#if DEBUG
+			if (!Visible) {
+				UIState state = Interface.CurrentState;
+				state.RemoveAllChildren();
+				var isInitializedFieldInfo = typeof(UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
+				isInitializedFieldInfo.SetValue(state, false);
+				state.Activate();
+			}
+#endif
+		}
 
 		public virtual void PostSetupContent() { }
 
