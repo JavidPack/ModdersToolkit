@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
@@ -98,7 +99,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 				if (depth > -1 && depth != elementDepth || depth == -1 && elementDepth == 0)
 					drawDimensions = false;
 				if (drawDimensions) {
-					spriteBatch.Draw(Main.magicPixel, hitbox, UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data * 0.5f);
+					spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data * 0.5f);
 				}
 			}
 
@@ -109,17 +110,17 @@ namespace ModdersToolkit.Tools.UIPlayground
 			if (UIPlaygroundTool.uiPlaygroundUI.drawAllDimensionsCheckbox.Selected && !UIPlaygroundTool.uiPlaygroundUI.drawAllParallaxCheckbox.Selected || (self == lastSelectedUIElement && UIPlaygroundTool.uiPlaygroundUI.highlightSelectedCheckbox.Selected)) {
 				if (drawDimensions) {
 					hitbox.Inflate(-4, -4);
-					spriteBatch.Draw(Main.magicPixel, hitbox, UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data * 0.4f);
+					spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data * 0.4f);
 				}
 			}
 
 			// Resize gizmos
 			//if (self == lastSelectedUIElement && UIPlaygroundTool.uiPlaygroundUI.highlightSelectedCheckbox.Selected) {
 			//	hitbox = self.GetOuterDimensions().ToRectangle();
-			//	spriteBatch.Draw(Main.magicPixel, new Rectangle(hitbox.X, hitbox.Y, 4, 4), Color.Black);
-			//	spriteBatch.Draw(Main.magicPixel, new Rectangle(hitbox.X + hitbox.Width - 4, hitbox.Y, 4, 4), Color.Black);
-			//	spriteBatch.Draw(Main.magicPixel, new Rectangle(hitbox.X, hitbox.Y + hitbox.Height - 4, 4, 4), Color.Black);
-			//	spriteBatch.Draw(Main.magicPixel, new Rectangle(hitbox.X + hitbox.Width - 4, hitbox.Y + hitbox.Height - 4, 4, 4), Color.Black);
+			//	spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.X, hitbox.Y, 4, 4), Color.Black);
+			//	spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.X + hitbox.Width - 4, hitbox.Y, 4, 4), Color.Black);
+			//	spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.X, hitbox.Y + hitbox.Height - 4, 4, 4), Color.Black);
+			//	spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.X + hitbox.Width - 4, hitbox.Y + hitbox.Height - 4, 4, 4), Color.Black);
 			//}
 
 			if (UIPlaygroundTool.uiPlaygroundUI.drawAllParallaxCheckbox.Selected && !bypassparallax) {

@@ -5,6 +5,7 @@ using ReLogic.OS;
 using System;
 using System.Text;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics.Shaders;
 using Terraria.UI;
@@ -123,7 +124,7 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(uiRange);
 
 			top += 30;
-			UIImageButton b = new UIImageButton(ModdersToolkit.Instance.GetTexture("UIElements/searchIcon"));
+			UIImageButton b = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/searchIcon"));
 			b.OnClick += (s, e) => { ShowDustChooser = !ShowDustChooser; Recalculate(); };
 			b.Top.Set(top, 0f);
 			mainPanel.Append(b);
@@ -211,7 +212,7 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(g);
 			NewDustRadioButton.Selected = true;
 
-			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/CopyCodeButton"), "Copy code to clipboard");
+			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton"), "Copy code to clipboard");
 			copyCodeButton.OnClick += CopyCodeButton_OnClick;
 			copyCodeButton.Top.Set(-20, 1f);
 			copyCodeButton.Left.Set(-20, 1f);
@@ -266,7 +267,7 @@ namespace ModdersToolkit.Tools.Dusts
 				s.Append($"}}" + Environment.NewLine);
 			}
 
-			Platform.Current.Clipboard = s.ToString();
+			Platform.Get<IClipboard>().Value = s.ToString();
 
 			Main.NewText("Copied Dust spawning code to clipboard");
 		}
@@ -310,7 +311,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 				Rectangle hitbox = new Rectangle((int)position.X, (int)position.Y, width, height);
 				hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightCyan * 0.6f);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightCyan * 0.6f);
 			}
 		}
 

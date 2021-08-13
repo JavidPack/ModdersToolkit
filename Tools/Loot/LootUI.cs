@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.Tools.Spawns;
 using ModdersToolkit.UIElements;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.UI;
@@ -97,7 +98,7 @@ namespace ModdersToolkit.Tools.Loot
 			updateNeededNPC = false;
 
 			npcGrid.Clear();
-			for (int i = 0; i < Main.npcTexture.Length; i++) // TODO, right?
+			for (int i = 0; i < TextureAssets.Npc.Length; i++) // TODO, right?
 			{
 				//if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 				{

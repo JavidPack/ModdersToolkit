@@ -1,5 +1,5 @@
 author = jopojelly
-version = 0.16
+version = 0.16.0.1
 myVersionScheme = major when done, minor when new tool, build when new item within tool, revision for bug fix quick release
 displayName = Modders Toolkit
 homepage = https://forums.terraria.org/index.php?threads/modders-toolkit-a-mod-for-modders-doing-modding.55738/
@@ -8,4 +8,4 @@ includePDB = true
 hideCode = false
 hideResources = false
 includeSource = true
-dllReferences = Mono.CSharp
+dllReferences = Microsoft.CodeAnalysis.CSharp.Scripting, Microsoft.CodeAnalysis.Scripting

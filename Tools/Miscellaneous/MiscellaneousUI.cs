@@ -118,7 +118,9 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				Main.LocalPlayer.bodyFrame.Y = i * 56;
 				Main.LocalPlayer.legFrame.Y = i * 56;
 
-				Main.instance.DrawPlayer(Main.LocalPlayer, Main.screenPosition + /*Main.LocalPlayer.position +*/ new Vector2(10, i * 58), 0f, Vector2.Zero, 0f); // add Main.screenPosition since DrawPlayer will subtract it
+				Main.NewText("This feature unimplemented");
+				// TODO: Reimplement with new Camera system?
+				//Main.instance.DrawPlayer(Main.LocalPlayer, Main.screenPosition + /*Main.LocalPlayer.position +*/ new Vector2(10, i * 58), 0f, Vector2.Zero, 0f); // add Main.screenPosition since DrawPlayer will subtract it
 			}
 			Main.gameMenu = false;
 

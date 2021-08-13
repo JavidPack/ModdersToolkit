@@ -5,6 +5,7 @@ using ReLogic.Graphics;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
@@ -184,7 +185,7 @@ namespace ModdersToolkit.UIElements
 
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
-			Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightCyan * 0.6f);
+			Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightCyan * 0.6f);
 
 			if (focused) {
 				Terraria.GameInput.PlayerInput.WritingText = true;
@@ -241,7 +242,7 @@ namespace ModdersToolkit.UIElements
 
 			CalculatedStyle innerDimensions = base.GetInnerDimensions();
 			Vector2 pos = innerDimensions.Position();
-			DynamicSpriteFont spriteFont = base.IsLarge ? Main.fontDeathText : Main.fontMouseText;
+			DynamicSpriteFont spriteFont = base.IsLarge ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
 			Vector2 vector = new Vector2(spriteFont.MeasureString(base.Text.Substring(0, this._cursor)).X, base.IsLarge ? 32f : 16f) * base.TextScale;
 			if (base.IsLarge) {
 				pos.Y -= 8f * base.TextScale;

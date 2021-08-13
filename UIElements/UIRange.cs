@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.Tools.Dusts;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
@@ -57,23 +58,23 @@ namespace ModdersToolkit.UIElements
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			if (debugDraw) {
 				Rectangle hitbox = GetInnerDimensions().ToRectangle();
-				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Red * 0.6f);
 
 				hitbox = label.GetInnerDimensions().ToRectangle();
 				//hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightCyan * 0.6f);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightCyan * 0.6f);
 
 				hitbox = slider.GetOuterDimensions().ToRectangle();
-				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.AliceBlue * 0.6f);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.AliceBlue * 0.6f);
 
 				hitbox = input.GetOuterDimensions().ToRectangle();
-				Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Yellow * 0.6f);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Yellow * 0.6f);
 
 				if (minus != null) {
 					hitbox = minus.GetOuterDimensions().ToRectangle();
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Green * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Green * 0.6f);
 					hitbox = plus.GetOuterDimensions().ToRectangle();
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.BlueViolet * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.BlueViolet * 0.6f);
 				}
 			}
 		}
@@ -102,7 +103,7 @@ namespace ModdersToolkit.UIElements
 				//slider.HAlign = .25f;
 				Append(slider);
 
-				minus = new UIImageButton(ModdersToolkit.Instance.GetTexture("UIElements/ButtonMinus"));
+				minus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonMinus"));
 				minus.OnClick += Minus_OnClick;
 				//minus.Height.Set(16, 0f);
 				minus.Width.Set(0, .125f);
@@ -112,7 +113,7 @@ namespace ModdersToolkit.UIElements
 				//minus.HAlign = .625f;
 				Append(minus);
 
-				plus = new UIImageButton(ModdersToolkit.Instance.GetTexture("UIElements/ButtonPlus"));
+				plus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonPlus"));
 				plus.OnClick += Plus_OnClick;
 				//plus.Height.Set(16, 0f);
 				plus.Width.Set(0, .125f);

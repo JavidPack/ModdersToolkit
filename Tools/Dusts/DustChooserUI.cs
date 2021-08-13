@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -78,7 +79,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 	internal class DustSlot : UIElement
 	{
-		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
+		public static Texture2D backgroundTexture = TextureAssets.InventoryBack9.Value;
 		private float scale = .6f;
 		public int type;
 		public DustSlot(int type) {
@@ -120,7 +121,7 @@ namespace ModdersToolkit.Tools.Dusts
 			if (type < Terraria.ID.DustID.Count) {
 				frames = 3;
 				frame = frameCounter % frames;
-				texture = Main.dustTexture;
+				texture = TextureAssets.Dust.Value;
 				height = 8;
 				width = 8;
 				x = (type % 100) * 10;
@@ -129,8 +130,8 @@ namespace ModdersToolkit.Tools.Dusts
 			}
 			else {
 				frames = 1;
-				var dust = ModDust.GetDust(type);
-				texture = dust.Texture;
+				var dust = DustLoader.GetDust(type);
+				texture = dust.Texture2D.Value;
 				height = texture.Height / frames;
 				width = texture.Width;
 				frame = frameCounter % frames;

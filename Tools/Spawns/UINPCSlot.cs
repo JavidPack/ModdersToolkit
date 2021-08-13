@@ -2,12 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace ModdersToolkit.Tools.Spawns
 {
 	internal class UINPCSlot : UIElement
 	{
-		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
+		public static Texture2D backgroundTexture = TextureAssets.InventoryBack9.Value;
 		private float scale = .6f;
 		public int npcType;
 		public NPC npc;
@@ -31,7 +33,7 @@ namespace ModdersToolkit.Tools.Spawns
 		private const int frameDelay = 7;
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			Main.instance.LoadNPC(npcType);
-			Texture2D npcTexture = Main.npcTexture[npcType];
+			Texture2D npcTexture = TextureAssets.Npc[npcType].Value;
 
 			if (++frameTimer > frameDelay) {
 				frameCounter = frameCounter + 1;
@@ -41,7 +43,7 @@ namespace ModdersToolkit.Tools.Spawns
 				}
 			}
 
-			Rectangle npcDrawRectangle = new Rectangle(0, (Main.npcTexture[npcType].Height / Main.npcFrameCount[npcType]) * frameCounter, Main.npcTexture[npcType].Width, Main.npcTexture[npcType].Height / Main.npcFrameCount[npcType]);
+			Rectangle npcDrawRectangle = new Rectangle(0, (TextureAssets.Npc[npcType].Height() / Main.npcFrameCount[npcType]) * frameCounter, TextureAssets.Npc[npcType].Width(), TextureAssets.Npc[npcType].Height() / Main.npcFrameCount[npcType]);
 
 			CalculatedStyle dimensions = base.GetInnerDimensions();
 			spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
@@ -69,7 +71,7 @@ namespace ModdersToolkit.Tools.Spawns
 			Main.spriteBatch.Draw(npcTexture, drawPosition, npcDrawRectangle, color, 0, Vector2.Zero, drawScale, SpriteEffects.None, 0);
 
 			if (IsMouseHovering) {
-				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
+				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.ModNPC != null ? " [" + npc.ModNPC.Mod.Name + "]" : "");
 			}
 		}
 

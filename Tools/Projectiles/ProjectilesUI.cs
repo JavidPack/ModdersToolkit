@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -167,7 +168,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			pause.Top.Set(top, 0f);
 			mainPanel.Append(pause);
 
-			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/next"), "Step");
+			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/next"), "Step");
 			stepButton.OnClick += (s, e) => step = true;
 			stepButton.Top.Set(top - 6, 0f);
 			stepButton.Left.Set(80, 0f);
@@ -206,7 +207,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		private void ValidateInput() {
 			if (searchFilter.Text.Length > 0) {
 				bool found = false;
-				for (int i = 1; i < Main.projectileTexture.Length; i++) {
+				for (int i = 1; i < TextureAssets.Projectile.Length; i++) {
 					if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1) {
 						found = true;
 						break;
@@ -224,7 +225,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			updateNeeded = false;
 
 			projectileGrid.Clear();
-			for (int i = 1; i < Main.projectileTexture.Length; i++) {
+			for (int i = 1; i < TextureAssets.Projectile.Length; i++) {
 				if (Lang.GetProjectileName(i).Value.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1) {
 					var box = new ProjectileSlot(i);
 					projectileGrid._items.Add(box);
@@ -254,7 +255,7 @@ namespace ModdersToolkit.Tools.Projectiles
 
 	internal class ProjectileSlot : UIElement
 	{
-		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
+		public static Texture2D backgroundTexture = TextureAssets.InventoryBack9.Value;
 		private float scale = .6f;
 		public int type;
 		public ProjectileSlot(int type) {
@@ -276,7 +277,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			Rectangle rectangle = dimensions.ToRectangle();
 
 			int frames = Main.projFrames[type];
-			Texture2D texture = Main.projectileTexture[type];
+			Texture2D texture = TextureAssets.Projectile[type].Value;
 			int height = texture.Height / frames;
 			int width = texture.Width;
 			int frame = frameCounter % frames;
@@ -304,7 +305,7 @@ namespace ModdersToolkit.Tools.Projectiles
 		}
 		public override void Click(UIMouseEvent evt) {
 			Main.NewText("Spawn projectile " + type);
-			Projectile p = Main.projectile[Projectile.NewProjectile(
+			Projectile p = Main.projectile[Projectile.NewProjectile(null,
 				Main.LocalPlayer.Center + new Vector2(0, -40),
 				new Vector2(Main.LocalPlayer.direction * ProjectilesUI.speedXDataProperty.Data, ProjectilesUI.speedYDataProperty.Data),
 				type,
@@ -322,10 +323,10 @@ namespace ModdersToolkit.Tools.Projectiles
 			if (ProjectilesUI.aiStyleDataProperty.Data != -1) {
 				p.aiStyle = ProjectilesUI.aiStyleDataProperty.Data;
 			}
-			if (p.modProjectile != null) {
-				p.modProjectile.drawOffsetX = ProjectilesUI.drawOffsetXDataProperty.Data;
-				p.modProjectile.drawOriginOffsetX = ProjectilesUI.drawOriginOffsetXDataProperty.Data;
-				p.modProjectile.drawOriginOffsetY = ProjectilesUI.drawOriginOffsetYDataProperty.Data;
+			if (p.ModProjectile != null) {
+				p.ModProjectile.DrawOffsetX = ProjectilesUI.drawOffsetXDataProperty.Data;
+				p.ModProjectile.DrawOriginOffsetX = ProjectilesUI.drawOriginOffsetXDataProperty.Data;
+				p.ModProjectile.DrawOriginOffsetY = ProjectilesUI.drawOriginOffsetYDataProperty.Data;
 			}
 
 			// support for aitype??

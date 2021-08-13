@@ -3,6 +3,7 @@ using ReLogic.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -84,7 +85,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		}
 
 		private void DrawProjectileVelocity() {
-			var font = Main.fontMouseText;
+			var font = FontAssets.MouseText.Value;
 			for (int i = 0; i < Main.maxProjectiles; i++) {
 				Projectile p = Main.projectile[i];
 				if (p.active) {
@@ -117,7 +118,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		}
 
 		private void DrawPlayerVelocity() {
-			var font = Main.fontMouseText;
+			var font = FontAssets.MouseText.Value;
 			for (int i = 0; i < 256; i++) {
 				Player p = Main.player[i];
 				if (p.active) {
@@ -134,11 +135,11 @@ namespace ModdersToolkit.Tools.Hitboxes
 			}
 		}
 		private void DrawPlayerPosition() {
-			var font = Main.fontMouseText;
+			var font = FontAssets.MouseText.Value;
 			for (int i = 0; i < 256; i++) {
 				Player p = Main.player[i];
 				if (p.active) {
-					Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(p.position.X - Main.screenPosition.X), (int)(p.position.Y - Main.screenPosition.Y), 8, 8), Color.Black);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(p.position.X - Main.screenPosition.X), (int)(p.position.Y - Main.screenPosition.Y), 8, 8), Color.Black);
 					//Main.spriteBatch.DrawString(font, $"position: {p.position.X:0.0}, {p.position.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.Black);
 					//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"position: {p.position.X:0.0}, {p.position.Y:0.0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.White, 0, Vector2.Zero, Vector2.One);
 					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, $"position: {p.position.X:0}, {p.position.Y:0}", p.position - Main.screenPosition + new Vector2(5, -20), Color.White, 0, Vector2.Zero, Vector2.One);
@@ -153,7 +154,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 					Rectangle hitbox = HitboxesGlobalItem.meleeHitbox[i].Value;
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.MediumPurple * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.MediumPurple * 0.6f);
 					HitboxesGlobalItem.meleeHitbox[i] = null;
 				}
 			}
@@ -166,7 +167,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 					Rectangle hitbox = npc.getRect();
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Red * 0.6f);
 				}
 			}
 		}
@@ -178,7 +179,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 					Rectangle hitbox = item.getRect();
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Teal * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Teal * 0.6f);
 				}
 			}
 		}
@@ -190,7 +191,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 					Rectangle hitbox = projectile.getRect();
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Orange * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Orange * 0.6f);
 				}
 			}
 		}
@@ -203,7 +204,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 					ProjectileLoader.ModifyDamageHitbox(projectile, ref hitbox);
 					hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 					hitbox = Main.ReverseGravitySupport(hitbox);
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.OrangeRed * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.OrangeRed * 0.6f);
 				}
 			}
 		}
@@ -213,7 +214,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 				Rectangle locationRectangle = new Rectangle(pair.Key.X * 16, pair.Key.Y * 16, 16, 16);
 				locationRectangle.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
 				locationRectangle = Main.ReverseGravitySupport(locationRectangle);
-				Main.spriteBatch.Draw(Main.magicPixel, locationRectangle, Color.Green * 0.6f);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, locationRectangle, Color.Green * 0.6f);
 			}
 		}
 

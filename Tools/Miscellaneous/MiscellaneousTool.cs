@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -35,7 +36,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 			Interface.SetState(miscellaneousUI);
 
-			On.Terraria.Main.PlaySound_int_int_int_int_float_float += Main_PlaySound_int_int_int_int_float_float;
+			On.Terraria.Audio.SoundEngine.PlaySound_int_int_int_int_float_float += SoundEngine_PlaySound_int_int_int_int_float_float;
 
 			FieldInfo modSoundsField = typeof(SoundLoader).GetField("modSounds", BindingFlags.Static | BindingFlags.NonPublic);
 			modSounds = (Dictionary<SoundType, IDictionary<int, ModSound>>)modSoundsField.GetValue(null);
@@ -56,8 +57,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			miscellaneousUI = null;
 		}
 
-
-		private Microsoft.Xna.Framework.Audio.SoundEffectInstance Main_PlaySound_int_int_int_int_float_float(On.Terraria.Main.orig_PlaySound_int_int_int_int_float_float orig, int type, int x, int y, int Style, float volumeScale, float pitchOffset) {
+		private Microsoft.Xna.Framework.Audio.SoundEffectInstance SoundEngine_PlaySound_int_int_int_int_float_float(On.Terraria.Audio.SoundEngine.orig_PlaySound_int_int_int_int_float_float orig, int type, int x, int y, int Style, float volumeScale, float pitchOffset) {
 			var result = orig(type, x, y, Style, volumeScale, pitchOffset); // null results are off screen
 
 			if (logSounds && Main.soundVolume != 0f && result != null) {
@@ -101,17 +101,17 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 	internal class NPCInfoGlobalNPC : GlobalNPC
 	{
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) {
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
 			if (MiscellaneousTool.showNPCInfo) {
 				if (npc.realLife == -1 || npc.realLife == npc.whoAmI) {
-					var font = Main.fontMouseText;
+					var font = FontAssets.MouseText.Value;
 					//Main.NewText("Drawing: " + npc.TypeName);
 					Rectangle infoRectangle = new Rectangle((int)(npc.BottomRight.X - Main.screenPosition.X), (int)(npc.BottomRight.Y - Main.screenPosition.Y), 300, 160);
-					spriteBatch.Draw(Main.magicPixel, infoRectangle, Color.NavajoWhite);
+					spriteBatch.Draw(TextureAssets.MagicPixel.Value, infoRectangle, Color.NavajoWhite);
 
 					/*
 					var d = npc.Hitbox;
-					Main.spriteBatch.Draw(Main.magicPixel, d, Color.Red);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, d, Color.Red);
 
 					spriteBatch.DrawString(font, $"X {npc.position.X,5:##0.0}", infoRectangle.TopLeft() + new Vector2(5, 5), Color.Black);
 					spriteBatch.DrawString(font, $"Y {npc.position.Y,5:##0.0}", infoRectangle.TopLeft() + new Vector2(5, 25), Color.Black);
@@ -158,18 +158,18 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 	}
 
-	internal class TileGridModWorld : ModWorld
+	internal class TileGridModSystem : ModSystem
 	{
 		public override void PostDrawTiles() {
 			if (MiscellaneousTool.showTileGrid) {
 				//Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-				Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 				Vector2 center = Main.LocalPlayer.Center.ToTileCoordinates().ToVector2() * 16;
 
 				for (int i = -13; i < 14; i++) {
-					Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(center.X + i * 16 - Main.screenPosition.X), (int)(center.Y - 13 * 16 - Main.screenPosition.Y), 2, 416), new Rectangle(0, 0, 1, 1), Color.White);
-					Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(center.X - 13 * 16 - Main.screenPosition.X), (int)(center.Y - i * 16 - Main.screenPosition.Y), 416, 2), new Rectangle(0, 0, 1, 1), Color.White);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(center.X + i * 16 - Main.screenPosition.X), (int)(center.Y - 13 * 16 - Main.screenPosition.Y), 2, 416), new Rectangle(0, 0, 1, 1), Color.White);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(center.X - 13 * 16 - Main.screenPosition.X), (int)(center.Y - i * 16 - Main.screenPosition.Y), 416, 2), new Rectangle(0, 0, 1, 1), Color.White);
 					//Utils.DrawLine(Main.spriteBatch, new Vector2(center.X + i * 16, center.Y - 13 * 16), new Vector2(center.X + i * 16, center.Y + 13 * 16), Color.White, Color.White, 1);
 					//Utils.DrawLine(Main.spriteBatch, new Vector2(center.X - 13 * 16, center.Y + i * 16), new Vector2(center.X + 13 * 16, center.Y + i * 16), Color.White, Color.White, 1);
 				}
@@ -180,17 +180,17 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				Main.spriteBatch.DrawString(font, $"{b.X + 2}, {b.Y + 2}", center - Main.screenPosition + new Vector2(3*16, 2*16), Color.Orange);
 
 				var c = center - Main.screenPosition + new Vector2(-3 * 16);
-				Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)c.X, (int)c.Y, 4, 4), Color.Red);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)c.X, (int)c.Y, 4, 4), Color.Red);
 
 				var d = center - Main.screenPosition + new Vector2(2 * 16);
-				Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)d.X, (int)d.Y, 4, 4), Color.Red);
+				Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)d.X, (int)d.Y, 4, 4), Color.Red);
 				*/
 				Main.spriteBatch.End();
 
 				// Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 			}
 			if (MiscellaneousTool.showCollisionCircle) {
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 				float max = 360f; // TODO: use a real circle drawing algorithm and adjustable radius
 				bool showTileCorners = Main.GameUpdateCount / 60 % 2 == 0;
 				showTileCorners = Main.LocalPlayer.direction == -1;
@@ -201,7 +201,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					//Dust.QuickDust(end, noCollision ? Color.Green : Color.Red);
 
 					if (!showTileCorners)
-						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(end.X - Main.screenPosition.X), (int)(end.Y - Main.screenPosition.Y), 2, 2), noCollision ? Color.Green : Color.Red);
+						Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(end.X - Main.screenPosition.X), (int)(end.Y - Main.screenPosition.Y), 2, 2), noCollision ? Color.Green : Color.Red);
 
 					var Position1 = Main.LocalPlayer.Center;
 					var Position2 = end;
@@ -216,10 +216,10 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 					Vector2 actualCheck = new Vector2(num3, num4) * 16;
 					if (showTileCorners) {
-						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 2, (int)(actualCheck.Y - Main.screenPosition.Y) + 2, 1, 1), noCollision ? Color.Green : Color.Red);
-						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 2, (int)(actualCheck.Y - Main.screenPosition.Y) + 14, 1, 1), noCollision ? Color.Green : Color.Red);
-						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 14, (int)(actualCheck.Y - Main.screenPosition.Y) + 2, 1, 1), noCollision ? Color.Green : Color.Red);
-						Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 14, (int)(actualCheck.Y - Main.screenPosition.Y) + 14, 1, 1), noCollision ? Color.Green : Color.Red);
+						Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 2, (int)(actualCheck.Y - Main.screenPosition.Y) + 2, 1, 1), noCollision ? Color.Green : Color.Red);
+						Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 2, (int)(actualCheck.Y - Main.screenPosition.Y) + 14, 1, 1), noCollision ? Color.Green : Color.Red);
+						Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 14, (int)(actualCheck.Y - Main.screenPosition.Y) + 2, 1, 1), noCollision ? Color.Green : Color.Red);
+						Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 14, (int)(actualCheck.Y - Main.screenPosition.Y) + 14, 1, 1), noCollision ? Color.Green : Color.Red);
 					}
 				}
 				Main.spriteBatch.End();

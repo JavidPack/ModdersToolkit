@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace ModdersToolkit.Tools.Spawns
 {
@@ -26,7 +28,7 @@ namespace ModdersToolkit.Tools.Spawns
 			npcSlot = new UINPCSlot(npc);
 			Append(npcSlot);
 
-			string name = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
+			string name = Lang.GetNPCNameValue(npc.type) + (npc.ModNPC != null ? " [" + npc.ModNPC.Mod.Name + "]" : "");
 
 			information = new UIText(name, 0.8f);
 			information.Top.Pixels = 1;
@@ -48,7 +50,7 @@ namespace ModdersToolkit.Tools.Spawns
 			base.DrawSelf(spriteBatch);
 
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
-			Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightBlue * 0.6f);
+			Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightBlue * 0.6f);
 		}
 	}
 }
