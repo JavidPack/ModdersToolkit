@@ -66,7 +66,7 @@ namespace ModdersToolkit.REPL
 
 			keyboardScrollbar = new UIElements.FixedUIScrollbar(userInterface);
 			keyboardScrollbar.SetView(100f, 1000f);
-			keyboardScrollbar.Top.Pixels = codeTextBox.GetDimensions().Height;
+			//keyboardScrollbar.Top.Pixels = codeTextBox.GetDimensions().Height;
 			keyboardScrollbar.Height.Set(-26, 1f);
 			keyboardScrollbar.Left.Set(-4, 0f);
 			keyboardScrollbar.HAlign = 1f;
@@ -74,7 +74,7 @@ namespace ModdersToolkit.REPL
 
 			replOutput.SetScrollbar(keyboardScrollbar);
 
-			UIImageButton clearButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete"), "Clear REPL");
+			UIImageButton clearButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear REPL");
 			clearButton.OnClick += (a, b) => {
 				pendingClear = true;
 				codeTextBox.SetText("");
@@ -83,7 +83,7 @@ namespace ModdersToolkit.REPL
 			clearButton.Left.Set(26 * 0, 0f);
 			keyboardPanel.Append(clearButton);
 
-			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete"), "Reset REPL");
+			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Reset REPL");
 			resetButton.OnClick += (a, b) => {
 				pendingClear = true;
 				codeTextBox.SetText("");
@@ -93,7 +93,7 @@ namespace ModdersToolkit.REPL
 			resetButton.Left.Set(26 * 1, 0f);
 			keyboardPanel.Append(resetButton);
 
-			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper"), "Tile Selector");
+			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Tile Selector");
 			eyeDropperButton.Height.Pixels = 20;
 			//eyeDropperButton.Width.Pixels = 20;
 			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
@@ -101,13 +101,13 @@ namespace ModdersToolkit.REPL
 			eyeDropperButton.Left.Set(26 * 2, 0f);
 			keyboardPanel.Append(eyeDropperButton);
 
-			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton"), "Open External Editor");
+			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Open External Editor");
 			openText.OnClick += OpenTextButton_OnClick;
 			openText.Top.Set(-26, 1f);
 			openText.Left.Set(26 * 3, 0f);
 			keyboardPanel.Append(openText);
 
-			UIImageButton runText = new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay"), "Execute External Code");
+			UIImageButton runText = new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Execute External Code");
 			runText.OnClick += RunTextButton_OnClick;
 			runText.Top.Set(-26, 1f);
 			runText.Left.Set(26 * 4, 0f);
@@ -133,7 +133,11 @@ namespace ModdersToolkit.REPL
 				File.WriteAllText(path, "// Write code statements here");
 			}
 			try {
-				Process.Start(path);
+				Process.Start(
+					new ProcessStartInfo(path) {
+						UseShellExecute = true
+					}
+				);
 			}
 			catch (Exception) {
 				Main.NewText("Could not open ModdersToolkit_Code.cs, check that you have a text editor associated with .cs files.");

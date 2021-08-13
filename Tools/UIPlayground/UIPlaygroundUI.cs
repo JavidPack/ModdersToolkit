@@ -100,6 +100,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			//mainPanel.Top.Set(-110f - height, 1f);
 			//mainPanel.Width.Set(width, 0f);
 			//mainPanel.Height.Set(height, 0f);
+			mainPanel.MaxHeight.Set(0, 2f); // so it can go off screen on small screens and not adjust itself to be shorter
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			int top = 0;
@@ -338,13 +339,13 @@ namespace ModdersToolkit.Tools.UIPlayground
 			tweakPanel.Append(text);
 			top += 20;
 
-			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper"), "UI Selector");
+			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "UI Selector");
 			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
 			eyeDropperButton.Top.Set(top - 6, 0f);
 			eyeDropperButton.Left.Set(0, 0f);
 			tweakPanel.Append(eyeDropperButton);
 
-			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete"), "Clear UI Selections");
+			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear UI Selections");
 			resetButton.OnClick += (a, b) => {
 				UIPlaygroundTool.selectedUIElements.Clear();
 				updateNeeded = true;
@@ -353,7 +354,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			resetButton.Left.Set(30, 0f);
 			tweakPanel.Append(resetButton);
 
-			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton"), "Copy code of selected element to clipboard");
+			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Copy code of selected element to clipboard");
 			copyCodeButton.OnClick += CopyCodeButton_OnClick;
 			copyCodeButton.Top.Set(top - 6, 0f);
 			copyCodeButton.Left.Set(60, 0f);

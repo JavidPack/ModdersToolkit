@@ -103,7 +103,7 @@ namespace ModdersToolkit.UIElements
 				//slider.HAlign = .25f;
 				Append(slider);
 
-				minus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonMinus"));
+				minus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonMinus", ReLogic.Content.AssetRequestMode.ImmediateLoad));
 				minus.OnClick += Minus_OnClick;
 				//minus.Height.Set(16, 0f);
 				minus.Width.Set(0, .125f);
@@ -113,7 +113,7 @@ namespace ModdersToolkit.UIElements
 				//minus.HAlign = .625f;
 				Append(minus);
 
-				plus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonPlus"));
+				plus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonPlus", ReLogic.Content.AssetRequestMode.ImmediateLoad));
 				plus.OnClick += Plus_OnClick;
 				//plus.Height.Set(16, 0f);
 				plus.Width.Set(0, .125f);

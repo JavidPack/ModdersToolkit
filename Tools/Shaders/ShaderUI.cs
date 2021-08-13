@@ -361,7 +361,11 @@ technique Technique1
 
 		private static void AttemptOpenFxFile(string path) {
 			try {
-				Process.Start(path);
+				Process.Start(
+					new ProcessStartInfo(path) {
+						UseShellExecute = true
+					}
+				);
 			}
 			catch (Exception) {
 				Main.NewText($"Could not open {path}, check that you have a text editor associated with .fx files.");
