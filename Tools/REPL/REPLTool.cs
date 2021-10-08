@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.REPL;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.REPL
@@ -76,11 +75,11 @@ namespace ModdersToolkit.Tools.REPL
 
 		// A helper method that draws a bordered rectangle. 
 		public static void DrawBorderedRect(SpriteBatch spriteBatch, Color color, Color borderColor, Vector2 position, Vector2 size, int borderWidth) {
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), color);
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)position.X - borderWidth, (int)position.Y - borderWidth, (int)size.X + borderWidth * 2, borderWidth), borderColor);
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)position.X - borderWidth, (int)position.Y + (int)size.Y, (int)size.X + borderWidth * 2, borderWidth), borderColor);
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)position.X - borderWidth, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)position.X + (int)size.X, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), color);
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X - borderWidth, (int)position.Y - borderWidth, (int)size.X + borderWidth * 2, borderWidth), borderColor);
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X - borderWidth, (int)position.Y + (int)size.Y, (int)size.X + borderWidth * 2, borderWidth), borderColor);
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X - borderWidth, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
+			spriteBatch.Draw(Main.magicPixel, new Rectangle((int)position.X + (int)size.X, (int)position.Y, (int)borderWidth, (int)size.Y), borderColor);
 		}
 
 		//internal override void ScreenResolutionChanged()

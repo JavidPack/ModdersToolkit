@@ -1,52 +1,46 @@
 ﻿using ModdersToolkit.Tools.REPL;
 using ModdersToolkit.UIElements;
-//using Mono.CSharp;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
+using Mono.CSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Terraria;
-using System.Reflection;
 
 namespace ModdersToolkit.REPL
 {
 	public class REPLBackend
 	{
-		// 1.4: Mono.CSharp doesn't work on .net core, so migrated to Microsoft.CodeAnalysis.CSharp.Scripting. 
-		// TODO: Reimplement code completion
+		private CompilerContext compilerContext;
+		private Evaluator evaluator;
 		internal List<string> namespaces;
-
-		// Make sure state is only initialized when a modder actually uses the tool.
-		private ScriptState<object> state;
 
 		public REPLBackend() {
 			Reset();
 		}
 
 		public void Reset() {
-			// TODO: Only call this during 1st initial usage, since 1st RunAsync takes over a second.
+			if (Main.netMode == 2) {
+				compilerContext = new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter(new ConsoleTextWriter()));
+			}
+			else {
+				compilerContext = new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter(new MainNewTextTextWriter()));
+			}
+			evaluator = new Evaluator(compilerContext);
 			namespaces = new List<string>();
-			var opt = ScriptOptions.Default;
 
-			var assemblies = new List<Assembly>();
-			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+			foreach (System.Reflection.Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
 				if (assembly == null) {
 					continue;
 				}
 				try {
-					if (assembly.IsDynamic || assembly.FullName.Contains("Steamworks.NET") || assembly.FullName.Contains("log4net") || assembly.FullName.Contains("mscorlib") || assembly.FullName.Contains("System.Core,") || assembly.FullName.Contains("System,") || assembly.FullName.Contains("System") || (!string.IsNullOrEmpty(assembly.Location) && Path.GetFileName(Path.GetDirectoryName(assembly.Location)) == "ModCompile")) {
+					if (assembly.IsDynamic || assembly.FullName.Contains("mscorlib") || assembly.FullName.Contains("System.Core,") || assembly.FullName.Contains("System,") || assembly.FullName.Contains("System") || (!string.IsNullOrEmpty(assembly.Location) && Path.GetFileName(Path.GetDirectoryName(assembly.Location)) == "ModCompile")) {
+
 					}
 					else {
-						// TODO: Fix this: Can't create a metadata reference to an assembly without location https://github.com/dotnet/roslyn/issues/2246
-						// This prevents all mod dlls from being accessable.
-						if (string.IsNullOrWhiteSpace(assembly.Location))
-							continue; 
-						assemblies.Add(assembly);
-						
+						evaluator.ReferenceAssembly(assembly);
+
 						var topLevel = assembly.GetTypes()
 						   //.Select(t => GetTopLevelNamespace(t))
 						   .Select(t => t.Namespace)
@@ -63,13 +57,12 @@ namespace ModdersToolkit.REPL
 				}
 				catch (NullReferenceException e) {
 				}
-				catch (ReflectionTypeLoadException e) {
-				}
 			}
-
-			opt = opt.AddReferences(assemblies);
-			opt = opt.AddImports("System", "Terraria", "Terraria.ModLoader", "Microsoft.Xna.Framework");
-			state = CSharpScript.RunAsync("", opt).Result;
+			try {
+				evaluator.Run("using Terraria;");
+			}
+			catch (Exception) {
+			}
 		}
 
 		private static string GetTopLevelNamespace(Type t) {
@@ -85,11 +78,10 @@ namespace ModdersToolkit.REPL
 		}
 
 		public string[] GetCompletions(string input) {
-			return new string[0];
-			//string prefix;
-			//var results = evaluator.GetCompletions(input, out prefix);
-			////.NewText("Prefix: " + prefix);
-			//return results;
+			string prefix;
+			var results = evaluator.GetCompletions(input, out prefix);
+			//.NewText("Prefix: " + prefix);
+			return results;
 		}
 
 		public void Action(string line) {
@@ -98,49 +90,7 @@ namespace ModdersToolkit.REPL
 
 			object result;
 			bool result_set;
-
-			try {
-				state = state.ContinueWithAsync(line).Result;
-				if(state.ReturnValue != null) {
-					if (Main.dedServ) {
-						Console.ForegroundColor = ConsoleColor.Yellow;
-						Console.WriteLine(state.ReturnValue.ToString());
-					}
-					else {
-						REPLTool.moddersToolkitUI.AddChunkedLine(state.ReturnValue.ToString(), CodeType.Output);
-					}
-				}
-				// Watch feature maybe?
-				// Display all variables?
-				// Where to display? Why?
-				/*
-				foreach (var variable in state.Variables) {
-					if (!variable.IsReadOnly) {
-						if (variable.Type == typeof(int)) {
-							FieldInfo fieldFieldInfo = typeof(ScriptVariable).GetField("_field", BindingFlags.Instance | BindingFlags.NonPublic);
-							FieldInfo objectFieldInfo = typeof(ScriptVariable).GetField("_instance", BindingFlags.Instance | BindingFlags.NonPublic);
-							object obj = objectFieldInfo.GetValue(variable);
-							FieldInfo fieldInfo = (FieldInfo)fieldFieldInfo.GetValue(variable);
-							(object, FieldInfo) tweak = (obj, fieldInfo);
-							Tools.QuickTweak.QuickTweakTool.AddTweak(tweak);
-						}
-					}
-				}
-				*/
-			}
-			catch (CompilationErrorException e) {
-				if (Main.dedServ) {
-					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine(string.Join(Environment.NewLine, e.Diagnostics));
-				}
-				else {
-					REPLTool.moddersToolkitUI.AddChunkedLine(string.Join(Environment.NewLine, e.Diagnostics), CodeType.Error);
-				}
-			}
-			return;
-			// TODO: clean up and re-implement anything below.
-
-			//evaluator.Evaluate(line, out result, out result_set);
+			evaluator.Evaluate(line, out result, out result_set);
 			if (result_set) {
 				if (result == null) {
 					result = "<null>";

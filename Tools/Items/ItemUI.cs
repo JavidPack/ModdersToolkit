@@ -4,7 +4,6 @@ using ModdersToolkit.UIElements;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -159,7 +158,7 @@ namespace ModdersToolkit.Tools.Items
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.hammer = value;
 			uiRanges.Add(new UIRange<int>(data));
 
-			data = new UIIntRangedDataValue("Shoot:", 0, 0, TextureAssets.Projectile.Length - 1);
+			data = new UIIntRangedDataValue("Shoot:", 0, 0, Main.projectileTexture.Length - 1);
 			data.DataGetter = () => Main.LocalPlayer.HeldItem.shoot;
 			data.DataSetter = (value) => Main.LocalPlayer.HeldItem.shoot = value;
 			uiRanges.Add(new UIRange<int>(data));
@@ -237,7 +236,7 @@ namespace ModdersToolkit.Tools.Items
 			Main.LocalPlayer.HeldItem.Prefix(-2);
 			Main.LocalPlayer.HeldItem.position.X = Main.LocalPlayer.position.X + (float)(Main.LocalPlayer.width / 2) - (float)(Main.LocalPlayer.HeldItem.width / 2);
 			Main.LocalPlayer.HeldItem.position.Y = Main.LocalPlayer.position.Y + (float)(Main.LocalPlayer.height / 2) - (float)(Main.LocalPlayer.HeldItem.height / 2);
-			PopupText.NewText(PopupTextContext.ItemReforge, Main.LocalPlayer.HeldItem, Main.LocalPlayer.HeldItem.stack, true, false);
+			ItemText.NewText(Main.LocalPlayer.HeldItem, Main.LocalPlayer.HeldItem.stack, true, false);
 		}
 
 		private void SetDefaultsButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
@@ -251,11 +250,10 @@ namespace ModdersToolkit.Tools.Items
 		}
 
 		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			// TODO: Double check that this enumeration is correct with AppliesToEntity
-			Instanced<GlobalItem>[] globalItems = ((Instanced<GlobalItem>[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
+			var globalItems = ((GlobalItem[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
 
 			for (int i = 0; i < globalItems.Length; i++) {
-				GlobalItem param = globalItems[i].instance;
+				GlobalItem param = globalItems[i];
 				if (param.Name == "MysteryGlobalItem")
 					continue;
 				Main.NewText("Object type: " + param.GetType());

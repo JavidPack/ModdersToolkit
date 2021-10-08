@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -361,11 +360,7 @@ technique Technique1
 
 		private static void AttemptOpenFxFile(string path) {
 			try {
-				Process.Start(
-					new ProcessStartInfo(path) {
-						UseShellExecute = true
-					}
-				);
+				Process.Start(path);
 			}
 			catch (Exception) {
 				Main.NewText($"Could not open {path}, check that you have a text editor associated with .fx files.");
@@ -711,7 +706,7 @@ technique Technique1
 
 			if (Filters.Scene["ModdersToolkit:TestScreenShader"].IsInUse()) {
 				var destination = forceShaderCheckbox.GetDimensions();
-				Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, $"uOpacity: {Filters.Scene["ModdersToolkit:TestScreenShader"].GetShader().CombinedOpacity:n2}", destination.X + 210, destination.Y + 2, Color.White, Color.Black, new Vector2(0.3f), 0.75f);
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, $"uOpacity: {Filters.Scene["ModdersToolkit:TestScreenShader"].GetShader().CombinedOpacity:n2}", destination.X + 210, destination.Y + 2, Color.White, Color.Black, new Vector2(0.3f), 0.75f);
 			}
 		}
 	}

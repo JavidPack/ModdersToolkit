@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 
@@ -9,7 +8,7 @@ namespace ModdersToolkit.UIElements
 	{
 		internal string hoverText;
 
-		public UIHoverImageButton(Asset<Texture2D> texture, string hoverText) : base(texture) {
+		public UIHoverImageButton(Texture2D texture, string hoverText) : base(texture) {
 			this.hoverText = hoverText;
 		}
 

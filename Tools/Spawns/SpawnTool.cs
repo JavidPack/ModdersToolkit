@@ -81,7 +81,6 @@ namespace ModdersToolkit.Tools.Spawns
 		}
 
 		public static void SpawnNPC() {
-			/* TODO: Reimplement
 			if (noSpawnCycle) {
 				noSpawnCycle = false;
 				return;
@@ -2965,7 +2964,6 @@ namespace ModdersToolkit.Tools.Spawns
 					}
 				}
 			}
-			*/
 		}
 	}
 }

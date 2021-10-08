@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
@@ -11,8 +10,8 @@ namespace ModdersToolkit.UIElements
 	// TODO, tri-state checkbox.
 	internal class UICheckbox : UIText
 	{
-		internal static Asset<Texture2D> checkboxTexture;
-		internal static Asset<Texture2D> checkmarkTexture;
+		internal static Texture2D checkboxTexture;
+		internal static Texture2D checkmarkTexture;
 		public event Action OnSelectedChanged;
 
 		public float order = 0;
@@ -61,9 +60,9 @@ namespace ModdersToolkit.UIElements
 			//Vector2 pos = new Vector2(innerDimensions.X - 20, innerDimensions.Y - 5);
 			Vector2 pos = new Vector2(innerDimensions.X, innerDimensions.Y - 5);
 
-			spriteBatch.Draw(checkboxTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(checkboxTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			if (Selected)
-				spriteBatch.Draw(checkmarkTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(checkmarkTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
 			base.DrawSelf(spriteBatch);
 
@@ -89,8 +88,8 @@ namespace ModdersToolkit.UIElements
 
 	internal class UICheckbox2 : UIText
 	{
-		internal static Asset<Texture2D> checkboxTexture;
-		internal static Asset<Texture2D> checkmarkTexture;
+		internal static Texture2D checkboxTexture;
+		internal static Texture2D checkmarkTexture;
 		public event Action OnSelectedChanged;
 
 		private UIBoolDataValue data;
@@ -111,9 +110,9 @@ namespace ModdersToolkit.UIElements
 			//Vector2 pos = new Vector2(innerDimensions.X - 20, innerDimensions.Y - 5);
 			Vector2 pos = new Vector2(innerDimensions.X, innerDimensions.Y - 5);
 
-			spriteBatch.Draw(checkboxTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(checkboxTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			if (data.Data)
-				spriteBatch.Draw(checkmarkTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(checkmarkTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
 			base.DrawSelf(spriteBatch);
 		}
@@ -121,9 +120,9 @@ namespace ModdersToolkit.UIElements
 
 	internal class UITriStateCheckbox : UIText
 	{
-		internal static Asset<Texture2D> checkboxTexture;
-		internal static Asset<Texture2D> checkmarkTexture;
-		internal static Asset<Texture2D> checkXTexture;
+		internal static Texture2D checkboxTexture;
+		internal static Texture2D checkmarkTexture;
+		internal static Texture2D checkXTexture;
 		public event Action OnSelectedChanged;
 
 		private UIBoolNDataValue data;
@@ -153,13 +152,13 @@ namespace ModdersToolkit.UIElements
 			//Vector2 pos = new Vector2(innerDimensions.X - 20, innerDimensions.Y - 5);
 			Vector2 pos = new Vector2(innerDimensions.X, innerDimensions.Y - 5);
 
-			spriteBatch.Draw(checkboxTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(checkboxTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			if (data.Data.HasValue) {
 				if (data.Data.Value) {
-					spriteBatch.Draw(checkmarkTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+					spriteBatch.Draw(checkmarkTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 				}
 				else {
-					spriteBatch.Draw(checkXTexture.Value, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+					spriteBatch.Draw(checkXTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 				}
 			}
 			base.DrawSelf(spriteBatch);

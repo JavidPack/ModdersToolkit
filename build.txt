@@ -8,4 +8,4 @@ includePDB = true
 hideCode = false
 hideResources = false
 includeSource = true
-dllReferences = Microsoft.CodeAnalysis.CSharp.Scripting, Microsoft.CodeAnalysis.Scripting
+dllReferences = Mono.CSharp

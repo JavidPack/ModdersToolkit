@@ -1,5 +1,4 @@
-﻿/*
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			var playerLayerListScrollbar = new UIElements.FixedUIScrollbar(_userInterface);
 			playerLayerListScrollbar.SetView(100f, 1000f);
 			playerLayerListScrollbar.Top.Pixels = top;// + spacing;
-			playerLayerListScrollbar.Height.Set(-top, 1f);
+			playerLayerListScrollbar.Height.Set(-top /*- spacing*/, 1f);
 			playerLayerListScrollbar.HAlign = 1f;
 			mainPanel.Append(playerLayerListScrollbar);
 			playerLayerList.SetScrollbar(playerLayerListScrollbar);
@@ -70,7 +69,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			playerLayersCheckboxes.Clear();
 			int order = 0;
 			foreach (var item in playerLayers) {
-				var box = new UICheckbox(item.Name, item.Mod);
+				var box = new UICheckbox(item.Name, item.mod);
 				box.order = order++;
 				box.Selected = true;
 				playerLayersCheckboxes.Add(box);
@@ -132,4 +131,3 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		}
 	}
 }
-*/

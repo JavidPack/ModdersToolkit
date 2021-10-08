@@ -1,5 +1,4 @@
-﻿/*
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
 using System.Reflection;
@@ -79,4 +78,3 @@ namespace ModdersToolkit.Tools.Backgrounds
 		}
 	}
 }
-*/

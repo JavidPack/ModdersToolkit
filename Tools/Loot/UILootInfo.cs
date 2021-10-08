@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using Terraria.ModLoader;
-using Terraria.GameContent;
 
 namespace ModdersToolkit.Tools.Loot
 {
@@ -28,7 +26,7 @@ namespace ModdersToolkit.Tools.Loot
 			itemSlot = new UIItemSlot(item);
 			Append(itemSlot);
 
-			string name = item.Name + (item.ModItem != null ? " [" + item.ModItem.Mod.Name + "]" : "");
+			string name = item.Name + (item.modItem != null ? " [" + item.modItem.mod.Name + "]" : "");
 
 			information = new UIText(name, 0.8f);
 			information.Top.Pixels = 1;
@@ -50,7 +48,7 @@ namespace ModdersToolkit.Tools.Loot
 			base.DrawSelf(spriteBatch);
 
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
-			Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightBlue * 0.6f);
+			Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightBlue * 0.6f);
 		}
 	}
 }

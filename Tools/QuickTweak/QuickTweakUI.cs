@@ -51,7 +51,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			};
 			mainPanel.Append(privateFieldsCheckbox);
 
-			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear Tweaks");
+			UIImageButton resetButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Clear Tweaks");
 			resetButton.OnClick += (a, b) => {
 				QuickTweakTool.tweaks.Clear();
 				updateNeeded = true;
@@ -61,7 +61,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			mainPanel.Append(resetButton);
 
 			// Separate page for common things? Save load?
-			UIImageButton mountButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Edit current mount");
+			UIImageButton mountButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Edit current mount");
 			mountButton.OnClick += (a, b) => {
 				if (Main.LocalPlayer.mount._active) {
 					//foreach (var field in typeof(Mount.MountData).GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)) {
@@ -74,7 +74,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			mountButton.Left.Set(-52, 1f);
 			mainPanel.Append(mountButton);
 
-			UIImageButton modPlayersButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Edit ModPlayers");
+			UIImageButton modPlayersButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Edit ModPlayers");
 			modPlayersButton.OnClick += (a, b) => {
 				FieldInfo modPlayersField = typeof(Player).GetField("modPlayers", BindingFlags.Instance | BindingFlags.NonPublic);
 				ModPlayer[] modPlayers = (ModPlayer[])modPlayersField.GetValue(Main.LocalPlayer);
@@ -87,7 +87,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			modPlayersButton.Left.Set(-78, 1f);
 			mainPanel.Append(modPlayersButton);
 
-			UIImageButton nearestNPCButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Nearest NPC");
+			UIImageButton nearestNPCButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Nearest NPC");
 			nearestNPCButton.OnClick += (a, b) => {
 				NPC closest = null;
 				float minDistance = float.MaxValue;
@@ -102,14 +102,13 @@ namespace ModdersToolkit.Tools.QuickTweak
 				}
 				if (closest != null) {
 					QuickTweak.QuickTweakTool.AddTweak(closest, closest.GivenOrTypeName);
-					if(closest.ModNPC != null)
-						QuickTweak.QuickTweakTool.AddTweak(closest.ModNPC, closest.GivenOrTypeName + " modNPC");
+					if(closest.modNPC != null)
+						QuickTweak.QuickTweakTool.AddTweak(closest.modNPC, closest.GivenOrTypeName + " modNPC");
 				}
 				FieldInfo globalNPCsField = typeof(NPC).GetField("globalNPCs", BindingFlags.Instance | BindingFlags.NonPublic);
-				Instanced<GlobalNPC>[] globalNPCs = (Instanced<GlobalNPC>[])globalNPCsField.GetValue(closest);
-				// TODO: Double check that this enumeration is correct with AppliesToEntity
+				GlobalNPC[] globalNPCs = (GlobalNPC[])globalNPCsField.GetValue(closest);
 				foreach (var globalNPC in globalNPCs) {
-					QuickTweak.QuickTweakTool.AddTweak(globalNPC.instance, "");
+					QuickTweak.QuickTweakTool.AddTweak(globalNPC, "");
 				}
 				updateNeeded = true;
 			};
@@ -195,7 +194,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 				var header = new UIText(label != "" ? label : tweakItem.ToString());
 				panel.Append(header);
 
-				UIImageButton removeButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Remove");
+				UIImageButton removeButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Remove");
 				removeButton.OnClick += (a, b) => {
 					QuickTweakTool.tweaks.Remove(tweakEntry);
 					updateNeeded = true;
