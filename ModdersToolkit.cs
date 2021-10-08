@@ -46,6 +46,7 @@ namespace ModdersToolkit
 			AddTool(new Tools.PlayerLayer.PlayerLayerTool());
 			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
 			AddTool(new Tools.Spawns.SpawnTool());
+			AddTool(new Tools.Fishing.FishingTool());
 			AddTool(new Tools.Textures.TextureTool());
 			if (Platform.IsWindows)
 				tools.Add(new Tools.Shaders.ShaderTool());
