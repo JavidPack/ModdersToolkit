@@ -85,9 +85,7 @@ namespace ModdersToolkit.Tools.Fishing
 					// Added code to visualize pool dimensions
 					if (poolSize < 1000) {
 						// 1000 is highest value vanilla checks
-						Dust dust = Dust.NewDustPerfect(new Vector2(x, y) * 16 + new Vector2(8), 6, Vector2.Zero, Scale: 1.5f);
-						dust.noGravity = true;
-						dust.noLight = true;
+						Dust.QuickDust(new Point(x, y - 1), Color.Orange);
 					}
 				}
 			}
@@ -198,30 +196,30 @@ namespace ModdersToolkit.Tools.Fishing
 			poolSize = 0;
 			lava = false;
 			honey = false;
-			// Spawn bobber with downward starting velocity
-			int index = Projectile.NewProjectile(spawnPosition, Vector2.UnitY * 8, bobberType, 0, 0f, Main.myPlayer);
-			if (index >= Main.maxProjectiles) {
-				return;
-			}
-
-			Projectile bobber = Main.projectile[index];
-
 			Player player = Main.LocalPlayer;
 			Vector2 originalCenter = player.Center;
 			bool originalWet = player.wet;
 			bool originalHoneyWet = player.honeyWet;
 			bool originalLavaWet = player.lavaWet;
-
-			// Debug: Visualize bobber spawn location
-			//for (int i = 0; i < 10; i++)
-			//{
-			//	Dust.NewDust(bobber.position, 16, 16, DustID.Fire);
-			//}
-
-			catches.Clear();
-
-			currentlyTesting = true;
+			Projectile bobber = null;
 			try {
+				// Spawn bobber with downward starting velocity
+				int index = Projectile.NewProjectile(spawnPosition, Vector2.UnitY * 8, bobberType, 0, 0f, Main.myPlayer);
+				if (index >= Main.maxProjectiles) {
+					return;
+				}
+
+				bobber = Main.projectile[index];
+
+				// Debug: Visualize bobber spawn location
+				//for (int i = 0; i < 10; i++)
+				//{
+				//	Dust.NewDust(bobber.position, 16, 16, DustID.Fire);
+				//}
+
+				catches.Clear();
+
+				currentlyTesting = true;
 				int failureCount = 0;
 
 				player.Center = spawnPosition - new Vector2(0f, bobber.height * 2); //Temporarily teleport player above the bobber + twice the bobbers height
@@ -257,9 +255,9 @@ namespace ModdersToolkit.Tools.Fishing
 				player.honeyWet = originalHoneyWet;
 				player.lavaWet = originalLavaWet;
 				currentlyTesting = false;
+				bobber?.Kill();
 			}
 
-			bobber.Kill();
 
 			// Debug: Visualize bobber final location
 			//for (int i = 0; i < 10; i++)

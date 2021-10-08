@@ -9,7 +9,7 @@ Current Tools
 -Player layer viewer
 -Interface layer viewer.
 -NPC Spawn Calculator
--Fishing Result Calculator
+-Fishing Result Calculator (Thanks direwolf420)
 -Texture updating/editing tool
 -Shader updating/editing tool (w/ Webmilio) (see wiki for usage instructions)
 -UI Playground
