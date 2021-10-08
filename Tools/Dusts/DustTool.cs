@@ -47,7 +47,7 @@ namespace ModdersToolkit.Tools.Dusts
 				ModDust dust;
 
 				do {
-					dust = ModDust.GetDust(count);
+					dust = DustLoader.GetDust(count);
 					count++; // We start the count one index prior to what it should be. Since this is a do-while, it'll always add one.
 				}
 				while (dust != null);

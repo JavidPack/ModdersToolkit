@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿/*
+using Terraria;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
@@ -35,3 +36,4 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		}
 	}
 }
+*/

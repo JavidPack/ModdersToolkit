@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
@@ -130,7 +132,7 @@ namespace ModdersToolkit.Tools.Textures
 			//exportImageButton.Left.Set(0, 0f);
 			//mainPanel.Append(exportImageButton);
 
-			UIHoverImageButton editImageButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/eyedropper"), "Open Exported Image in Default Editor");
+			UIHoverImageButton editImageButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Open Exported Image in Default Editor");
 			editImageButton.OnClick += EditImageButton_OnClick;
 			editImageButton.Top.Set(top + 5, 0f);
 			editImageButton.Left.Set(0, 0f);
@@ -185,7 +187,12 @@ namespace ModdersToolkit.Tools.Textures
 				Main.NewText("No texture selected");
 			}
 			else {
-				Process.Start(path);
+				//Process.Start(path);
+				Process.Start(
+					new ProcessStartInfo(path) {
+						UseShellExecute = true
+					}
+				);
 			}
 		}
 
@@ -194,6 +201,7 @@ namespace ModdersToolkit.Tools.Textures
 				Main.NewText("No texture selected");
 			}
 			else {
+				Utils.TryCreatingDirectory(folder);
 				using (Stream stream = File.OpenWrite(path)) {
 					selectedTexture2D.SaveAsPng(stream, selectedTexture2D.Width, selectedTexture2D.Height);
 				}
@@ -221,7 +229,7 @@ namespace ModdersToolkit.Tools.Textures
 				// Begin watching.
 				watcher.EnableRaisingEvents = true;
 
-				Process.Start(folder);
+				Utils.OpenFolder(folder);
 			}
 		}
 
@@ -267,17 +275,18 @@ namespace ModdersToolkit.Tools.Textures
 					string dir = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 					string innername = watchedFileChangedSourcesFileName.Substring(dir.Length);
 					string innernamenoext = System.IO.Path.ChangeExtension(innername, null);
-					innernamenoext = innernamenoext.Replace("\\", "/");
+					//innernamenoext = innernamenoext.Replace("\\", "/");
 
-					FieldInfo texturesField = typeof(Mod).GetField("textures", BindingFlags.Instance | BindingFlags.NonPublic);
-					var textures = (Dictionary<string, Texture2D>)texturesField.GetValue(selectedMod);
+					var textures = selectedMod.Assets.GetLoadedAssets().Where(x => x is Asset<Texture2D>).Cast<Asset<Texture2D>>();
+					//FieldInfo texturesField = typeof(Mod).GetField("textures", BindingFlags.Instance | BindingFlags.NonPublic);
+					//var textures = (Dictionary<string, Texture2D>)texturesField.GetValue(selectedMod);
 
-					if (!textures.ContainsKey(innernamenoext)) {
+					if (!textures.Any(x => x.Name == innernamenoext)) {
 						Main.NewText("Detected png change, but file not present at load: " + innername);
 						return;
 					}
 
-					Texture2D modTexture = textures[innernamenoext];
+					Texture2D modTexture = textures.First(x => x.Name == innernamenoext).Value;
 
 					Texture2D file;
 					using (Stream stream = File.OpenRead(watchedFileChangedSourcesFileName)) {
@@ -316,18 +325,20 @@ namespace ModdersToolkit.Tools.Textures
 
 			if (selectedMod != null) {
 				textureList.Clear();
-				FieldInfo texturesField = typeof(Mod).GetField("textures", BindingFlags.Instance | BindingFlags.NonPublic);
-				var textures = (Dictionary<string, Texture2D>)texturesField.GetValue(selectedMod);
+				var textures = selectedMod.Assets.GetLoadedAssets().Where(x => x is Asset<Texture2D>).Cast<Asset<Texture2D>>();
+
+				//FieldInfo texturesField = typeof(Mod).GetField("textures", BindingFlags.Instance | BindingFlags.NonPublic);
+				//var textures = (Dictionary<string, Texture2D>)texturesField.GetValue(selectedMod);
 				foreach (var textureEntry in textures) {
 					if (searchFilter.Text.Length > 0) {
-						if (textureEntry.Key.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) == -1)
+						if (textureEntry.Name.ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) == -1)
 							continue;
 					}
-					UIImage image = new UIHoverImage(textureEntry.Value, textureEntry.Key);
+					UIImage image = new UIHoverImage(textureEntry.Value, textureEntry.Name);
 					//image.ImageScale = Math.Min(1f, 60f/textureEntry.Value.Height);
 					image.OnClick += (a, b) => {
 						selectedTexture2D = textureEntry.Value;
-						currentTexture.SetText("Current: " + textureEntry.Key);
+						currentTexture.SetText("Current: " + textureEntry.Name);
 						SelectedTexture2DChanged();
 					};
 					textureList.Add(image);

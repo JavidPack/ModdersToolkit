@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using ReLogic.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
@@ -158,7 +159,7 @@ namespace ModdersToolkit.UIElements
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			Rectangle hitbox = GetDimensions().ToRectangle();
 			//hitbox.Inflate(4, 4);
-			Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.White);
+			Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.White);
 
 			// Draw panel -- Panel draws odd when too small
 			// base.DrawSelf(spriteBatch);
@@ -206,7 +207,7 @@ namespace ModdersToolkit.UIElements
 
 			CalculatedStyle innerDimensions = base.GetInnerDimensions();
 			Vector2 pos = innerDimensions.Position();
-			DynamicSpriteFont spriteFont = base.IsLarge ? Main.fontDeathText : Main.fontMouseText;
+			DynamicSpriteFont spriteFont = base.IsLarge ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
 			Vector2 vector = new Vector2(spriteFont.MeasureString(base.Text.Substring(0, this._cursor)).X, base.IsLarge ? 32f : 16f) * base.TextScale;
 			if (base.IsLarge) {
 				pos.Y -= 8f * base.TextScale;

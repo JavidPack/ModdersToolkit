@@ -3,12 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace ModdersToolkit.Tools.Loot
 {
 	internal class UIItemSlot : UIElement
 	{
-		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
+		public static Texture2D backgroundTexture = TextureAssets.InventoryBack9.Value;
 		private float scale = .6f;
 		public int itemType;
 		public Item item;
@@ -28,7 +30,7 @@ namespace ModdersToolkit.Tools.Loot
 				CalculatedStyle dimensions = base.GetInnerDimensions();
 				Rectangle rectangle = dimensions.ToRectangle();
 				spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-				Texture2D itemTexture = Main.itemTexture[this.item.type];
+				Texture2D itemTexture = TextureAssets.Item[this.item.type].Value;
 
 
 				Rectangle rectangle2;
@@ -60,12 +62,12 @@ namespace ModdersToolkit.Tools.Loot
 					spriteBatch.Draw(itemTexture, drawPosition, new Rectangle?(rectangle2), this.item.GetColor(Color.White), 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);
 				}
 				if (this.item.stack > 1) {
-					spriteBatch.DrawString(Main.fontItemStack, this.item.stack.ToString(), new Vector2(drawPosition.X + 10f * scale, drawPosition.Y + 26f * scale), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+					spriteBatch.DrawString(FontAssets.ItemStack.Value, this.item.stack.ToString(), new Vector2(drawPosition.X + 10f * scale, drawPosition.Y + 26f * scale), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 				}
 
 				if (IsMouseHovering) {
 					Main.HoverItem = item.Clone();
-					Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.modItem != null ? " [" + Main.HoverItem.modItem.mod.Name + "]" : ""));
+					Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.ModItem != null ? " [" + Main.HoverItem.ModItem.Mod.Name + "]" : ""));
 				}
 			}
 		}

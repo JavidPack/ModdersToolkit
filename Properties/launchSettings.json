@@ -2,18 +2,20 @@
   "profiles": {
     "Terraria": {
       "commandName": "Executable",
-      "executablePath": "$(tMLPath)",
+      "executablePath": "dotnet",
+      "commandLineArgs": "$(tMLPath)",
       "workingDirectory": "$(TerrariaSteamPath)"
     },
     "TerrariaFast": {
       "commandName": "Executable",
-      "executablePath": "$(tMLPath)",
-      "commandLineArgs": "-skipselect",
+      "executablePath": "dotnet",
+      "commandLineArgs": "$(tMLPath) -skipselect",
       "workingDirectory": "$(TerrariaSteamPath)"
     },
     "TerrariaServer": {
       "commandName": "Executable",
-      "executablePath": "$(tMLServerPath)",
+      "executablePath": "dotnet",
+      "commandLineArgs": "$(tMLServerPath)",
       "workingDirectory": "$(TerrariaSteamPath)"
     }
   }

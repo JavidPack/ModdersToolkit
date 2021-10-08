@@ -8,6 +8,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.Audio;
+using Terraria.GameContent;
 
 //todo, tool to make townnpc spritesheet out of current player 
 //todo, Main.ignoreErrors = true; -- set to false and report errors to console
@@ -34,40 +36,39 @@ namespace ModdersToolkit
 
 			tools = new List<Tool>();
 
-			if (Platform.IsWindows) // REPL tool not working non-windows yet. Is this the attribute problem?
-			{
-				tools.Add(new Tools.REPL.REPLTool());
-			}
+			//if (Platform.IsWindows)
+			// TODO: Double check if this works on mac/linux
+			AddTool(new Tools.REPL.REPLTool());
 
 			AddTool(new Tools.Hitboxes.HitboxesTool());
 			AddTool(new Tools.Dusts.DustTool());
 			AddTool(new Tools.Items.ItemTool());
 			AddTool(new Tools.Projectiles.ProjectilesTool());
-			AddTool(new Tools.PlayerLayer.PlayerLayerTool());
+			//	TODO: Reimplement: AddTool(new Tools.PlayerLayer.PlayerLayerTool());
 			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
 			AddTool(new Tools.Spawns.SpawnTool());
 			AddTool(new Tools.Fishing.FishingTool());
 			AddTool(new Tools.Textures.TextureTool());
 			if (Platform.IsWindows)
-				tools.Add(new Tools.Shaders.ShaderTool());
+				AddTool(new Tools.Shaders.ShaderTool());
 			// Not ready yet tools.Add(new Tools.Loot.LootTool());
 			AddTool(new Tools.UIPlayground.UIPlaygroundTool());
-			AddTool(new Tools.Backgrounds.BackgroundsTool());
+			//	TODO: Reimplement: AddTool(new Tools.Backgrounds.BackgroundsTool());
 			AddTool(new Tools.QuickTweak.QuickTweakTool());
 			AddTool(new Tools.Miscellaneous.MiscellaneousTool());
-
+			
 			tools.ForEach(tool => tool.Initialize());
 
 			if (!Main.dedServ) {
 				tools.ForEach(tool => tool.ClientInitialize());
 
-				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
-				UIElements.UICheckbox2.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UICheckbox2.checkmarkTexture = GetTexture("UIElements/checkMark");
-				UIElements.UITriStateCheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UITriStateCheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
-				UIElements.UITriStateCheckbox.checkXTexture = GetTexture("UIElements/checkX");
+				UIElements.UICheckbox.checkboxTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkBox");
+				UIElements.UICheckbox.checkmarkTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkMark");
+				UIElements.UICheckbox2.checkboxTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkBox");
+				UIElements.UICheckbox2.checkmarkTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkMark");
+				UIElements.UITriStateCheckbox.checkboxTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkBox");
+				UIElements.UITriStateCheckbox.checkmarkTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkMark");
+				UIElements.UITriStateCheckbox.checkXTexture = ModContent.Request<Texture2D>("ModdersToolkit/UIElements/checkX");
 			}
 		}
 
@@ -99,11 +100,11 @@ namespace ModdersToolkit
 			tools.ForEach(tool => tool.PostSetupContent());
 		}
 
-		public override void UpdateUI(GameTime gameTime) {
+		public void UpdateUI(GameTime gameTime) {
 			tools?.ForEach(tool => tool.UIUpdate());
 		}
 
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
+		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if (inventoryLayerIndex != -1) {
 				layers.Insert(inventoryLayerIndex, new LegacyGameInterfaceLayer(
@@ -160,7 +161,7 @@ namespace ModdersToolkit
 			int yPosition = Main.screenHeight - 36 + 10 - 25;
 
 			// TODO, use UI/Settings_Toggle
-			Texture2D toggleTexture = visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
+			Texture2D toggleTexture = visible ? TextureAssets.InventoryTickOn.Value : TextureAssets.InventoryTickOff.Value;
 
 			Rectangle toggleToolkitButtonRectangle = new Rectangle(xPosition, yPosition, toggleTexture.Width, toggleTexture.Height);
 			bool toggleToolkitButtonHover = false;
@@ -169,7 +170,7 @@ namespace ModdersToolkit
 				toggleToolkitButtonHover = true;
 				if (Main.mouseLeft && Main.mouseLeftRelease) {
 					visible = !visible;
-					Main.PlaySound(visible ? SoundID.MenuOpen : SoundID.MenuClose);
+					SoundEngine.PlaySound(visible ? SoundID.MenuOpen : SoundID.MenuClose);
 
 					if (!visible) {
 						LastVisibleTool = null;
@@ -196,7 +197,7 @@ namespace ModdersToolkit
 			if (visible) {
 				yPosition -= 18;
 				foreach (var tool in tools) {
-					toggleTexture = tool.Visible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
+					toggleTexture = tool.Visible ? TextureAssets.InventoryTickOn.Value : TextureAssets.InventoryTickOff.Value;
 
 					toggleToolkitButtonRectangle = new Rectangle(xPosition, yPosition, toggleTexture.Width, toggleTexture.Height);
 					toggleToolkitButtonHover = false;
@@ -211,7 +212,7 @@ namespace ModdersToolkit
 								}
 							}
 							tool.Visible = !tool.Visible;
-							Main.PlaySound(tool.Visible ? SoundID.MenuOpen : SoundID.MenuClose);
+							SoundEngine.PlaySound(tool.Visible ? SoundID.MenuOpen : SoundID.MenuClose);
 							tool.Toggled();
 							if (tool.Visible) {
 								LastVisibleTool = tool;
@@ -257,5 +258,12 @@ namespace ModdersToolkit
 		public Tool LastVisibleTool { get; private set; }
 
 		public static ModdersToolkit Instance { get; private set; }
+	}
+
+	public class ModdersToolkitUISystem : ModSystem
+	{
+		public override void UpdateUI(GameTime gameTime) => ModdersToolkit.Instance.UpdateUI(gameTime);
+
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) => ModdersToolkit.Instance.ModifyInterfaceLayers(layers);
 	}
 }

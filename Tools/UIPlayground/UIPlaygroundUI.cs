@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.ModLoader;
@@ -99,6 +100,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			//mainPanel.Top.Set(-110f - height, 1f);
 			//mainPanel.Width.Set(width, 0f);
 			//mainPanel.Height.Set(height, 0f);
+			mainPanel.MaxHeight.Set(0, 2f); // so it can go off screen on small screens and not adjust itself to be shorter
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
 			int top = 0;
@@ -136,7 +138,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 
 			playgroundText = new UIText("Example UIText");
 			playgroundTextPanel = new UITextPanel<string>("Example UITextPanel");
-			playgroundImageButton = new UIImageButton(Main.inventoryBack10Texture);
+			playgroundImageButton = new UIImageButton(TextureAssets.InventoryBack10);
 
 			UIPanel learnPanel = new UIPanel();
 			learnPanel.SetPadding(6);
@@ -337,13 +339,13 @@ namespace ModdersToolkit.Tools.UIPlayground
 			tweakPanel.Append(text);
 			top += 20;
 
-			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/eyedropper"), "UI Selector");
+			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "UI Selector");
 			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
 			eyeDropperButton.Top.Set(top - 6, 0f);
 			eyeDropperButton.Left.Set(0, 0f);
 			tweakPanel.Append(eyeDropperButton);
 
-			UIImageButton resetButton = new UIHoverImageButton(ModContent.GetTexture("Terraria/UI/ButtonDelete"), "Clear UI Selections");
+			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear UI Selections");
 			resetButton.OnClick += (a, b) => {
 				UIPlaygroundTool.selectedUIElements.Clear();
 				updateNeeded = true;
@@ -352,7 +354,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			resetButton.Left.Set(30, 0f);
 			tweakPanel.Append(resetButton);
 
-			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.GetTexture("UIElements/CopyCodeButton"), "Copy code of selected element to clipboard");
+			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Copy code of selected element to clipboard");
 			copyCodeButton.OnClick += CopyCodeButton_OnClick;
 			copyCodeButton.Top.Set(top - 6, 0f);
 			copyCodeButton.Left.Set(60, 0f);
@@ -480,8 +482,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 			if (e.PaddingBottom != 0)
 				s.Append($"element.SetPadding({e.PaddingBottom}f);\n");
 			s.Append($"parent.Append(element);\n");
-			
-			Platform.Current.Clipboard = s.ToString();
+
+			Platform.Get<IClipboard>().Value = s.ToString();
 			Main.NewText("Copied UIElement spawning code to clipboard");
 		}
 
@@ -568,7 +570,9 @@ namespace ModdersToolkit.Tools.UIPlayground
 					panel.BackgroundColor = Terraria.ModLoader.UI.UICommon.DefaultUIBlue;
 				int top = 0;
 
-				var header = new UIText($"{(string.IsNullOrEmpty(uiElement.Id) ? "" : uiElement.Id + ": ")}{uiElement.ToString()}:");
+				// TODO: Use UniqueId? What was this for before?
+				//var header = new UIText($"{(string.IsNullOrEmpty(uiElement.Id) ? "" : uiElement.Id + ": ")}{uiElement.ToString()}:");
+				var header = new UIText($"{uiElement.ToString()}:");
 				header.OnClick += (a, b) => {
 					UIPlaygroundTool.SelectUIElement(uiElement);
 					//UIPlaygroundTool.lastSelectedUIElement = uiElement;
@@ -592,7 +596,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 								if(elements.Count > 0) {
 									UIText first = elements[0] as UIText;
 									if(first != null) {
-										if(first.Text == $"{(string.IsNullOrEmpty(UIPlaygroundTool.lastSelectedUIElement.Id) ? "" : UIPlaygroundTool.lastSelectedUIElement.Id + ": ")}{UIPlaygroundTool.lastSelectedUIElement.ToString()}:") {
+										if(false) { // TODO: what was this doing?
+										//if(first.Text == $"{(string.IsNullOrEmpty(UIPlaygroundTool.lastSelectedUIElement.Id) ? "" : UIPlaygroundTool.lastSelectedUIElement.Id + ": ")}{UIPlaygroundTool.lastSelectedUIElement.ToString()}:") {
 											Main.NewText("Found");
 											return true;
 										}
@@ -947,17 +952,17 @@ namespace ModdersToolkit.Tools.UIPlayground
 			if (UIPlaygroundTool.uiPlaygroundUI.drawInnerDimensionsCheckbox.Selected)
 				foreach (UIElement current in Elements) {
 					Rectangle hitbox = current.GetInnerDimensions().ToRectangle();
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Blue * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Blue * 0.6f);
 				}
 			if (UIPlaygroundTool.uiPlaygroundUI.drawDimensionsCheckbox.Selected)
 				foreach (UIElement current in Elements) {
 					Rectangle hitbox = current.GetDimensions().ToRectangle();
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Pink * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Pink * 0.6f);
 				}
 			if (UIPlaygroundTool.uiPlaygroundUI.drawOuterDimensionsCheckbox.Selected)
 				foreach (UIElement current in Elements) {
 					Rectangle hitbox = current.GetOuterDimensions().ToRectangle();
-					Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Yellow * 0.6f);
+					Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Yellow * 0.6f);
 				}
 		}
 	}

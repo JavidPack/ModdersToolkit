@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 
 namespace ModdersToolkit.UIElements
@@ -28,7 +29,7 @@ namespace ModdersToolkit.UIElements
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			CalculatedStyle dimensions = base.GetInnerDimensions();
 			Rectangle rectangle = dimensions.ToRectangle();
-			spriteBatch.Draw(Main.magicPixel, rectangle, Color.Red);
+			spriteBatch.Draw(TextureAssets.MagicPixel.Value, rectangle, Color.Red);
 
 			float x = dataX.GetProportion();
 			float y = dataY.GetProportion();
@@ -38,7 +39,7 @@ namespace ModdersToolkit.UIElements
 			position.Y += y * dimensions.Height;
 			var blipRectangle = new Rectangle((int)position.X - 2, (int)position.Y - 2, 4, 4);
 
-			spriteBatch.Draw(Main.magicPixel, blipRectangle, Color.Black);
+			spriteBatch.Draw(TextureAssets.MagicPixel.Value, blipRectangle, Color.Black);
 
 			if (IsMouseHovering && Main.mouseLeft) {
 				float newPerc = (Main.mouseX - rectangle.X) / (float)rectangle.Width;

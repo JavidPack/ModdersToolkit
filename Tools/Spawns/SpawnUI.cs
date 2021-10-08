@@ -85,6 +85,8 @@ namespace ModdersToolkit.Tools.Spawns
 
 			SpawnTool.CalculateSpawns();
 
+			Main.NewText("Spawn calculation not implemented yet on 1.4");
+
 			checklistList.Clear();
 
 			float total = 0;
