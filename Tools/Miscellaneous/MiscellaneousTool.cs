@@ -20,9 +20,9 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		internal static bool showCollisionCircle;
 		internal static bool logSounds;
 
-		internal static IDictionary<SoundType, IDictionary<int, ModSound>> modSounds; // reference to private field in SoundLoader
-		internal static IDictionary<SoundType, IDictionary<string, int>> sounds; // reference to private field in SoundLoader
-																				 //internal static readonly IdDictionary Search = IdDictionary.Create<SoundID, int>();
+		private static Dictionary<string, int> sounds; // reference to private field in SoundLoader
+		private static Dictionary<int, ModSound> modSoundsBySoundId; // reference to private field in SoundLoader
+		//internal static readonly IdDictionary Search = IdDictionary.Create<SoundID, int>();
 
 		public override void Initialize() {
 			ToggleTooltip = "Click to toggle Miscellaneous Tool";
@@ -38,18 +38,18 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 			On.Terraria.Audio.SoundEngine.PlaySound_int_int_int_int_float_float += SoundEngine_PlaySound_int_int_int_int_float_float;
 
-			FieldInfo modSoundsField = typeof(SoundLoader).GetField("modSounds", BindingFlags.Static | BindingFlags.NonPublic);
-			modSounds = (Dictionary<SoundType, IDictionary<int, ModSound>>)modSoundsField.GetValue(null);
-
 			FieldInfo soundsField = typeof(SoundLoader).GetField("sounds", BindingFlags.Static | BindingFlags.NonPublic);
-			sounds = (Dictionary<SoundType, IDictionary<string, int>>)soundsField.GetValue(null);
+			sounds = (Dictionary<string, int>)soundsField.GetValue(null);
+
+			FieldInfo modSoundsBySoundIdField = typeof(SoundLoader).GetField("modSoundsBySoundId", BindingFlags.Static | BindingFlags.NonPublic);
+			modSoundsBySoundId = (Dictionary<int, ModSound>)modSoundsBySoundIdField.GetValue(null);
 
 			// TODO: IdDictionary-type soundID
 		}
 
 		public override void ClientTerminate() {
-			modSounds = null;
 			sounds = null;
+			modSoundsBySoundId = null;
 
 			Interface = null;
 
@@ -70,13 +70,17 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					Main.NewText("");
 					Main.NewText($"Type: {type}, Style: {Style}{(x != -1 ? $", x: {x}" : "")}{(y != -1 ? $", y: {y}" : "")}{(volumeScale != 1 ? $", volumeScale: {volumeScale}" : "")}{(pitchOffset != 0 ? $", pitchOffset: {pitchOffset}" : "")}");
 
-					if (sounds.ContainsKey((SoundType)type)) {
-						var kvp = sounds[(SoundType)type].FirstOrDefault(s => s.Value == Style);
-						if (kvp.Key != null) { // struct
-							Main.NewText($"Key: {kvp.Key}");
+					if(type == SoundLoader.CustomSoundType) {
+						if (sounds.ContainsValue(Style)) {
+							var kvp = sounds.FirstOrDefault(x => x.Value == Style);
+							if (kvp.Key != null) { 
+								Main.NewText($"Key: {kvp.Key}");
+							}
+
+							if (modSoundsBySoundId.TryGetValue(Style, out ModSound modSound)) {
+								Main.NewText($"modSound: {modSound}");
+							}
 						}
-						//var modSound = modSounds[SoundType.Custom][Style];
-						//Main.NewText($"modSound: {modSound}");
 					}
 
 					var frames = new StackTrace(true).GetFrames();
