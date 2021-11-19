@@ -80,6 +80,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 
 		internal UICheckbox drawAllDimensionsCheckbox;
 		internal ColorDataRangeProperty colorDataProperty;
+		internal UICheckbox randomizeDrawAllDimensionsColorCheckbox;
 		internal UIIntRangedDataValue drawAllDimensionsDepthData;
 		internal UICheckbox drawAllParallaxCheckbox;
 		internal UICheckbox highlightSelectedCheckbox;
@@ -390,6 +391,13 @@ namespace ModdersToolkit.Tools.UIPlayground
 			tweakPanel.Append(colorDataProperty.range);
 			top += 20;
 
+			randomizeDrawAllDimensionsColorCheckbox = new UICheckbox("Randomize Color", "This overrides the above Color and can make overlapping issues easier to notice.");
+			randomizeDrawAllDimensionsColorCheckbox.Selected = true;
+			randomizeDrawAllDimensionsColorCheckbox.Top.Set(top, 0f);
+			//drawAllDimensionsCheckbox.Left.Set(indent, 0f);
+			tweakPanel.Append(randomizeDrawAllDimensionsColorCheckbox);
+			top += 20;
+
 			drawAllDimensionsDepthData = new UIIntRangedDataValue("Draw All Depth:", -1, -1, 10);
 			UIRange<int> uiRange = new UIRange<int>(drawAllDimensionsDepthData);
 			//drawAllDimensionsDepthData.OnValueChanged += () => UpdatePlaygroundChildren();
@@ -417,7 +425,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			tweakPanel.Append(text);
 			top += 20;
 
-			(UIPanel toolboxBackPanel, UIList toolboxList, UIElements.FixedUIScrollbar toolboxScrollbar) = makeUIListWithBackPanel(top, 206, Color.Azure * 0.7f);
+			(UIPanel toolboxBackPanel, UIList toolboxList, UIElements.FixedUIScrollbar toolboxScrollbar) = makeUIListWithBackPanel(top, 186, Color.Azure * 0.7f);
 			tweakPanel.Append(toolboxBackPanel);
 			top += 206;
 

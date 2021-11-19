@@ -94,12 +94,13 @@ namespace ModdersToolkit.Tools.UIPlayground
 				Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, m);
 
 			}
+			Color dimensionDrawColor = UIPlaygroundTool.uiPlaygroundUI.randomizeDrawAllDimensionsColorCheckbox.Selected ? Main.hslToRgb((self.UniqueId % 20) / 20f, 1f, .5f) : UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data;
 			if (UIPlaygroundTool.uiPlaygroundUI.drawAllDimensionsCheckbox.Selected || (self == lastSelectedUIElement && UIPlaygroundTool.uiPlaygroundUI.highlightSelectedCheckbox.Selected)) {
 
 				if (depth > -1 && depth != elementDepth || depth == -1 && elementDepth == 0)
 					drawDimensions = false;
 				if (drawDimensions) {
-					spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data * 0.5f);
+					spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, dimensionDrawColor * 0.5f);
 				}
 			}
 
@@ -110,7 +111,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			if (UIPlaygroundTool.uiPlaygroundUI.drawAllDimensionsCheckbox.Selected && !UIPlaygroundTool.uiPlaygroundUI.drawAllParallaxCheckbox.Selected || (self == lastSelectedUIElement && UIPlaygroundTool.uiPlaygroundUI.highlightSelectedCheckbox.Selected)) {
 				if (drawDimensions) {
 					hitbox.Inflate(-4, -4);
-					spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, UIPlaygroundTool.uiPlaygroundUI.colorDataProperty.Data * 0.4f);
+					spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, dimensionDrawColor * 0.4f);
 				}
 			}
 
