@@ -11,7 +11,12 @@ namespace ModdersToolkit.Tools.Fishing
 	{
 		internal const int Tries = 1000;
 		internal static bool currentlyTesting = false;
-		internal static Dictionary<int, int> catches; // keys below 1 are treated as "no catch", special check in UI
+		/// <summary>
+		/// Key  0: "no catch"
+		/// Key <0: abs is the NPC type
+		/// Key >0: the item type
+		/// </summary>
+		internal static Dictionary<int, int> catches;
 
 		internal static FishingUI fishingUI;
 
