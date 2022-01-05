@@ -63,7 +63,7 @@ namespace ModdersToolkit.Tools.Fishing
 			base.DrawSelf(spriteBatch);
 
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightBlue * 0.6f);
+			spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, id < 0 ? Color.LightCoral * 0.6f : Color.LightBlue * 0.6f);
 		}
 	}
 }
