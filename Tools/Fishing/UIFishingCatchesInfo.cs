@@ -4,36 +4,43 @@ using Terraria.UI;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent;
+using ModdersToolkit.Tools.Spawns;
 
 namespace ModdersToolkit.Tools.Fishing
 {
 	// code based on SpawnUI
 	internal class UIFishingCatchesInfo : UIElement
 	{
-		internal UIFishingCatchesSlot npcSlot;
 		internal UIText information;
 		internal UIText percentText;
-		internal int itemid;
+		internal int id;
 		internal float percent;
 
-		public UIFishingCatchesInfo(int itemid, float percent) {
-			this.itemid = itemid;
+		public UIFishingCatchesInfo(int id, float percent) {
+			this.id = id;
 			this.percent = 100 * percent;
 			Width = StyleDimension.Fill;
 			Height.Pixels = 32;
 
-			Item item = new Item();
-			item.SetDefaults(itemid);
-
-			npcSlot = new UIFishingCatchesSlot(item);
-			Append(npcSlot);
-
 			string name;
-			if (itemid <= 0) {
+			if (id == 0) {
 				name = "Nothing";
 			}
-			else {
+			else if (id > 0) {
+				Item item = new Item();
+				item.SetDefaults(id);
+
+				var itemSlot = new UIFishingCatchesSlot(item);
+				Append(itemSlot);
 				name = Lang.GetItemNameValue(item.type) + (item.ModItem != null ? " [" + item.ModItem.Mod.Name + "]" : "");
+			}
+			else {
+				NPC npc = new NPC();
+				npc.SetDefaults(-id);
+
+				var npcSlot = new UINPCSlot(npc);
+				Append(npcSlot);
+				name = Lang.GetNPCNameValue(npc.type) + (npc.ModNPC != null ? " [" + npc.ModNPC.Mod.Name + "]" : "");
 			}
 
 			information = new UIText(name, 0.8f);
@@ -56,7 +63,7 @@ namespace ModdersToolkit.Tools.Fishing
 			base.DrawSelf(spriteBatch);
 
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
-			spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightBlue * 0.6f);
+			spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, id < 0 ? Color.LightCoral * 0.6f : Color.LightBlue * 0.6f);
 		}
 	}
 }
