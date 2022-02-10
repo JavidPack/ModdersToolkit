@@ -9,6 +9,8 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
+	public readonly record struct TileData(TileTypeData TileTypeData, WallTypeData WallTypeData, TileWallWireStateData TileWallWireStateData);
+
 	internal class MiscellaneousUI : UIToolState
 	{
 		internal UIPanel mainPanel;
@@ -72,13 +74,15 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Append(mainPanel);
 		}
 
-		private Tile[,] snapshot;
+		private TileData[,] snapshot;
 		private void TakeWorldSnapshot_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.NewText("Taking Snapshot");
-			snapshot = new Tile[Main.maxTilesX, Main.maxTilesY];
+			snapshot = new TileData[Main.maxTilesX, Main.maxTilesY];
 			for (int i = 0; i < Main.maxTilesX; i++) {
 				for (int j = 0; j < Main.maxTilesY; j++) {
-					snapshot[i, j] = new Tile(Main.tile[i, j]);
+					//snapshot[i, j] = new Tile(Main.tile[i, j]);
+					Tile tile = Main.tile[i, j];
+					snapshot[i, j] = new (tile.Get<TileTypeData>(), tile.Get<WallTypeData>(), tile.Get<TileWallWireStateData>());
 				}
 			}
 			Main.NewText("Taking Snapshot Complete");
@@ -92,7 +96,11 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			Main.NewText("Restoring Snapshot");
 			for (int i = 0; i < Main.maxTilesX; i++) {
 				for (int j = 0; j < Main.maxTilesY; j++) {
-					Main.tile[i, j] = new Tile(snapshot[i, j]);
+					Tile tile = Main.tile[i, j];
+					tile.TileType = snapshot[i, j].TileTypeData.Type;
+					tile.WallType = snapshot[i, j].WallTypeData.Type;
+					tile.Get<TileWallWireStateData>() = snapshot[i, j].TileWallWireStateData;
+					//Main.tile[i, j] = new Tile(snapshot[i, j]);
 				}
 			}
 			Main.NewText("Restoring Snapshot Complete");

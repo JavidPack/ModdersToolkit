@@ -148,7 +148,7 @@ namespace ModdersToolkit.Tools.Fishing
 				while (WorldGen.InWorld(x, y, 40) && y >= startY - maxYRange) {
 					for (x = startX; x <= endX; x++) {
 						Tile tile = Framing.GetTileSafely(x, y);
-						if (!tile.IsActiveUnactuated && tile.LiquidAmount == 0) {
+						if (!tile.HasUnactuatedTile && tile.LiquidAmount == 0) {
 							inLiquidAndAirAbove = true;
 							break;
 						}
@@ -168,7 +168,7 @@ namespace ModdersToolkit.Tools.Fishing
 				while (WorldGen.InWorld(x, y, 40) && y < startY + maxYRange) {
 					for (x = startX; x <= endX; x++) {
 						Tile tile = Framing.GetTileSafely(x, y);
-						if (!tile.IsActiveUnactuated && tile.LiquidAmount > 0) {
+						if (!tile.HasUnactuatedTile && tile.LiquidAmount > 0) {
 							inAirAndLiquidBelow = true;
 							y--; // -1 so above water, bobbers need to be in air for atleast one tick
 							break;
