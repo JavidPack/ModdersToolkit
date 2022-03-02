@@ -244,6 +244,8 @@ namespace ModdersToolkit
 					case "AddTweakSimple":
 						Tools.QuickTweak.QuickTweakTool.Call(args);
 						return "Success";
+					case "GetTweakUIElement":
+						return Tools.QuickTweak.QuickTweakUI.GetTweakUIElement(args);
 					default:
 						Logger.Warn("Unknown Message type: " + messageType);
 						return "Failure";

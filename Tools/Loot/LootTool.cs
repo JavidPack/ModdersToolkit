@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.UI;
 
@@ -78,7 +79,7 @@ namespace ModdersToolkit.Tools.Loot
 			int stack;
 
 			for (int i = 0; i < NumberLootExperiments; i++) {
-				NPC npc = Main.npc[NPC.NewNPC(0, 0, npcid)];
+				NPC npc = Main.npc[NPC.NewNPC(new EntitySource_DebugCommand(), 0, 0, npcid)];
 				npc.NPCLoot();
 				npc.active = false;
 

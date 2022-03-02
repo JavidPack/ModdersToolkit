@@ -153,107 +153,140 @@ namespace ModdersToolkit.Tools.QuickTweak
 				object tweakItem = tweakEntry.item;
 				string label = tweakEntry.label;
 
-				List<(object, FieldInfo)> FieldsToDisplay = new List<(object, FieldInfo)>();
-				if (tweakItem is Type type) {
-					foreach (var field in type.GetFields(bindingFlags | BindingFlags.Static)) {
-						FieldsToDisplay.Add((null, field));
-					}
-				}
-				else if (tweakItem is FieldInfo FieldInfo) {
-					FieldsToDisplay.Add((null, FieldInfo));
-				}
-				else if (tweakItem is ValueTuple<object, FieldInfo> tuple) {
-					FieldsToDisplay.Add(((object, FieldInfo))tweakItem);
-					//instance = tuple.Item1;
-					//item = tuple.Item2;
-				}
-				else if (tweakItem is ValueTuple<object, string> stringtuple) {
-					FieldInfo fieldInfo = stringtuple.Item1.GetType().GetField(stringtuple.Item2, bindingFlags | BindingFlags.Instance);
-					if (fieldInfo != null)
-						FieldsToDisplay.Add(((object, FieldInfo))(stringtuple.Item1, fieldInfo));
-					else
-						Main.NewText($"Field not found: {stringtuple.Item2} in {stringtuple.Item1.GetType().Name}");
-				}
-				else if (tweakItem is object) {
-					foreach (FieldInfo field in tweakItem.GetType().GetFields(bindingFlags | BindingFlags.Instance)) {
-						FieldsToDisplay.Add((tweakItem, field));
-					}
-				}
+				UIPanel panel = MakeUIPanelFromObject(bindingFlags, tweakItem, label, PaddingTop);
 
-				// Pass in "additionalOnChanged" probably, to handle UI updates?
-				// CreateUIElementFromObjectAndField(instance, item);
-				// -> object will do recursion.
-				// place element on Panel or in List.
-
-				// Need dictionary of expected/known ranges for various field names?
-
-				var panel = new UIPanel();
-				panel.SetPadding(6);
-				panel.BackgroundColor = Color.LightCoral * 0.7f;
-				int top = 0;
-
-				var header = new UIText(label != "" ? label : tweakItem.ToString());
-				panel.Append(header);
-
+				// Additional buttons, separate from the actual data representation.
+				// How should this be done in other contexts?
 				UIImageButton removeButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Remove");
 				removeButton.OnClick += (a, b) => {
 					QuickTweakTool.tweaks.Remove(tweakEntry);
 					updateNeeded = true;
 				};
-				removeButton.Top.Set(top, 0f);
+				removeButton.Top.Set(0, 0f);
 				removeButton.Left.Set(-22, 1f);
 				panel.Append(removeButton);
 
-				top += 20;
-
-				foreach (var fieldToDisplay in FieldsToDisplay) {
-					object instance = fieldToDisplay.Item1;
-					FieldInfo fieldInfo = fieldToDisplay.Item2;
-
-					if (fieldInfo.FieldType == typeof(bool)) {
-						var dataElement = new UIBoolDataValue(fieldInfo.Name);
-						dataElement.DataGetter = () => (bool)fieldInfo.GetValue(instance);
-						dataElement.DataSetter = (value) => fieldInfo.SetValue(instance, value);
-						AppendToAndIncrement(panel, new UICheckbox2(dataElement), ref top);
-					}
-					else if (fieldInfo.FieldType == typeof(int)) {
-						RangeAttribute rangeAttribute = (RangeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(RangeAttribute));
-						int min = 0;
-						int max = 100;
-						if (rangeAttribute != null && rangeAttribute.min is int && rangeAttribute.max is int) {
-							min = (int)rangeAttribute.min;
-							max = (int)rangeAttribute.max;
-						}
-						var dataElement = new UIIntRangedDataValue(fieldInfo.Name, min:min, max:max);
-						dataElement.DataGetter = () => (int)fieldInfo.GetValue(instance);
-						dataElement.DataSetter = (value) => fieldInfo.SetValue(instance, value);
-						AppendToAndIncrement(panel, new UIRange<int>(dataElement), ref top);
-					}
-					else if (fieldInfo.FieldType == typeof(float)) {
-						RangeAttribute rangeAttribute = (RangeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(RangeAttribute));
-						float min = -1f;
-						float max = 1f;
-						if (rangeAttribute != null && rangeAttribute.min is float && rangeAttribute.max is float) {
-							max = (float)rangeAttribute.max;
-							min = (float)rangeAttribute.min;
-						}
-						if (rangeAttribute != null && rangeAttribute.min is int && rangeAttribute.max is int) {
-							min = (int)rangeAttribute.min;
-							max = (int)rangeAttribute.max;
-						}
-						var dataElement = new UIFloatRangedDataValue(fieldInfo.Name, .4f, min, max);
-						dataElement.DataGetter = () => (float)fieldInfo.GetValue(instance);
-						dataElement.DataSetter = (value) => fieldInfo.SetValue(instance, value);
-						AppendToAndIncrement(panel, new UIRange<float>(dataElement), ref top);
-					}
-				}
-				panel.Height.Set(top + panel.PaddingBottom + PaddingTop, 0f);
-				panel.Width.Set(0, 1f);
 				tweakList.Add(panel);
 			}
 		}
 
-		private void AppendToAndIncrement(UIElement panel, UIElement element, ref int top) {
+		private static UIPanel MakeUIPanelFromObject(BindingFlags bindingFlags, object tweakItem, string label, float parentPaddingTop) {
+			// Ability to pass in dynamic range from Call.
+			
+			List<(object, FieldInfo)> FieldsToDisplay = new List<(object, FieldInfo)>();
+			if (tweakItem is Type type) {
+				foreach (var field in type.GetFields(bindingFlags | BindingFlags.Static)) {
+					FieldsToDisplay.Add((null, field));
+				}
+			}
+			else if (tweakItem is FieldInfo FieldInfo) {
+				FieldsToDisplay.Add((null, FieldInfo));
+			}
+			else if (tweakItem is ValueTuple<object, FieldInfo> tuple) {
+				FieldsToDisplay.Add(((object, FieldInfo))tweakItem);
+				//instance = tuple.Item1;
+				//item = tuple.Item2;
+			}
+			else if (tweakItem is ValueTuple<object, string> stringtuple) {
+				FieldInfo fieldInfo = stringtuple.Item1.GetType().GetField(stringtuple.Item2, bindingFlags | BindingFlags.Instance);
+				if (fieldInfo != null)
+					FieldsToDisplay.Add(((object, FieldInfo))(stringtuple.Item1, fieldInfo));
+				else
+					Main.NewText($"Field not found: {stringtuple.Item2} in {stringtuple.Item1.GetType().Name}");
+			}
+			else if (tweakItem is object) {
+				foreach (FieldInfo field in tweakItem.GetType().GetFields(bindingFlags | BindingFlags.Instance)) {
+					FieldsToDisplay.Add((tweakItem, field));
+				}
+			}
+
+			// Pass in "additionalOnChanged" probably, to handle UI updates?
+			// CreateUIElementFromObjectAndField(instance, item);
+			// -> object will do recursion.
+			// place element on Panel or in List.
+
+			// Need dictionary of expected/known ranges for various field names?
+
+			var panel = new UIPanel();
+			panel.SetPadding(6);
+			panel.BackgroundColor = Color.LightCoral * 0.7f;
+			int top = 0;
+
+			var header = new UIText(label != "" ? label : tweakItem.ToString());
+			panel.Append(header);
+
+			top += 20;
+
+			foreach (var fieldToDisplay in FieldsToDisplay) {
+				object instance = fieldToDisplay.Item1;
+				FieldInfo fieldInfo = fieldToDisplay.Item2;
+
+				if (fieldInfo.FieldType == typeof(bool)) {
+					var dataElement = new UIBoolDataValue(fieldInfo.Name);
+					dataElement.DataGetter = () => (bool)fieldInfo.GetValue(instance);
+					dataElement.DataSetter = (value) => fieldInfo.SetValue(instance, value);
+					AppendToAndIncrement(panel, new UICheckbox2(dataElement), ref top);
+				}
+				else if (fieldInfo.FieldType == typeof(int)) {
+					RangeAttribute rangeAttribute = (RangeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(RangeAttribute));
+					int min = 0;
+					int max = 100;
+					if (rangeAttribute != null && rangeAttribute.min is int && rangeAttribute.max is int) {
+						min = (int)rangeAttribute.min;
+						max = (int)rangeAttribute.max;
+					}
+					var dataElement = new UIIntRangedDataValue(fieldInfo.Name, min: min, max: max);
+					dataElement.DataGetter = () => (int)fieldInfo.GetValue(instance);
+					dataElement.DataSetter = (value) => fieldInfo.SetValue(instance, value);
+					AppendToAndIncrement(panel, new UIRange<int>(dataElement), ref top);
+				}
+				else if (fieldInfo.FieldType == typeof(float)) {
+					RangeAttribute rangeAttribute = (RangeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(RangeAttribute));
+					float min = -1f;
+					float max = 1f;
+					if (rangeAttribute != null && rangeAttribute.min is float && rangeAttribute.max is float) {
+						max = (float)rangeAttribute.max;
+						min = (float)rangeAttribute.min;
+					}
+					if (rangeAttribute != null && rangeAttribute.min is int && rangeAttribute.max is int) {
+						min = (int)rangeAttribute.min;
+						max = (int)rangeAttribute.max;
+					}
+					var dataElement = new UIFloatRangedDataValue(fieldInfo.Name, .4f, min, max);
+					dataElement.DataGetter = () => (float)fieldInfo.GetValue(instance);
+					dataElement.DataSetter = (value) => fieldInfo.SetValue(instance, value);
+					AppendToAndIncrement(panel, new UIRange<float>(dataElement), ref top);
+				}
+				else if (fieldInfo.FieldType == typeof(string)) {
+					// TODO: editable
+					AppendToAndIncrement(panel, new UIText((string)fieldInfo.GetValue(instance)), ref top);
+				}
+				else {
+					//bool hasToString = fieldInfo.FieldType.GetMethod("ToString", new Type[0]).DeclaringType != typeof(object);
+					AppendToAndIncrement(panel, new UIText(fieldInfo.Name + ": " + fieldInfo.GetValue(instance).ToString()), ref top);
+				}
+			}
+			panel.Height.Set(top + panel.PaddingBottom + parentPaddingTop, 0f);
+			panel.Width.Set(0, 1f);
+			return panel;
+		}
+
+		internal static object GetTweakUIElement(object[] args) {
+			// GetTweakUIElement object label
+			if (args.Length != 2 && args.Length != 3)
+				return "Failure";
+
+			string label = "";
+			if (args.Length >= 3 && args[2] is string _label)
+				label = _label;
+
+			BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic;
+
+			UIPanel panel = MakeUIPanelFromObject(bindingFlags, args[1], label, 6f);
+			return panel;
+		}
+
+		private static void AppendToAndIncrement(UIElement panel, UIElement element, ref int top) {
 			element.Width = new StyleDimension(0, 1);
 			element.Top = new StyleDimension(top, 0);
 			panel.Append(element);

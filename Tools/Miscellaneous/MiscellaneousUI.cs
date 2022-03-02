@@ -9,6 +9,7 @@ using Terraria.UI;
 
 namespace ModdersToolkit.Tools.Miscellaneous
 {
+	// TODO!!!, this probably needs Liquid Data too!!!
 	public readonly record struct TileData(TileTypeData TileTypeData, WallTypeData WallTypeData, TileWallWireStateData TileWallWireStateData);
 
 	internal class MiscellaneousUI : UIToolState
