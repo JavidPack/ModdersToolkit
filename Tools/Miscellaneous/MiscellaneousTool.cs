@@ -16,6 +16,8 @@ namespace ModdersToolkit.Tools.Miscellaneous
 	{
 		internal static MiscellaneousUI miscellaneousUI;
 		internal static bool showNPCInfo;
+		internal static bool showProjectileInfo;
+		internal static bool lockProjectileInfo;
 		internal static bool showTileGrid;
 		internal static bool showCollisionCircle;
 		internal static bool logSounds;
@@ -103,8 +105,61 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		}
 	}
 
+	internal class ProjectileInfoGlobalProjectile : GlobalProjectile
+	{
+		public override void PostDraw(Projectile projectile, Color lightColor) {
+			if (MiscellaneousTool.showProjectileInfo) {
+				var spriteBatch = Main.spriteBatch;
+				var font = FontAssets.MouseText.Value;
+				Rectangle infoRectangle = new Rectangle((int)(projectile.BottomRight.X - Main.screenPosition.X), (int)(projectile.BottomRight.Y - Main.screenPosition.Y), 300, 160);
+				if (MiscellaneousTool.lockProjectileInfo) {
+					infoRectangle.X = Main.screenWidth / 2 - 150;
+					infoRectangle.Y = Main.screenHeight / 2 + 30;
+				}
+
+				spriteBatch.Draw(TextureAssets.MagicPixel.Value, infoRectangle, Color.NavajoWhite);
+
+				int y = 5;
+				spriteBatch.DrawString(font, $"ai:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+				y += 20;
+				spriteBatch.DrawString(font, $"localAI:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+				y += 20;
+				for (int i = 0; i < 2; i++) {
+					spriteBatch.DrawString(font, $"{projectile.ai[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 5), Color.Black);
+					spriteBatch.DrawString(font, $"{projectile.localAI[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 25), Color.Black);
+				}
+
+				spriteBatch.DrawString(font, $"spriteDirection: {projectile.spriteDirection}  direction: {projectile.direction}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+				y += 20;
+				spriteBatch.DrawString(font, $"damage: {projectile.damage}  owner: {projectile.owner}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+				y += 20;
+				spriteBatch.DrawString(font, $"type: {projectile.type} aiStyle: {projectile.aiStyle} whoAmI: {projectile.whoAmI}", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
+				y += 20;
+			}
+		}
+	}
+
 	internal class NPCInfoGlobalNPC : GlobalNPC
 	{
+		//public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) {
+		//	if (MiscellaneousTool.showNPCInfo) {
+		//		Main.NewText($"Damage: {damage}   knockback: {knockback}");
+		//	}
+		//}
+
+		//public override bool PreAI(NPC npc) {
+		//	if (MiscellaneousTool.showNPCInfo)
+		//		return false;
+		//	return base.PreAI(npc);
+		//}
+
+		public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) {
+			if (MiscellaneousTool.showNPCInfo) {
+				Main.NewText($"Damage: {damage,5:##0.0}   knockback: {knockback,5:##0.0}   hitDirection: {hitDirection}");
+			}
+			return base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
+		}
+
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
 			if (MiscellaneousTool.showNPCInfo) {
 				if (npc.realLife == -1 || npc.realLife == npc.whoAmI) {

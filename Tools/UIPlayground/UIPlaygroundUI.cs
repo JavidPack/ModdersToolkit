@@ -114,8 +114,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 			tabControl.Height.Set(-top, 1f);
 			tabControl.mainPanel.BackgroundColor = Color.Magenta * 0.7f;
 
-			tabControl.AddTab("Learn", learnPanel = makeLearnPanel());
 			tabControl.AddTab("Tweak", tweakPanel = makeTweakPanel());
+			tabControl.AddTab("Learn", learnPanel = makeLearnPanel());
 			mainPanel.Append(tabControl);
 
 			AdjustMainPanelDimensions(mainPanel);

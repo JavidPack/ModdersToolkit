@@ -34,6 +34,14 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			npcInfoCheckbox.OnSelectedChanged += () => MiscellaneousTool.showNPCInfo = npcInfoCheckbox.Selected;
 			AppendToAndAdjustWidthHeight(mainPanel, npcInfoCheckbox, ref height, ref width);
 
+			UICheckbox projectileInfoCheckbox = new UICheckbox("Projectile Info", "Show Projectile ai values and other variables.");
+			projectileInfoCheckbox.OnSelectedChanged += () => MiscellaneousTool.showProjectileInfo = projectileInfoCheckbox.Selected;
+			AppendToAndAdjustWidthHeight(mainPanel, projectileInfoCheckbox, ref height, ref width);
+
+			UICheckbox lockProjectileInfoCheckbox = new UICheckbox("Lock Projectile Info", "Lock display to center of screen.");
+			lockProjectileInfoCheckbox.OnSelectedChanged += () => MiscellaneousTool.lockProjectileInfo = lockProjectileInfoCheckbox.Selected;
+			AppendToAndAdjustWidthHeight(mainPanel, lockProjectileInfoCheckbox, ref height, ref width);
+
 			UICheckbox tileGridCheckbox = new UICheckbox("Tile Grid", "Show grid lines between tiles.");
 			tileGridCheckbox.OnSelectedChanged += () => MiscellaneousTool.showTileGrid = tileGridCheckbox.Selected;
 			AppendToAndAdjustWidthHeight(mainPanel, tileGridCheckbox, ref height, ref width);

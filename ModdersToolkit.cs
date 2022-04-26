@@ -267,5 +267,10 @@ namespace ModdersToolkit
 		public override void UpdateUI(GameTime gameTime) => ModdersToolkit.Instance.UpdateUI(gameTime);
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) => ModdersToolkit.Instance.ModifyInterfaceLayers(layers);
+
+		//public override void ModifyTimeRate(ref double timeRate, ref double tileUpdateRate, ref double eventUpdateRate) {
+		//	tileUpdateRate = 24;
+		//	base.ModifyTimeRate(ref timeRate, ref tileUpdateRate, ref eventUpdateRate);
+		//}
 	}
 }

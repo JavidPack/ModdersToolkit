@@ -109,7 +109,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 				Instanced<GlobalNPC>[] globalNPCs = (Instanced<GlobalNPC>[])globalNPCsField.GetValue(closest);
 				// TODO: Double check that this enumeration is correct with AppliesToEntity
 				foreach (var globalNPC in globalNPCs) {
-					QuickTweak.QuickTweakTool.AddTweak(globalNPC.instance, "");
+					QuickTweak.QuickTweakTool.AddTweak(globalNPC.Instance, "");
 				}
 				updateNeeded = true;
 			};
@@ -231,9 +231,9 @@ namespace ModdersToolkit.Tools.QuickTweak
 					RangeAttribute rangeAttribute = (RangeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(RangeAttribute));
 					int min = 0;
 					int max = 100;
-					if (rangeAttribute != null && rangeAttribute.min is int && rangeAttribute.max is int) {
-						min = (int)rangeAttribute.min;
-						max = (int)rangeAttribute.max;
+					if (rangeAttribute != null && rangeAttribute.Min is int && rangeAttribute.Max is int) {
+						min = (int)rangeAttribute.Min;
+						max = (int)rangeAttribute.Max;
 					}
 					var dataElement = new UIIntRangedDataValue(fieldInfo.Name, min: min, max: max);
 					dataElement.DataGetter = () => (int)fieldInfo.GetValue(instance);
@@ -244,13 +244,13 @@ namespace ModdersToolkit.Tools.QuickTweak
 					RangeAttribute rangeAttribute = (RangeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(RangeAttribute));
 					float min = -1f;
 					float max = 1f;
-					if (rangeAttribute != null && rangeAttribute.min is float && rangeAttribute.max is float) {
-						max = (float)rangeAttribute.max;
-						min = (float)rangeAttribute.min;
+					if (rangeAttribute != null && rangeAttribute.Min is float && rangeAttribute.Max is float) {
+						max = (float)rangeAttribute.Max;
+						min = (float)rangeAttribute.Min;
 					}
-					if (rangeAttribute != null && rangeAttribute.min is int && rangeAttribute.max is int) {
-						min = (int)rangeAttribute.min;
-						max = (int)rangeAttribute.max;
+					if (rangeAttribute != null && rangeAttribute.Min is int && rangeAttribute.Max is int) {
+						min = (int)rangeAttribute.Min;
+						max = (int)rangeAttribute.Max;
 					}
 					var dataElement = new UIFloatRangedDataValue(fieldInfo.Name, .4f, min, max);
 					dataElement.DataGetter = () => (float)fieldInfo.GetValue(instance);

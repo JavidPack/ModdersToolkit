@@ -79,7 +79,7 @@ namespace ModdersToolkit.Tools.Loot
 			int stack;
 
 			for (int i = 0; i < NumberLootExperiments; i++) {
-				NPC npc = Main.npc[NPC.NewNPC(new EntitySource_DebugCommand(), 0, 0, npcid)];
+				NPC npc = Main.npc[NPC.NewNPC(new EntitySource_DebugCommand($"{ModdersToolkit.Instance.Name}_CalculateLoot"), 0, 0, npcid)];
 				npc.NPCLoot();
 				npc.active = false;
 

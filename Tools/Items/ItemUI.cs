@@ -255,7 +255,7 @@ namespace ModdersToolkit.Tools.Items
 			Instanced<GlobalItem>[] globalItems = ((Instanced<GlobalItem>[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
 
 			for (int i = 0; i < globalItems.Length; i++) {
-				GlobalItem param = globalItems[i].instance;
+				GlobalItem param = globalItems[i].Instance;
 				if (param.Name == "MysteryGlobalItem")
 					continue;
 				Main.NewText("Object type: " + param.GetType());
