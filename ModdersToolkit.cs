@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.Audio;
 using Terraria.GameContent;
+using System.IO;
 
 //todo, tool to make townnpc spritesheet out of current player 
 //todo, Main.ignoreErrors = true; -- set to false and report errors to console
@@ -30,6 +31,8 @@ namespace ModdersToolkit
 		private int lastSeenScreenWidth;
 		private int lastSeenScreenHeight;
 		private bool visible;
+
+		public static readonly string ModSourcePath = Path.Combine(Program.SavePathShared, "ModSources"); // ModCompile class is internal
 
 		public override void Load() {
 			Instance = this;

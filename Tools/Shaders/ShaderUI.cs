@@ -37,7 +37,6 @@ namespace ModdersToolkit.Tools.Shaders
 		private static string cacheFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		private static string shaderFilename = "ModdersToolkit_Shader.fx";
 		private static string shaderFilePath = Path.Combine(cacheFolder, shaderFilename);
-		private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
 
 		private static string exeFilename = "fxcompiler.exe";
 		private static string exePath = Path.Combine(cacheFolder, exeFilename);
@@ -295,6 +294,9 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
 float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
@@ -456,19 +458,20 @@ technique Technique1
 				FieldInfo shaderRefField = typeof(ShaderData).GetField("_shader", BindingFlags.Instance | BindingFlags.NonPublic);
 
 				// If existing Effect, Update all Effect references
-				if (file.StartsWith(ModSourcePath)) {
-					FieldInfo modEffectsField = typeof(Mod).GetField("effects", BindingFlags.Instance | BindingFlags.NonPublic);
-					var modEffects = (Dictionary<string, Effect>)modEffectsField.GetValue(selectedMod);
-					var key = file.Substring(Path.Combine(ModSourcePath, selectedMod.Name).Length + 1).Replace("\\", "/");
+				if (file.StartsWith(ModdersToolkit.ModSourcePath)) {
+					var modEffects = selectedMod.Assets.GetLoadedAssets().OfType<ReLogic.Content.Asset<Effect>>().ToDictionary(x => x.Name);
+
+					var key = file.Substring(Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name).Length + 1)/*.Replace("\\", "/")*/;
 					key = key.Substring(0, key.LastIndexOf(".fx"));
 					Effect originalEffect = null;
 					if (modEffects.ContainsKey(key)) {
-						originalEffect = modEffects[key];
+						originalEffect = modEffects[key].Value;
 					}
 					else {
 						updateneeded = true;
 					}
-					modEffects[key] = newEffect;
+					FieldInfo ownValueField = modEffects[key].GetType().GetField("ownValue", BindingFlags.Instance | BindingFlags.NonPublic);
+					ownValueField.SetValue(modEffects[key], newEffect);
 
 					FieldInfo shaderDataField = typeof(ArmorShaderDataSet).GetField("_shaderData", BindingFlags.Instance | BindingFlags.NonPublic);
 					var armorShaderDataList = (List<ArmorShaderData>)typeof(ArmorShaderDataSet).GetField("_shaderData", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(GameShaders.Armor);
@@ -494,7 +497,7 @@ technique Technique1
 						// Need to replace Acid Dye shader and passname
 						var shader = GameShaders.Armor.GetShaderFromItemId(ItemID.AcidDye);
 						shaderRefField.SetValue(shader, newShaderRef);
-						FieldInfo passNameField = typeof(ArmorShaderData).GetField("_passName", BindingFlags.Instance | BindingFlags.NonPublic);
+						FieldInfo passNameField = typeof(ShaderData).GetField("_passName", BindingFlags.Instance | BindingFlags.NonPublic);
 						passNameField.SetValue(shader, "ModdersToolkitShaderPass");
 					}
 				}
@@ -517,13 +520,13 @@ technique Technique1
 			}
 
 			if (watchModSourcesCheckbox.Selected) {
-				if (!Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name)) {
+				if (!Directory.Exists(ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name)) {
 					Main.NewText("Error somehow");
 					return;
 				}
 
 				modSourcesWatcher = new FileSystemWatcher();
-				modSourcesWatcher.Path = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+				modSourcesWatcher.Path = ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 				/* Watch for changes in LastAccess and LastWrite times, and
 				   the renaming of files or directories. */
 				modSourcesWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
@@ -627,7 +630,7 @@ technique Technique1
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSourcesCheckbox.Selected = false;
-						watchModSourcesCheckbox.Clickable = Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
+						watchModSourcesCheckbox.Clickable = Directory.Exists(ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
 
 						if (watchModSourcesCheckbox.Clickable)
 							watchModSourcesCheckbox.Selected = true;
@@ -638,13 +641,11 @@ technique Technique1
 			}
 
 			shaderList.Clear();
-			if (selectedMod != null && Directory.Exists(Path.Combine(ModSourcePath, selectedMod.Name))) {
+			if (selectedMod != null && Directory.Exists(Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name))) {
+				var loadedEffects = selectedMod.Assets.GetLoadedAssets().OfType<ReLogic.Content.Asset<Effect>>().ToDictionary(x=>x.Name);
 
-				FieldInfo effectsField = typeof(Mod).GetField("effects", BindingFlags.Instance | BindingFlags.NonPublic);
-				var loadedEffects = (Dictionary<string, Effect>)effectsField.GetValue(selectedMod);
-
-				var fxFiles = Directory.EnumerateFiles(Path.Combine(ModSourcePath, selectedMod.Name), "*.fx", SearchOption.AllDirectories).Where(x => string.Equals(Path.GetExtension(x), ".fx", StringComparison.InvariantCultureIgnoreCase));
-				fxFiles = fxFiles.Select(x => Path.ChangeExtension(x.Substring(Path.Combine(ModSourcePath, selectedMod.Name).Length + 1), null).Replace("\\", "/"));
+				var fxFiles = Directory.EnumerateFiles(Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name), "*.fx", SearchOption.AllDirectories).Where(x => string.Equals(Path.GetExtension(x), ".fx", StringComparison.InvariantCultureIgnoreCase));
+				fxFiles = fxFiles.Select(x => Path.ChangeExtension(x.Substring(Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name).Length + 1), null)/*.Replace("\\", "/")*/);
 
 				var allEntries = loadedEffects.Keys.Union(fxFiles);
 
@@ -668,7 +669,7 @@ technique Technique1
 						currentShader.SetText("Current: " + textureEntry);
 
 						// Open .fx file for convinience.
-						string path = Path.Combine(ModSourcePath, selectedMod.Name, textureEntry + ".fx");
+						string path = Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name, textureEntry + ".fx");
 						if (File.Exists(path)) {
 							AttemptOpenFxFile(path);
 						}
@@ -681,7 +682,7 @@ technique Technique1
 
 					button = new UITextPanel<string>("Compile", 0.7f);
 					button.OnClick += (a, b) => {
-						string path = Path.Combine(ModSourcePath, selectedMod.Name, textureEntry + ".fx");
+						string path = Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name, textureEntry + ".fx");
 						if (File.Exists(path)) {
 							Main.NewText($"Manually compiling {path}.");
 							RunShaderCompileCommand(path);

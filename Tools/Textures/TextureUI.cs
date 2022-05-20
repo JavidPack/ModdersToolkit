@@ -45,8 +45,6 @@ namespace ModdersToolkit.Tools.Textures
 		private static string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 		private static string path = Path.Combine(folder, filename);
 
-		private static string ModSourcePath = Path.Combine(Main.SavePath, "Mod Sources");
-
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
@@ -78,7 +76,7 @@ namespace ModdersToolkit.Tools.Textures
 
 			top += 140;
 
-			watchModSources = new UICheckbox("Watch Mod Sources", "Automatically Watch Mod Sources for Changes", false);
+			watchModSources = new UICheckbox("Watch ModSources", "Automatically Watch ModSources for Changes", false);
 			watchModSources.Top.Set(top, 0);
 			watchModSources.OnSelectedChanged += WatchModSources_OnSelectedChanged;
 			mainPanel.Append(watchModSources);
@@ -150,13 +148,13 @@ namespace ModdersToolkit.Tools.Textures
 			}
 
 			if (watchModSources.Selected) {
-				if (!Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name)) {
+				if (!Directory.Exists(ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name)) {
 					Main.NewText("Error somehow");
 					return;
 				}
 
 				modSourcesWatcher = new FileSystemWatcher();
-				modSourcesWatcher.Path = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+				modSourcesWatcher.Path = ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 				/* Watch for changes in LastAccess and LastWrite times, and
 				   the renaming of files or directories. */
 				modSourcesWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
@@ -272,7 +270,7 @@ namespace ModdersToolkit.Tools.Textures
 					watcherCooldownSources--;
 				if (watcherCooldownSources == 0) {
 					watchedFileChangedSources = false;
-					string dir = ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+					string dir = ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
 					string innername = watchedFileChangedSourcesFileName.Substring(dir.Length);
 					string innernamenoext = System.IO.Path.ChangeExtension(innername, null);
 					//innernamenoext = innernamenoext.Replace("\\", "/");
@@ -300,7 +298,7 @@ namespace ModdersToolkit.Tools.Textures
 						Color[] c = new Color[file.Width * file.Height];
 						file.GetData<Color>(c, 0, c.Length);
 						modTexture.SetData<Color>(c);
-						Main.NewText("Texture updated from watch mod sources folder.");
+						Main.NewText("Texture updated from watch ModSources folder: " + selectedMod.Name + Path.DirectorySeparatorChar + innername);
 					}
 				}
 			}
@@ -315,7 +313,7 @@ namespace ModdersToolkit.Tools.Textures
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSources.Selected = false;
-						watchModSources.Clickable = Directory.Exists(ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
+						watchModSources.Clickable = Directory.Exists(ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
 						if (watchModSources.Clickable)
 							watchModSources.Selected = true;
 					};
