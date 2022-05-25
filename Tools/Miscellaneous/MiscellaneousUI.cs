@@ -63,10 +63,6 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			collisionCircleCheckbox.OnSelectedChanged += () => MiscellaneousTool.showCollisionCircle = collisionCircleCheckbox.Selected;
 			AppendToAndAdjustWidthHeight(mainPanel, collisionCircleCheckbox, ref height, ref width);
 
-			UICheckbox logSoundsCheckbox = new UICheckbox("Log Sounds", "Log Sound Styles and Types");
-			logSoundsCheckbox.OnSelectedChanged += () => MiscellaneousTool.logSounds = logSoundsCheckbox.Selected;
-			AppendToAndAdjustWidthHeight(mainPanel, logSoundsCheckbox, ref height, ref width);
-
 			UITextPanel<string> takeWorldSnapshot = new UITextPanel<string>("Take World Snapshot (WIP)");
 			takeWorldSnapshot.SetPadding(4);
 			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick;

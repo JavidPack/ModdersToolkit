@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -20,11 +16,6 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		internal static bool lockProjectileInfo;
 		internal static bool showTileGrid;
 		internal static bool showCollisionCircle;
-		internal static bool logSounds;
-
-		private static Dictionary<string, int> sounds; // reference to private field in SoundLoader
-		private static Dictionary<int, ModSound> modSoundsBySoundId; // reference to private field in SoundLoader
-		//internal static readonly IdDictionary Search = IdDictionary.Create<SoundID, int>();
 
 		public override void Initialize() {
 			ToggleTooltip = "Click to toggle Miscellaneous Tool";
@@ -37,65 +28,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			miscellaneousUI.Activate();
 
 			Interface.SetState(miscellaneousUI);
-
-			On.Terraria.Audio.SoundEngine.PlaySound_int_int_int_int_float_float += SoundEngine_PlaySound_int_int_int_int_float_float;
-
-			FieldInfo soundsField = typeof(SoundLoader).GetField("sounds", BindingFlags.Static | BindingFlags.NonPublic);
-			sounds = (Dictionary<string, int>)soundsField.GetValue(null);
-
-			FieldInfo modSoundsBySoundIdField = typeof(SoundLoader).GetField("modSoundsBySoundId", BindingFlags.Static | BindingFlags.NonPublic);
-			modSoundsBySoundId = (Dictionary<int, ModSound>)modSoundsBySoundIdField.GetValue(null);
-
-			// TODO: IdDictionary-type soundID
 		}
 
 		public override void ClientTerminate() {
-			sounds = null;
-			modSoundsBySoundId = null;
-
 			Interface = null;
 
 			miscellaneousUI?.Deactivate();
 			miscellaneousUI = null;
-		}
-
-		private Microsoft.Xna.Framework.Audio.SoundEffectInstance SoundEngine_PlaySound_int_int_int_int_float_float(On.Terraria.Audio.SoundEngine.orig_PlaySound_int_int_int_int_float_float orig, int type, int x, int y, int Style, float volumeScale, float pitchOffset) {
-			var result = orig(type, x, y, Style, volumeScale, pitchOffset); // null results are off screen
-
-			if (logSounds && Main.soundVolume != 0f && result != null) {
-				if ((type >= 30 && type <= 35) || type == 39) {
-					// Maybe a toggle to ignore?
-				}
-				else {
-					float soundVolume = Main.soundVolume;
-					Main.soundVolume = 0f;
-					Main.NewText("");
-					Main.NewText($"Type: {type}, Style: {Style}{(x != -1 ? $", x: {x}" : "")}{(y != -1 ? $", y: {y}" : "")}{(volumeScale != 1 ? $", volumeScale: {volumeScale}" : "")}{(pitchOffset != 0 ? $", pitchOffset: {pitchOffset}" : "")}");
-
-					if(type == SoundLoader.CustomSoundType) {
-						if (sounds.ContainsValue(Style)) {
-							var kvp = sounds.FirstOrDefault(x => x.Value == Style);
-							if (kvp.Key != null) { 
-								Main.NewText($"Key: {kvp.Key}");
-							}
-
-							if (modSoundsBySoundId.TryGetValue(Style, out ModSound modSound)) {
-								Main.NewText($"modSound: {modSound}");
-							}
-						}
-					}
-
-					var frames = new StackTrace(true).GetFrames();
-					Logging.PrettifyStackTraceSources(frames);
-					int index = 2;
-					while (frames[index].GetMethod().Name.Contains("PlaySound"))
-						index++;
-					var frame = frames[index];
-					Main.NewText(frame.GetMethod().DeclaringType.FullName + "." + frame.GetMethod().Name + ":" + frame.GetFileLineNumber());
-					Main.soundVolume = soundVolume;
-				}
-			}
-			return result;
 		}
 
 		public override void UIDraw() {
