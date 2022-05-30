@@ -33,6 +33,7 @@ namespace ModdersToolkit.Tools.Sounds
 		private UIFloatRangedDataValue volumeProperty;
 		private UIFloatRangedDataValue pitchProperty;
 		private UIFloatRangedDataValue pitchVarianceProperty;
+		private UIIntRangedDataValue maxInstancesProperty;
 
 		public bool updateneeded;
 
@@ -121,6 +122,9 @@ namespace ModdersToolkit.Tools.Sounds
 			pitchVarianceProperty = new UIFloatRangedDataValue("Pitch Variance:", 0, 0, 2);
 			uiRanges.Add(new UIRange<float>(pitchVarianceProperty));
 
+			maxInstancesProperty = new UIIntRangedDataValue("Max Instances:", 1, 0, 5);
+			uiRanges.Add(new UIRange<int>(maxInstancesProperty));
+
 			foreach (var uiRange in uiRanges) {
 				uiRange.Top.Set(top, 0f);
 				uiRange.Width.Set(0, 1f);
@@ -134,6 +138,8 @@ namespace ModdersToolkit.Tools.Sounds
 			playSoundButton.Left.Set(0, 0f);
 			playSoundButton.SetVisibility(1f, 0.8f);
 			mainPanel.Append(playSoundButton);
+
+			// TODO: Option to Play Sound at random screen location, spawn dust box.
 
 			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", AssetRequestMode.ImmediateLoad), "Copy code to clipboard");
 			copyCodeButton.OnClick += CopyCodeButton_OnClick;
@@ -158,7 +164,7 @@ namespace ModdersToolkit.Tools.Sounds
 			else {
 				string modname = selectedSoundEffectAsset.Value.modname == "ModLoader" ? "Terraria" : selectedSoundEffectAsset.Value.modname;
 				var style = new SoundStyle(modname + "/" + selectedSoundEffectAsset.Value.sound.Name/*.Replace("\\", "/")*/);
-				style = style with { Volume = volumeProperty.Data, PitchVariance = pitchVarianceProperty.Data, IsLooped = false, Pitch = pitchProperty.Data , };
+				style = style with { Volume = volumeProperty.Data, PitchVariance = pitchVarianceProperty.Data, IsLooped = false, Pitch = pitchProperty.Data, MaxInstances = maxInstancesProperty.Data};
 				SoundEngine.PlaySound(style);
 			}
 		}
@@ -171,6 +177,7 @@ namespace ModdersToolkit.Tools.Sounds
 			float PitchVariance = pitchVarianceProperty.Data;
 			float Pitch = pitchProperty.Data;
 			float Volume = volumeProperty.Data;
+			float MaxInstances = maxInstancesProperty.Data;
 
 			bool needWith = PitchVariance != 0 || Pitch != 0 || Volume != 1;
 
@@ -188,6 +195,9 @@ namespace ModdersToolkit.Tools.Sounds
 				if (PitchVariance != 0) {
 					s.Append($" PitchVariance = {PitchVariance:#.##}f, ");
 				}
+				if (MaxInstances != 1) {
+					s.Append($" MaxInstances = {MaxInstances}, ");
+				}				
 				s.Append("}");
 			}
 			s.Append(";");

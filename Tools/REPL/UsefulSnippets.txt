@@ -1,0 +1,7 @@
+﻿// Output all loaded GlobalNPC that override EditSpawnRate. Useful for determining potential causes of issues
+var a = ModContent.GetContent<GlobalNPC>();
+foreach (var b in a) {
+	Main.NewText(b);
+	if(b.GetType().GetMethod("EditSpawnRate").DeclaringType == typeof(GlobalNPC))
+		Main.NewText("EditSpawnRate found " + b.GetType().FullName);
+}

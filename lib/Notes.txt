@@ -1,0 +1,1 @@
+Microsoft.CodeAnalysis.Scripting.dll actually in Microsoft.CodeAnalysis.Scripting.Common nuget, not Microsoft.CodeAnalysis.Scripting

@@ -20,7 +20,7 @@ using System.IO;
 // TODO: Reveal Map (Also, highlight changes?)
 // TODO: Tooltips/Stats: Player position, block names, block strength (minpick).
 // TODO: Moveable Windows
-// TODO:
+// TODO: Add tool to visualize all DamageClass bonuses, calculate damage from base damage.
 
 namespace ModdersToolkit
 {
@@ -47,7 +47,7 @@ namespace ModdersToolkit
 			AddTool(new Tools.Dusts.DustTool());
 			AddTool(new Tools.Items.ItemTool());
 			AddTool(new Tools.Projectiles.ProjectilesTool());
-			//	TODO: Reimplement: AddTool(new Tools.PlayerLayer.PlayerLayerTool());
+			AddTool(new Tools.PlayerLayer.PlayerLayerTool());
 			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
 			AddTool(new Tools.Spawns.SpawnTool());
 			AddTool(new Tools.Fishing.FishingTool());
