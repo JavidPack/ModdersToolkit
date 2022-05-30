@@ -21,6 +21,7 @@ using System.IO;
 // TODO: Tooltips/Stats: Player position, block names, block strength (minpick).
 // TODO: Moveable Windows
 // TODO: Add tool to visualize all DamageClass bonuses, calculate damage from base damage.
+// TODO: Force randomupdate on all blocks on screen
 
 namespace ModdersToolkit
 {

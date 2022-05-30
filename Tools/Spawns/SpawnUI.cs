@@ -85,8 +85,6 @@ namespace ModdersToolkit.Tools.Spawns
 
 			SpawnTool.CalculateSpawns();
 
-			Main.NewText("Spawn calculation not implemented yet on 1.4");
-
 			checklistList.Clear();
 
 			float total = 0;
@@ -101,8 +99,8 @@ namespace ModdersToolkit.Tools.Spawns
 				}
 			}
 
-			Main.NewText($"spawnRate: {SpawnTool.spawnRate}");
-			Main.NewText($"maxSpawns: {SpawnTool.maxSpawns}");
+			Main.NewText($"spawnRate: {SpawnTool.spawnRateFieldInfo.GetValue(null)}");
+			Main.NewText($"maxSpawns: {SpawnTool.maxSpawnsFieldInfo.GetValue(null)}");
 			//Main.NewText($"activeNPCs: {Main.LocalPlayer.activeNPCs}");
 		}
 
