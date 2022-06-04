@@ -13,7 +13,7 @@ namespace ModdersToolkit.Tools.Shaders
 		public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
 
 		public override bool IsSceneEffectActive(Player player) {
-			bool forcedShaderActive = ShaderTool.shaderUI.forceShaderCheckbox.Selected && ShaderTool.shaderUI.lastShaderIsScreenShader;
+			bool forcedShaderActive = ShaderTool.shaderUI?.forceShaderCheckbox.Selected == true && ShaderTool.shaderUI.lastShaderIsScreenShader;
 			//if (!forcedShaderActive) {
 			//	player.ManageSpecialBiomeVisuals("ModdersToolkit:TestScreenShader", forcedShaderActive);
 			//}
