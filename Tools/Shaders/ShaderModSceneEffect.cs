@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReLogic.OS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,9 @@ namespace ModdersToolkit.Tools.Shaders
 		public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
 
 		public override bool IsSceneEffectActive(Player player) {
-			bool forcedShaderActive = ShaderTool.shaderUI?.forceShaderCheckbox.Selected == true && ShaderTool.shaderUI.lastShaderIsScreenShader;
+			if (!Platform.IsWindows)
+				return false;
+			bool forcedShaderActive = ShaderTool.shaderUI.forceShaderCheckbox.Selected == true && ShaderTool.shaderUI.lastShaderIsScreenShader;
 			//if (!forcedShaderActive) {
 			//	player.ManageSpecialBiomeVisuals("ModdersToolkit:TestScreenShader", forcedShaderActive);
 			//}
