@@ -263,7 +263,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 				}
 				else {
 					//bool hasToString = fieldInfo.FieldType.GetMethod("ToString", new Type[0]).DeclaringType != typeof(object);
-					AppendToAndIncrement(panel, new UIText(fieldInfo.Name + ": " + fieldInfo.GetValue(instance).ToString()), ref top);
+					AppendToAndIncrement(panel, new UIText(fieldInfo.Name + ": " + fieldInfo.GetValue(instance)?.ToString() ?? "null"), ref top);
 				}
 			}
 			panel.Height.Set(top + panel.PaddingBottom + parentPaddingTop, 0f);

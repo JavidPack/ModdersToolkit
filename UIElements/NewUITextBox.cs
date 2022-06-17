@@ -124,7 +124,10 @@ namespace ModdersToolkit.UIElements
 
 			this._cursor = Math.Min(base.Text.Length, this._cursor);
 
-			OnTextChanged?.Invoke();
+			bool changed = text != Text;
+			if (changed) {
+				OnTextChanged?.Invoke();
+			}
 		}
 
 		public void SetTextMaxLength(int maxLength) {
