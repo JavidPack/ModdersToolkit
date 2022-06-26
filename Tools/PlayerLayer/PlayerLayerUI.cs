@@ -45,6 +45,13 @@ namespace ModdersToolkit.Tools.PlayerLayer
 				}
 			};
 			mainPanel.Append(resetButton);
+			
+			//var playerImagePreview = new UIImage(Terraria.GameContent.TextureAssets.InventoryBack9);
+			//playerImagePreview.Top.Set(top, 0f);
+			//playerImagePreview.Left.Set(-56, 0);
+			//playerImagePreview.HAlign = 1f;
+			//mainPanel.Append(playerImagePreview);
+			top += 30;
 			top += 30;
 
 			playerLayerList = new UIList();
@@ -116,13 +123,46 @@ namespace ModdersToolkit.Tools.PlayerLayer
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
+
+		protected override void DrawChildren(SpriteBatch spriteBatch) {
+			base.DrawChildren(spriteBatch);
+			CalculatedStyle dimensions = mainPanel.GetInnerDimensions();
+			Rectangle rectangle = dimensions.ToRectangle();
+			spriteBatch.Draw(Terraria.GameContent.TextureAssets.InventoryBack9.Value, dimensions.Position() + new Vector2(200, 0), null, Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0f);
+			if(PlayerLayerTool.layerToDraw != null) {
+				PlayerDrawSet drawinfo = default(PlayerDrawSet);
+				var dimensionsRec = PlayerLayerTool.playerLayerUI.mainPanel.GetDimensions().ToRectangle();
+
+				List<DrawData> _drawData = new List<DrawData>();
+				List<int> _dust = new List<int>();
+				List<int> _gore = new List<int>();
+
+				Vector2 drawPosition = new Vector2(dimensionsRec.Right - 30, dimensionsRec.Top - 50) + Main.screenPosition;
+				//drawPosition = Main.MouseWorld;
+				drawPosition = dimensions.Position() + new Vector2(200, 0) + Main.screenPosition;
+
+				var center = new Vector2(dimensionsRec.Center().X, dimensionsRec.Y);
+				drawPosition = dimensions.Position() + new Vector2(240, 30) + Main.screenPosition;
+
+				drawinfo.BoringSetup(Main.LocalPlayer, _drawData, _dust, _gore, drawPosition, 0f, Main.LocalPlayer.fullRotation, Main.LocalPlayer.fullRotationOrigin);
+				drawinfo.colorMount = Color.White;
+
+				PlayerLayerTool.layerToDraw.DrawWithTransformationAndChildren(ref drawinfo);
+				PlayerDrawLayers.DrawPlayer_TransformDrawData(ref drawinfo);
+				PlayerDrawLayers.DrawPlayer_RenderAllLayers(ref drawinfo);
+			}
+		}
 	}
 
 	internal class PlayerLayerModPlayer : ModPlayer
 	{
+		internal static PlayerDrawSet LocalPlayerDrawSet;
 		public override void HideDrawLayers(PlayerDrawSet drawInfo) {
 			if (PlayerLayerTool.playerLayerUI.updateNeeded)
 				return;
+
+			if(Player.whoAmI == Main.myPlayer)
+				LocalPlayerDrawSet = drawInfo;
 
 			int index = 0;
 			foreach (var layer in PlayerDrawLayerLoader.DrawOrder) {

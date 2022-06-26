@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.PlayerLayer
@@ -6,6 +7,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 	internal class PlayerLayerTool : Tool
 	{
 		internal static PlayerLayerUI playerLayerUI;
+		internal static PlayerDrawLayer layerToDraw;
 
 		public override void Initialize() {
 			ToggleTooltip = "Click to toggle Player Layer Tool";
@@ -29,6 +31,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 
 
 		public override void UIDraw() {
+			layerToDraw = null;
 			if (Visible) {
 				playerLayerUI.Draw(Main.spriteBatch);
 			}
