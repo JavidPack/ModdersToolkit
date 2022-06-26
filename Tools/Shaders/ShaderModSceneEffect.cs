@@ -26,7 +26,7 @@ namespace ModdersToolkit.Tools.Shaders
 			//return base.IsSceneEffectActive(player);
 		}
 
-		public override void SpecialVisuals(Player player) {
+		public override void SpecialVisuals(Player player, bool isActive) {
 			//bool forcedShaderActive = ShaderTool.shaderUI.forceShaderCheckbox.Selected && ShaderTool.shaderUI.lastShaderIsScreenShader;
 			//player.ManageSpecialBiomeVisuals("ModdersToolkit:TestScreenShader", forcedShaderActive);
 		}

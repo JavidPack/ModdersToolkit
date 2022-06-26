@@ -1,5 +1,5 @@
 author = jopojelly
-version = 0.18.4.1
+version = 0.18.4.2
 myVersionScheme = major when done, minor when new tool, build when new item within tool, revision for bug fix quick release
 displayName = Modders Toolkit
 homepage = https://forums.terraria.org/index.php?threads/modders-toolkit-a-mod-for-modders-doing-modding.55738/
