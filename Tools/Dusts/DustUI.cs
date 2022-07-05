@@ -51,7 +51,7 @@ namespace ModdersToolkit.Tools.Dusts
 		private UIIntRangedDataValue heightDataProperty;
 		internal IntDataRangeProperty typeDataProperty;
 		private UIIntRangedDataValue alphaDataProperty;
-		private UIIntRangedDataValue shaderDataProperty;
+		internal UIIntRangedDataValue shaderDataProperty;
 		private UIFloatRangedDataValue speedXDataProperty;
 		private UIFloatRangedDataValue speedYDataProperty;
 		private UIFloatRangedDataValue fadeInDataProperty;
@@ -129,7 +129,7 @@ namespace ModdersToolkit.Tools.Dusts
 			b.Top.Set(top, 0f);
 			mainPanel.Append(b);
 
-			typeDataProperty = new IntDataRangeProperty("Type:", 1, DustTool.dustCount, true); //TODO fix.
+			typeDataProperty = new IntDataRangeProperty("Type:", 0, ChildSafety.SafeDust.Length, true); // TODO: fix this, I can't update it after loading modded content.
 			typeDataProperty.range.Top.Set(top, 0f);
 			typeDataProperty.range.Left.Set(20, 0f);
 			typeDataProperty.range.Width.Set(-20, 1f);
@@ -158,7 +158,7 @@ namespace ModdersToolkit.Tools.Dusts
 			mainPanel.Append(uiRange);
 
 			top += 30;
-			shaderDataProperty = new UIIntRangedDataValue("Shader:", 0, 0, DustTool.shaderCount);
+			shaderDataProperty = new UIIntRangedDataValue("Shader:", 0, 0, 120); // TODO: fix this, same reasons as typeDataProperty
 			uiRange = new UIRange<int>(shaderDataProperty);
 			uiRange.Top.Set(top, 0f);
 			uiRange.Width.Set(0, 1f);

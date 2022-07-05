@@ -22,6 +22,7 @@ using System.IO;
 // TODO: Moveable Windows
 // TODO: Add tool to visualize all DamageClass bonuses, calculate damage from base damage.
 // TODO: Force randomupdate on all blocks on screen
+// TODO: Main menu option to start 2nd client?
 
 namespace ModdersToolkit
 {

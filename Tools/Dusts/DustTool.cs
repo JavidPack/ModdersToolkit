@@ -42,17 +42,10 @@ namespace ModdersToolkit.Tools.Dusts
 				while (shader != null);
 
 				shaderCount = count - 1;
-				count = Terraria.ID.DustID.Count - 1;
+				//dustUI.shaderDataProperty.max = shaderCount;
 
-				ModDust dust;
-
-				do {
-					dust = DustLoader.GetDust(count);
-					count++; // We start the count one index prior to what it should be. Since this is a do-while, it'll always add one.
-				}
-				while (dust != null);
-
-				dustCount = count;
+				dustCount = Terraria.GameContent.ChildSafety.SafeDust.Length;
+				dustUI.typeDataProperty.max = dustCount; // doesn't work, won't change the slider.
 			}
 		}
 
