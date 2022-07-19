@@ -11,6 +11,9 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.Decompiler">
+      <HintPath>lib\ICSharpCode.Decompiler.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp.Scripting">
       <HintPath>lib\Microsoft.CodeAnalysis.CSharp.Scripting.dll</HintPath>
     </Reference>

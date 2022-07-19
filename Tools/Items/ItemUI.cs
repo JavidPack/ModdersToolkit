@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModdersToolkit.UIElements;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
@@ -8,6 +9,12 @@ using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
+
+using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.TypeSystem;
+using System.IO;
+using System.Diagnostics;
 
 namespace ModdersToolkit.Tools.Items
 {
@@ -98,6 +105,13 @@ namespace ModdersToolkit.Tools.Items
 			printItemInfoText.Top.Set(top, 0f);
 			printItemInfoText.OnClick += PrintItemInfo_OnClick;
 			panel.Append(printItemInfoText);
+
+			top += 20;
+
+			UIText decompileItemText = new UIText("Decompile Item", 0.85f);
+			decompileItemText.Top.Set(top, 0f);
+			decompileItemText.OnClick += DecompileItemInfo_OnClick;
+			panel.Append(decompileItemText);
 
 			return panel;
 		}
@@ -265,6 +279,57 @@ namespace ModdersToolkit.Tools.Items
 
 				foreach (FieldInfo field in param.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
 					Main.NewText("FIELD " + field.Name + " = " + (field.GetValue(param).ToString() != "" ? field.GetValue(param) : "(Field value not found)") + "\n");
+				}
+			}
+		}
+
+		private void DecompileItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement) {
+			Item item = Main.LocalPlayer.HeldItem;
+			ModItem modItem = item.ModItem;
+			if (modItem == null) {
+				Main.NewText("This only works on modded items");
+			}
+			else {
+				string filename = "ModdersToolkit_Decompile.cs";
+				string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
+				string decompileOutputPath = Path.Combine(folder, filename);
+				string dllpath = null;
+				Mod mod = modItem.Mod;
+				bool dllextracted = false;
+				foreach (var entry in mod.GetFileNames()) {
+					if (entry != mod.Name + ".dll")
+						continue;
+
+					dllpath = Path.Combine(folder, entry);
+					Directory.CreateDirectory(Path.GetDirectoryName(dllpath));
+
+					using (var dst = File.OpenWrite(dllpath))
+					using (var src = mod.GetFileStream(entry)) {
+						src.CopyTo(dst);
+						dllextracted = true;
+					}
+				}
+				if (!dllextracted)
+					Main.NewText("dll not extracted for some reason, aborting");
+
+
+				var decompiler = new CSharpDecompiler(dllpath, new DecompilerSettings());
+				var name = new FullTypeName(modItem.GetType().FullName);
+				string decompileResults = decompiler.DecompileTypeAsString(name);
+
+				if (!File.Exists(decompileOutputPath)) {
+					Directory.CreateDirectory(folder);
+					File.WriteAllText(decompileOutputPath, decompileResults);
+				}
+				try {
+					Process.Start(
+						new ProcessStartInfo(decompileOutputPath) {
+							UseShellExecute = true
+						}
+					);
+				}
+				catch (Exception) {
+					Main.NewText("Could not open ModdersToolkit_Decompile.cs, check that you have a text editor associated with .cs files.");
 				}
 			}
 		}
