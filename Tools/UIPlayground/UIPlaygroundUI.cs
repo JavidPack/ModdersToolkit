@@ -15,6 +15,7 @@ using Terraria.GameContent.UI.States;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.ModLoader.Config.UI;
+using Terraria.ModLoader.Core;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools.UIPlayground
@@ -434,7 +435,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			var nonModAssemblies = allAssemblies.Except(modAssemblies);
 			var type = typeof(UIElement);
 			var modUIElementTypes = modAssemblies
-				.SelectMany(s => s.GetTypes())
+				.SelectMany(s => AssemblyManager.GetLoadableTypes(s))
 				.Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract).OrderBy(x=>x.Name);
 
 			//var allUIElementTypes = modUIElementTypes.Concat(typeof(Terraria.Main).Assembly.GetTypes()

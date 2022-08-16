@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 
 namespace ModdersToolkit.Tools.QuickTweak
 {
@@ -20,7 +21,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 				string fieldName = args[1];
 
 				foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-					foreach (var type in assembly.GetTypes()) {
+					foreach (var type in AssemblyManager.GetLoadableTypes(assembly)) {
 						if(type.Name == className) {
 							foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)) {
 								if(field.Name == fieldName) {

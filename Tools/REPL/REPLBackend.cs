@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using System.Reflection;
+using Terraria.ModLoader.Core;
 
 namespace ModdersToolkit.REPL
 {
@@ -47,7 +48,7 @@ namespace ModdersToolkit.REPL
 							continue; 
 						assemblies.Add(assembly);
 						
-						var topLevel = assembly.GetTypes()
+						var topLevel = AssemblyManager.GetLoadableTypes(assembly)
 						   //.Select(t => GetTopLevelNamespace(t))
 						   .Select(t => t.Namespace)
 						   .Distinct();
