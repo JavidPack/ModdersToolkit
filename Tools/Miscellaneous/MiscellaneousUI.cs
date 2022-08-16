@@ -64,6 +64,10 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			collisionCircleCheckbox.OnSelectedChanged += () => MiscellaneousTool.showCollisionCircle = collisionCircleCheckbox.Selected;
 			AppendToAndAdjustWidthHeight(mainPanel, collisionCircleCheckbox, ref height, ref width);
 
+			UICheckbox collisionCanHitLineCheckbox = new UICheckbox("CanHitLine", "Show a visualization of Collision.CanHitLine from Player.Center to Mouse");
+			collisionCanHitLineCheckbox.OnSelectedChanged += () => MiscellaneousTool.showCanHitLine = collisionCanHitLineCheckbox.Selected;
+			AppendToAndAdjustWidthHeight(mainPanel, collisionCanHitLineCheckbox, ref height, ref width);
+
 			UITextPanel<string> takeWorldSnapshot = new UITextPanel<string>("Take World Snapshot (WIP)");
 			takeWorldSnapshot.SetPadding(4);
 			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick;

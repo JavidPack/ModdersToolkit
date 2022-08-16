@@ -16,6 +16,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		internal static bool lockProjectileInfo;
 		internal static bool showTileGrid;
 		internal static bool showCollisionCircle;
+		internal static bool showCanHitLine;
 
 		public override void Initialize() {
 			ToggleTooltip = "Click to toggle Miscellaneous Tool";
@@ -220,6 +221,14 @@ namespace ModdersToolkit.Tools.Miscellaneous
 						Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)(actualCheck.X - Main.screenPosition.X) + 14, (int)(actualCheck.Y - Main.screenPosition.Y) + 14, 1, 1), noCollision ? Color.Green : Color.Red);
 					}
 				}
+				Main.spriteBatch.End();
+			}
+			if (MiscellaneousTool.showCanHitLine) {
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+				bool can = Collision.CanHitLine(Main.LocalPlayer.Center, 0, 0, Main.MouseWorld, 0, 0);
+				Color color = can ? Color.Green : Color.Red;
+				Utils.DrawLine(Main.spriteBatch, Main.LocalPlayer.Center, Main.MouseWorld, color, color, 1);
 				Main.spriteBatch.End();
 			}
 		}
