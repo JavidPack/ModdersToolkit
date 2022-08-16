@@ -66,6 +66,7 @@ namespace ModdersToolkit.Tools.Dusts
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			width = 240;
 			height = 520;
 			mainPanel.SetPadding(6);
@@ -139,6 +140,7 @@ namespace ModdersToolkit.Tools.Dusts
 			//UIImageButton b = new UIImageButton(ModdersToolkit.instance.GetTexture("UIElements/eyedropper"));
 
 			dustChooserUI = new DustChooserUI(userInterface);
+			mouseAndScrollBlockers.Add(dustChooserUI);
 
 			top += 30;
 			useCustomColorCheckbox = new UICheckbox("Use Custom Color", "");
@@ -296,10 +298,8 @@ namespace ModdersToolkit.Tools.Dusts
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			base.DrawSelf(spriteBatch);
 			SpawnDusts();
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 			DrawSpawnRectangle();
 		}
 

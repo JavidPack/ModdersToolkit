@@ -27,6 +27,7 @@ namespace ModdersToolkit.Tools.Items
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			width = 240;
 			height = 520;
 			mainPanel.SetPadding(6);
@@ -242,12 +243,6 @@ namespace ModdersToolkit.Tools.Items
 
 		private void SetDefaultsButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			Main.LocalPlayer.HeldItem.SetDefaults(Main.LocalPlayer.HeldItem.type);
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 
 		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement) {

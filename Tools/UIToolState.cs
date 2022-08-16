@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.UI;
 
 namespace ModdersToolkit.Tools
@@ -7,6 +10,8 @@ namespace ModdersToolkit.Tools
 	{
 		public int width;
 		public int height;
+
+		public List<UIElement> mouseAndScrollBlockers = new List<UIElement>();
 
 		public void AppendToAndAdjustWidthHeight(UIElement panel, UIElement element, ref int height, ref int width) {
 			element.Top.Set(height, 0);
@@ -30,6 +35,17 @@ namespace ModdersToolkit.Tools
 			mainPanel.Top.Set(-80f - height, 1f);
 			mainPanel.Width.Set(width, 0f);
 			mainPanel.Height.Set(height, 0f);
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			base.DrawSelf(spriteBatch);
+			foreach (var item in mouseAndScrollBlockers) {
+				if (item.Parent != null && item.ContainsPoint(Main.MouseScreen)) {
+					Main.LocalPlayer.mouseInterface = true;
+					Terraria.GameInput.PlayerInput.LockVanillaMouseScroll("ModdersToolkit/UIToolState");
+					break;
+				}
+			}
 		}
 	}
 }

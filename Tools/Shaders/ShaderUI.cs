@@ -74,6 +74,7 @@ namespace ModdersToolkit.Tools.Shaders
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			width = 310;
 			height = 640;
 			mainPanel.SetPadding(6);
@@ -698,12 +699,6 @@ technique Technique1
 
 					shaderList.Add(panel);
 				}
-			}
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 

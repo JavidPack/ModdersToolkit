@@ -22,6 +22,7 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = Color.Yellow * 0.8f;
 
@@ -77,13 +78,6 @@ namespace ModdersToolkit.Tools.InterfaceLayer
 		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateList();
-		}
-
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 
 		private string[] hideWhenAnyToolVisible = new[] { "Vanilla: Mouse Text" };

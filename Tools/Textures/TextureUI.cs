@@ -48,6 +48,7 @@ namespace ModdersToolkit.Tools.Textures
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			width = 310;
 			height = 520;
 			mainPanel.SetPadding(6);
@@ -341,12 +342,6 @@ namespace ModdersToolkit.Tools.Textures
 					};
 					textureList.Add(image);
 				}
-			}
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 	}

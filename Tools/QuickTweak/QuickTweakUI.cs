@@ -29,6 +29,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			base.OnInitialize();
 			width = 500;
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			mainPanel.MinWidth.Set(width, 0);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
@@ -296,12 +297,6 @@ namespace ModdersToolkit.Tools.QuickTweak
 		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateList();
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 	}
 }

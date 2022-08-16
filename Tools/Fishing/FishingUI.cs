@@ -22,6 +22,7 @@ namespace ModdersToolkit.Tools.Fishing
 			base.OnInitialize();
 
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			height = 350;
 			width = 200;
@@ -101,12 +102,6 @@ namespace ModdersToolkit.Tools.Fishing
 			PlayerFishingConditions fishingConditions = player.GetFishingConditions();
 
 			Main.NewText($"Tested {total} fishing cases with {fishingConditions.FinalFishingLevel} fishing power in a pool of {liquidName} with size {poolSize}");
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 	}
 }

@@ -75,13 +75,6 @@ namespace ModdersToolkit.Tools.Dusts
 			base.Update(gameTime);
 			UpdateGrid();
 		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			base.DrawSelf(spriteBatch);
-			if (ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
-		}
 	}
 
 	internal class DustSlot : UIElement

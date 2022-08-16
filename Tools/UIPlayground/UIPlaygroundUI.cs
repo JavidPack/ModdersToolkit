@@ -95,6 +95,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			width = 350;
 			height = 850;
@@ -945,12 +946,6 @@ namespace ModdersToolkit.Tools.UIPlayground
 			playgroundPanel.Recalculate();
 
 			// recalculate?
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 	}
 

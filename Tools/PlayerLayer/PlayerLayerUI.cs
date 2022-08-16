@@ -26,6 +26,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			width = 400;
 			height = 520;
 			mainPanel.SetPadding(6);
@@ -116,12 +117,6 @@ namespace ModdersToolkit.Tools.PlayerLayer
 		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 			UpdateList();
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 
 		protected override void DrawChildren(SpriteBatch spriteBatch) {

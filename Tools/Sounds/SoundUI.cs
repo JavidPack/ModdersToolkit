@@ -43,6 +43,7 @@ namespace ModdersToolkit.Tools.Sounds
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			width = 450;
 			height = 600;
 			mainPanel.SetPadding(6);
@@ -333,12 +334,6 @@ namespace ModdersToolkit.Tools.Sounds
 					soundList.Add(new UITextPanel<string>($"No sounds found in {selectedMod.DisplayName}", 0.8f));
 					//soundList.Add(new UITextPanel<string>($"Only already loaded sounds show up", 0.8f));
 				}
-			}
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 	}

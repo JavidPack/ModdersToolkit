@@ -26,6 +26,7 @@ namespace ModdersToolkit.Tools.Loot
 
 		public override void OnInitialize() {
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			mainPanel.Left.Set(-300f, 1f);
 			mainPanel.Top.Set(-520f, 1f);
@@ -153,12 +154,6 @@ namespace ModdersToolkit.Tools.Loot
 					UILootInfo lootInfo = new UILootInfo(spawn.Key, spawn.Value / (float)LootTool.NumberLootExperiments);
 					lootItemsList.Add(lootInfo);
 				}
-			}
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 	}

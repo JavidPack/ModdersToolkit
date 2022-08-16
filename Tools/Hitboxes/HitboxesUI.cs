@@ -20,6 +20,7 @@ namespace ModdersToolkit.Tools.Hitboxes
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			mainPanel.BackgroundColor = new Color(173, 94, 171);
 
@@ -76,12 +77,6 @@ namespace ModdersToolkit.Tools.Hitboxes
 
 			AdjustMainPanelDimensions(mainPanel);
 			Append(mainPanel);
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 	}
 }

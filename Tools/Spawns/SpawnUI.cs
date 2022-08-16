@@ -19,6 +19,7 @@ namespace ModdersToolkit.Tools.Spawns
 		public override void OnInitialize() {
 			base.OnInitialize();
 			mainPanel = new UIPanel();
+			mouseAndScrollBlockers.Add(mainPanel);
 			mainPanel.SetPadding(6);
 			height = 350;
 			width = 200;
@@ -102,12 +103,6 @@ namespace ModdersToolkit.Tools.Spawns
 			Main.NewText($"spawnRate: {SpawnTool.spawnRateFieldInfo.GetValue(null)}");
 			Main.NewText($"maxSpawns: {SpawnTool.maxSpawnsFieldInfo.GetValue(null)}");
 			//Main.NewText($"activeNPCs: {Main.LocalPlayer.activeNPCs}");
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 	}
 }
