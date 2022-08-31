@@ -11,6 +11,7 @@ using Terraria.UI;
 using Terraria.Audio;
 using Terraria.GameContent;
 using System.IO;
+using ModdersToolkit.Tools.DamageClasses;
 
 //todo, tool to make townnpc spritesheet out of current player 
 //todo, Main.ignoreErrors = true; -- set to false and report errors to console
@@ -50,6 +51,7 @@ namespace ModdersToolkit
 			AddTool(new Tools.Items.ItemTool());
 			AddTool(new Tools.Projectiles.ProjectilesTool());
 			AddTool(new Tools.PlayerLayer.PlayerLayerTool());
+			AddTool(new Tools.DamageClasses.DamageClassesTool());
 			AddTool(new Tools.InterfaceLayer.InterfaceLayerTool());
 			AddTool(new Tools.Spawns.SpawnTool());
 			AddTool(new Tools.Fishing.FishingTool());
@@ -222,7 +224,8 @@ namespace ModdersToolkit
 							tool.Toggled();
 							if (tool.Visible) {
 								LastVisibleTool = tool;
-								Main.playerInventory = false;
+								if(tool.GetType() != typeof(DamageClassesTool))
+									Main.playerInventory = false;
 							}
 						}
 					}
