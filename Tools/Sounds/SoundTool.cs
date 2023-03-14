@@ -29,7 +29,7 @@ namespace ModdersToolkit.Tools.Sounds
 
 			Interface.SetState(soundUI);
 
-			On.Terraria.Audio.SoundPlayer.Play += SoundPlayer_Play;
+			Terraria.Audio.On_SoundPlayer.Play += SoundPlayer_Play;
 		}
 
 		public override void ClientTerminate() {
@@ -46,8 +46,8 @@ namespace ModdersToolkit.Tools.Sounds
 			}
 		}
 
-		private ReLogic.Utilities.SlotId SoundPlayer_Play(On.Terraria.Audio.SoundPlayer.orig_Play orig, Terraria.Audio.SoundPlayer self, ref Terraria.Audio.SoundStyle style, Vector2? position) {
-			var result = orig(self, ref style, position);
+		private ReLogic.Utilities.SlotId SoundPlayer_Play(On_SoundPlayer.orig_Play orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback updateCallback) {
+			var result = orig(self, ref style, position, updateCallback);
 
 			if (logSounds && Main.soundVolume != 0f) {
 				if (styleNamesByStyle == null) {

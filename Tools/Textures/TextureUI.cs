@@ -132,7 +132,7 @@ namespace ModdersToolkit.Tools.Textures
 			//mainPanel.Append(exportImageButton);
 
 			UIHoverImageButton editImageButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Open Exported Image in Default Editor");
-			editImageButton.OnClick += EditImageButton_OnClick;
+			editImageButton.OnLeftClick += EditImageButton_OnClick;
 			editImageButton.Top.Set(top + 5, 0f);
 			editImageButton.Left.Set(0, 0f);
 			mainPanel.Append(editImageButton);
@@ -310,7 +310,7 @@ namespace ModdersToolkit.Tools.Textures
 			if (modList.Count == 0) {
 				foreach (var otherMod in ModLoader.Mods) {
 					UITextPanel<string> button = new UITextPanel<string>(otherMod.DisplayName);
-					button.OnClick += (a, b) => {
+					button.OnLeftClick += (a, b) => {
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSources.Selected = false;
@@ -335,7 +335,7 @@ namespace ModdersToolkit.Tools.Textures
 					}
 					UIImage image = new UIHoverImage(textureEntry.Value, textureEntry.Name);
 					//image.ImageScale = Math.Min(1f, 60f/textureEntry.Value.Height);
-					image.OnClick += (a, b) => {
+					image.OnLeftClick += (a, b) => {
 						selectedTexture2D = textureEntry.Value;
 						currentTexture.SetText("Current: " + textureEntry.Name);
 						SelectedTexture2DChanged();

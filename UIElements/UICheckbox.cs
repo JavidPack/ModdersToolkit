@@ -49,7 +49,7 @@ namespace ModdersToolkit.UIElements
 			Recalculate();
 		}
 
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			if (clickable) {
 				Selected = !Selected;
 			}
@@ -101,7 +101,7 @@ namespace ModdersToolkit.UIElements
 			Recalculate();
 		}
 
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			data.SetValue(!data.Data);
 			Recalculate();
 		}
@@ -134,7 +134,7 @@ namespace ModdersToolkit.UIElements
 			Recalculate();
 		}
 
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			if (data.Data.HasValue && data.Data.Value) {
 				data.SetValue(false);
 			}

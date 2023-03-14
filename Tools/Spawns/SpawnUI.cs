@@ -54,7 +54,7 @@ namespace ModdersToolkit.Tools.Spawns
 			calculateButton.Width.Set(-10, 0.5f);
 			calculateButton.Top.Set(top, 0f);
 			//	calculateButton.Left.Set(6, 0f);
-			calculateButton.OnClick += CalculateButton_OnClick;
+			calculateButton.OnLeftClick += CalculateButton_OnClick;
 			mainPanel.Append(calculateButton);
 
 			top += 28;

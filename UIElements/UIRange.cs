@@ -104,7 +104,7 @@ namespace ModdersToolkit.UIElements
 				Append(slider);
 
 				minus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonMinus", ReLogic.Content.AssetRequestMode.ImmediateLoad));
-				minus.OnClick += Minus_OnClick;
+				minus.OnLeftClick += Minus_OnClick;
 				//minus.Height.Set(16, 0f);
 				minus.Width.Set(0, .125f);
 				minus.Left.Set(2, .5f);
@@ -114,7 +114,7 @@ namespace ModdersToolkit.UIElements
 				Append(minus);
 
 				plus = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/ButtonPlus", ReLogic.Content.AssetRequestMode.ImmediateLoad));
-				plus.OnClick += Plus_OnClick;
+				plus.OnLeftClick += Plus_OnClick;
 				//plus.Height.Set(16, 0f);
 				plus.Width.Set(0, .125f);
 				plus.Left.Set(2, .625f);

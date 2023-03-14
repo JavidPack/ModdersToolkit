@@ -107,7 +107,7 @@ namespace ModdersToolkit.Tools.Loot
 					npc.SetDefaults(i);
 
 					var box = new UINPCSlot(npc);
-					box.OnClick += Box_OnClick;
+					box.OnLeftClick += Box_OnClick;
 					npcGrid._items.Add(box);
 					npcGrid._innerList.Append(box);
 				}

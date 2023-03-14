@@ -97,7 +97,7 @@ namespace ModdersToolkit.Tools.Items
 
 			UIText printItemInfoText = new UIText("Print ItemInfo", 0.85f);
 			printItemInfoText.Top.Set(top, 0f);
-			printItemInfoText.OnClick += PrintItemInfo_OnClick;
+			printItemInfoText.OnLeftClick += PrintItemInfo_OnClick;
 			panel.Append(printItemInfoText);
 
 			return panel;
@@ -218,7 +218,7 @@ namespace ModdersToolkit.Tools.Items
 			setDefaultsButton.Width.Set(-10, 0.5f);
 			//setDefaultsButton.HAlign = 0.5f;
 			setDefaultsButton.Top.Set(top, 0f);
-			setDefaultsButton.OnClick += SetDefaultsButton_OnClick;
+			setDefaultsButton.OnLeftClick += SetDefaultsButton_OnClick;
 			mainPanel.Append(setDefaultsButton);
 
 			UITextPanel<string> prefixButton = new UITextPanel<string>("Prefix");
@@ -227,7 +227,7 @@ namespace ModdersToolkit.Tools.Items
 			//prefixButton.Left.Set(0, 0.5f);
 			prefixButton.HAlign = 1f;
 			prefixButton.Top.Set(top, 0f);
-			prefixButton.OnClick += PrefixButton_OnClick;
+			prefixButton.OnLeftClick += PrefixButton_OnClick;
 			mainPanel.Append(prefixButton);
 
 			return mainPanel;

@@ -11,10 +11,10 @@ namespace ModdersToolkit.Tools.Fishing
 	internal class FishingCatchesProjectile : GlobalProjectile
 	{
 		public override void Load() {
-			On.Terraria.Projectile.AI_061_FishingBobber_DoASplash += Projectile_AI_061_FishingBobber_DoASplash;
+			Terraria.On_Projectile.AI_061_FishingBobber_DoASplash += Projectile_AI_061_FishingBobber_DoASplash;
 		}
 
-		private void Projectile_AI_061_FishingBobber_DoASplash(On.Terraria.Projectile.orig_AI_061_FishingBobber_DoASplash orig, Projectile self) {
+		private void Projectile_AI_061_FishingBobber_DoASplash(Terraria.On_Projectile.orig_AI_061_FishingBobber_DoASplash orig, Projectile self) {
 			if (FishingTool.currentlyTesting) {
 				// Prevent dust + sound which causes lag in water
 				return;

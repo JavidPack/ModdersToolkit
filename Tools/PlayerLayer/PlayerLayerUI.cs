@@ -40,7 +40,7 @@ namespace ModdersToolkit.Tools.PlayerLayer
 			UITextPanel<string> resetButton = new UITextPanel<string>("Reset");
 			resetButton.SetPadding(4);
 			resetButton.HAlign = 1f;
-			resetButton.OnClick += (a, b) => {
+			resetButton.OnLeftClick += (a, b) => {
 				foreach (var playerLayer in playerLayersElements) {
 					playerLayer.Reset();
 				}

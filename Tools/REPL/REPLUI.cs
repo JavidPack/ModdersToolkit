@@ -75,7 +75,7 @@ namespace ModdersToolkit.REPL
 			replOutput.SetScrollbar(keyboardScrollbar);
 
 			UIImageButton clearButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear REPL");
-			clearButton.OnClick += (a, b) => {
+			clearButton.OnLeftClick += (a, b) => {
 				pendingClear = true;
 				codeTextBox.SetText("");
 			};
@@ -84,7 +84,7 @@ namespace ModdersToolkit.REPL
 			keyboardPanel.Append(clearButton);
 
 			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Reset REPL");
-			resetButton.OnClick += (a, b) => {
+			resetButton.OnLeftClick += (a, b) => {
 				pendingClear = true;
 				codeTextBox.SetText("");
 				REPLTool.replBackend.Reset();
@@ -96,19 +96,19 @@ namespace ModdersToolkit.REPL
 			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Tile Selector");
 			eyeDropperButton.Height.Pixels = 20;
 			//eyeDropperButton.Width.Pixels = 20;
-			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
+			eyeDropperButton.OnLeftClick += EyeDropperButton_OnClick;
 			eyeDropperButton.Top.Set(-26, 1f);
 			eyeDropperButton.Left.Set(26 * 2, 0f);
 			keyboardPanel.Append(eyeDropperButton);
 
 			UIImageButton openText = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Open External Editor");
-			openText.OnClick += OpenTextButton_OnClick;
+			openText.OnLeftClick += OpenTextButton_OnClick;
 			openText.Top.Set(-26, 1f);
 			openText.Left.Set(26 * 3, 0f);
 			keyboardPanel.Append(openText);
 
 			UIImageButton runText = new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Execute External Code");
-			runText.OnClick += RunTextButton_OnClick;
+			runText.OnLeftClick += RunTextButton_OnClick;
 			runText.Top.Set(-26, 1f);
 			runText.Left.Set(26 * 4, 0f);
 			keyboardPanel.Append(runText);

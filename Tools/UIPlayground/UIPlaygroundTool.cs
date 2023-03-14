@@ -32,9 +32,9 @@ namespace ModdersToolkit.Tools.UIPlayground
 			Interface.SetState(uiPlaygroundUI);
 
 			//On.Terraria.UI.UIElement.DrawSelf += UIElement_DrawSelf;
-			On.Terraria.UI.UIElement.Draw += UIElement_Draw;
+			Terraria.UI.On_UIElement.Draw += UIElement_Draw;
 
-			On.Terraria.UI.UIElement.Click += UIElement_Click;
+			Terraria.UI.On_UIElement.LeftClick += UIElement_LeftClick;
 		}
 
 		public override void ClientTerminate() {
@@ -47,7 +47,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 		}
 
 
-		private void UIElement_Draw(On.Terraria.UI.UIElement.orig_Draw orig, UIElement self, SpriteBatch spriteBatch) {
+		private void UIElement_Draw(Terraria.UI.On_UIElement.orig_Draw orig, UIElement self, SpriteBatch spriteBatch) {
 			if (Main.gameMenu) {
 				orig(self, spriteBatch);
 				return;
@@ -143,7 +143,8 @@ namespace ModdersToolkit.Tools.UIPlayground
 				//}
 			}
 		}
-		private void UIElement_Click(On.Terraria.UI.UIElement.orig_Click orig, UIElement self, UIMouseEvent evt) {
+
+		private void UIElement_LeftClick(On_UIElement.orig_LeftClick orig, UIElement self, UIMouseEvent evt) {
 			if (EyedropperActive && evt.Target == self && !(self is UIState)) {
 				Main.NewText("Clicked on " + self.ToString());
 

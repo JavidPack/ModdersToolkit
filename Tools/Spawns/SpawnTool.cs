@@ -26,7 +26,7 @@ namespace ModdersToolkit.Tools.Spawns
 
 			Interface.SetState(spawnUI);
 
-			On.Terraria.NPC.NewNPC += NPC_NewNPC;
+			Terraria.On_NPC.NewNPC += NPC_NewNPC;
 			spawnRateFieldInfo = typeof(NPC).GetField("spawnRate", BindingFlags.Static | BindingFlags.NonPublic);
 			maxSpawnsFieldInfo = typeof(NPC).GetField("maxSpawns", BindingFlags.Static | BindingFlags.NonPublic);
 		}
@@ -54,7 +54,7 @@ namespace ModdersToolkit.Tools.Spawns
 			calculatingSpawns = false;
 		}
 
-		private int NPC_NewNPC(On.Terraria.NPC.orig_NewNPC orig, Terraria.DataStructures.IEntitySource source, int X, int Y, int Type, int Start, float ai0, float ai1, float ai2, float ai3, int Target) {
+		private int NPC_NewNPC(Terraria.On_NPC.orig_NewNPC orig, Terraria.DataStructures.IEntitySource source, int X, int Y, int Type, int Start, float ai0, float ai1, float ai2, float ai3, int Target) {
 			if (calculatingSpawns) {
 				int currentCount;
 				spawns.TryGetValue(Type, out currentCount);

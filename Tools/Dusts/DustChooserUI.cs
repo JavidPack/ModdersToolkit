@@ -162,7 +162,7 @@ namespace ModdersToolkit.Tools.Dusts
 			//}
 		}
 
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			Main.NewText("choose dust " + type);
 			DustTool.dustUI.typeDataProperty.Data = type;
 		}

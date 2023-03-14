@@ -50,13 +50,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			UITextPanel<string> calculateChunkData = new UITextPanel<string>("Calculate Chunk Size");
 			calculateChunkData.SetPadding(4);
 			//calculateChunkData.Width.Set(-10, 0.5f);
-			calculateChunkData.OnClick += CalculateButton_OnClick;
+			calculateChunkData.OnLeftClick += CalculateButton_OnClick;
 			AppendToAndAdjustWidthHeight(mainPanel, calculateChunkData, ref height, ref width);
 
 
 			UITextPanel<string> generateTownSprite = new UITextPanel<string>("Generate Town Sprite (WIP)");
 			generateTownSprite.SetPadding(4);
-			generateTownSprite.OnClick += GenerateTownSprite_OnClick;
+			generateTownSprite.OnLeftClick += GenerateTownSprite_OnClick;
 			AppendToAndAdjustWidthHeight(mainPanel, generateTownSprite, ref height, ref width);
 
 
@@ -70,13 +70,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 			UITextPanel<string> takeWorldSnapshot = new UITextPanel<string>("Take World Snapshot (WIP)");
 			takeWorldSnapshot.SetPadding(4);
-			takeWorldSnapshot.OnClick += TakeWorldSnapshot_OnClick;
+			takeWorldSnapshot.OnLeftClick += TakeWorldSnapshot_OnClick;
 			;
 			AppendToAndAdjustWidthHeight(mainPanel, takeWorldSnapshot, ref height, ref width);
 
 			UITextPanel<string> restoreWorldSnapshot = new UITextPanel<string>("Restore World Snapshot (WIP)");
 			restoreWorldSnapshot.SetPadding(4);
-			restoreWorldSnapshot.OnClick += RestoreWorldSnapshot_OnClick;
+			restoreWorldSnapshot.OnLeftClick += RestoreWorldSnapshot_OnClick;
 			;
 			AppendToAndAdjustWidthHeight(mainPanel, restoreWorldSnapshot, ref height, ref width);
 
@@ -163,7 +163,12 @@ namespace ModdersToolkit.Tools.Miscellaneous
 			int x = sectionX * 200;
 			int y = sectionY * 150;
 			// This doesn't return the correct number technically.
-			int chunkDataSize = NetMessage.CompressTileBlock(x, y, 200, 150, writeBuffer, 0);
+			// TODO: What was 1.4.3.6 6th parameter? used to be 0
+			// TODO: Fix this
+			/*
+			int chunkDataSize = NetMessage.CompressTileBlock(x, y, 200, 150, writeBuffer, 0); 
+			*/
+			int chunkDataSize = 0;
 
 			if (chunkDataSize > 65535) // 65535 131070
 				Main.NewText($"[c/FF0000:Bad]: {chunkDataSize} > 65535");

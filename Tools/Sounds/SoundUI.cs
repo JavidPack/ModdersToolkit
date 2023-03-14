@@ -135,14 +135,14 @@ namespace ModdersToolkit.Tools.Sounds
 			}
 
 			UIHoverImageButton playSoundButton = new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay", AssetRequestMode.ImmediateLoad), "Play Selected Sound");
-			playSoundButton.OnClick += PlaySoundButton_OnClick;
+			playSoundButton.OnLeftClick += PlaySoundButton_OnClick;
 			playSoundButton.Top.Set(top + 5, 0f);
 			playSoundButton.Left.Set(0, 0f);
 			playSoundButton.SetVisibility(1f, 0.8f);
 			mainPanel.Append(playSoundButton);
 
 			UIHoverImageButton playNextButton = new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay", AssetRequestMode.ImmediateLoad), "Play Next Sound");
-			playNextButton.OnClick += PlayNextButton_OnClick;
+			playNextButton.OnLeftClick += PlayNextButton_OnClick;
 			playNextButton.Top.Set(top + 5, 0f);
 			playNextButton.Left.Set(24, 0f);
 			playNextButton.SetVisibility(1f, 0.8f);
@@ -151,7 +151,7 @@ namespace ModdersToolkit.Tools.Sounds
 			// TODO: Option to Play Sound at random screen location, spawn dust box.
 
 			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", AssetRequestMode.ImmediateLoad), "Copy code to clipboard");
-			copyCodeButton.OnClick += CopyCodeButton_OnClick;
+			copyCodeButton.OnLeftClick += CopyCodeButton_OnClick;
 			copyCodeButton.CopyStyle(playSoundButton);
 			copyCodeButton.Left.Set(48, 0f);
 			copyCodeButton.SetVisibility(1f, 0.8f);
@@ -190,7 +190,7 @@ namespace ModdersToolkit.Tools.Sounds
 					return;
 				}
 				int newIndex = (index + 1) % soundList._items.Count;
-				soundList._items[newIndex].Children.First()?.Click(evt);
+				soundList._items[newIndex].Children.First()?.LeftClick(evt);
 				PlaySoundButton_OnClick(evt, listeningElement);
 
 				soundList.Goto(delegate (UIElement element) {
@@ -248,7 +248,7 @@ namespace ModdersToolkit.Tools.Sounds
 			if (modList.Count == 0) {
 				foreach (var otherMod in ModLoader.Mods) {
 					UITextPanel<string> button = new UITextPanel<string>(otherMod.DisplayName);
-					button.OnClick += (a, b) => {
+					button.OnLeftClick += (a, b) => {
 						selectedMod = otherMod;
 						updateneeded = true;
 						foreach (var item in modList._items) {
@@ -302,7 +302,7 @@ namespace ModdersToolkit.Tools.Sounds
 							continue;
 					}
 					UITextPanel<string> button = new UITextPanel<string>(loaded ? soundFile : soundFile + " (unloaded)", 0.8f);
-					button.OnClick += (a, b) => {
+					button.OnLeftClick += (a, b) => {
 						try {
 							Asset<SoundEffect> soundEntry;
 							if (loaded) {

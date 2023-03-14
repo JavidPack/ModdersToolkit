@@ -57,7 +57,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			mainPanel.Append(text);
 
 			UITextPanel<string> clearProjectilesButton = new UITextPanel<string>("Clear Projectiles");
-			clearProjectilesButton.OnClick += (a, b) => {
+			clearProjectilesButton.OnLeftClick += (a, b) => {
 				for (int i = 0; i < Main.maxProjectiles; i++) {
 					if (Main.projectile[i].active) {
 						Main.projectile[i].Kill();
@@ -170,7 +170,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			mainPanel.Append(pause);
 
 			UIHoverImageButton stepButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/next", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Step");
-			stepButton.OnClick += (s, e) => step = true;
+			stepButton.OnLeftClick += (s, e) => step = true;
 			stepButton.Top.Set(top - 6, 0f);
 			stepButton.Left.Set(80, 0f);
 			mainPanel.Append(stepButton);
@@ -298,7 +298,7 @@ namespace ModdersToolkit.Tools.Projectiles
 				Main.hoverItemName = Lang.GetProjectileName(type).Value;
 			}
 		}
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			Main.NewText("Spawn projectile " + type);
 			Projectile p = Main.projectile[Projectile.NewProjectile(null,
 				Main.LocalPlayer.Center + new Vector2(0, -40),

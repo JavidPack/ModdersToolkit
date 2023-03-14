@@ -84,7 +84,7 @@ namespace ModdersToolkit.Tools.Dusts
 			resetButton.Width.Set(-10, 0.5f);
 			resetButton.Left.Set(0, 0.5f);
 			resetButton.Top.Set(top, 0f);
-			resetButton.OnClick += ResetButton_OnClick;
+			resetButton.OnLeftClick += ResetButton_OnClick;
 			mainPanel.Append(resetButton);
 
 			top += 20;
@@ -126,7 +126,7 @@ namespace ModdersToolkit.Tools.Dusts
 
 			top += 30;
 			UIImageButton b = new UIImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/searchIcon", ReLogic.Content.AssetRequestMode.ImmediateLoad));
-			b.OnClick += (s, e) => { ShowDustChooser = !ShowDustChooser; Recalculate(); };
+			b.OnLeftClick += (s, e) => { ShowDustChooser = !ShowDustChooser; Recalculate(); };
 			b.Top.Set(top, 0f);
 			mainPanel.Append(b);
 
@@ -215,7 +215,7 @@ namespace ModdersToolkit.Tools.Dusts
 			NewDustRadioButton.Selected = true;
 
 			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Copy code to clipboard");
-			copyCodeButton.OnClick += CopyCodeButton_OnClick;
+			copyCodeButton.OnLeftClick += CopyCodeButton_OnClick;
 			copyCodeButton.Top.Set(-20, 1f);
 			copyCodeButton.Left.Set(-20, 1f);
 			mainPanel.Append(copyCodeButton);

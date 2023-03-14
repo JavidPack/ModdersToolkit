@@ -93,11 +93,34 @@ namespace ModdersToolkit.Tools.Miscellaneous
 		//	return base.PreAI(npc);
 		//}
 
-		public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) {
+		// TODO: What info do we want, is there duplicate info here? Should show this in a tool like damageclass tool.
+		/*
+		public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers) {
 			if (MiscellaneousTool.showNPCInfo) {
 				Main.NewText($"Damage: {damage,5:##0.0}   knockback: {knockback,5:##0.0}   hitDirection: {hitDirection}");
 			}
-			return base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
+			return base.ModifyIncomingHit(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
+		}
+		*/
+
+		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers) {
+			if (MiscellaneousTool.showNPCInfo) {
+				Main.NewText($"SourceDamage: {modifiers.SourceDamage.Additive,5:##0.0} {modifiers.SourceDamage.Multiplicative,5:##0.0} {modifiers.SourceDamage.Base,5:##0.0} {modifiers.SourceDamage.Flat,5:##0.0}");
+				Main.NewText($"Defense: {modifiers.Defense.Additive,5:##0.0} {modifiers.Defense.Multiplicative,5:##0.0} {modifiers.Defense.Base,5:##0.0} {modifiers.Defense.Flat,5:##0.0}");
+				Main.NewText($"ArmorPenetration: {modifiers.ArmorPenetration.Value,5:##0.0}");
+			}
+		}
+
+		public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone) {
+			if (MiscellaneousTool.showNPCInfo) {
+				Main.NewText($"Damage: {hit.Damage,5:##0.0}   knockback: {hit.KnockBack,5:##0.0}   hitDirection: {hit.HitDirection}");
+			}
+		}
+
+		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone) {
+			if (MiscellaneousTool.showNPCInfo) {
+				Main.NewText($"Damage: {hit.Damage,5:##0.0}   knockback: {hit.KnockBack,5:##0.0}   hitDirection: {hit.HitDirection}");
+			}
 		}
 
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {

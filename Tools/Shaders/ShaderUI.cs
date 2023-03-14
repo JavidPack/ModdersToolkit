@@ -209,7 +209,7 @@ namespace ModdersToolkit.Tools.Shaders
 			topTestShaderPanel += (int)g.Height.Pixels;
 
 			var createTestShaderButton = new UITextPanel<string>("Create/Recreate Test Shader");
-			createTestShaderButton.OnClick += CreateTestShaderFileButton_OnClick;
+			createTestShaderButton.OnLeftClick += CreateTestShaderFileButton_OnClick;
 			createTestShaderButton.Top.Set(topTestShaderPanel, 0f);
 			createTestShaderButton.Left.Set(0, 0f);
 			createTestShaderButton.SetPadding(4);
@@ -217,7 +217,7 @@ namespace ModdersToolkit.Tools.Shaders
 			topTestShaderPanel += 26;
 
 			var openTestShaderButton = new UITextPanel<string>("Edit Test Shader");
-			openTestShaderButton.OnClick += OpenTestShaderFileButton_OnClick;
+			openTestShaderButton.OnLeftClick += OpenTestShaderFileButton_OnClick;
 			openTestShaderButton.Top.Set(topTestShaderPanel, 0f);
 			openTestShaderButton.Left.Set(0, 0f);
 			openTestShaderButton.SetPadding(4);
@@ -225,7 +225,7 @@ namespace ModdersToolkit.Tools.Shaders
 			topTestShaderPanel += 26;
 
 			var compileShaderButton = new UITextPanel<string>("Compile Test Shader");
-			compileShaderButton.OnClick += CompileTestShaderButton_OnClick;
+			compileShaderButton.OnLeftClick += CompileTestShaderButton_OnClick;
 			compileShaderButton.Top.Set(topTestShaderPanel, 0f);
 			compileShaderButton.Left.Set(0, 0f);
 			compileShaderButton.SetPadding(4);
@@ -627,7 +627,7 @@ technique Technique1
 
 					UITextPanel<string> button = new UITextPanel<string>(otherMod.DisplayName);
 
-					button.OnClick += (a, b) => {
+					button.OnLeftClick += (a, b) => {
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSourcesCheckbox.Selected = false;
@@ -665,7 +665,7 @@ technique Technique1
 					UITextPanel<string> button = new UITextPanel<string>(loaded ? textureEntry : textureEntry + " (unloaded)", 0.7f);
 
 					// loaded vs unloaded/new .fx file
-					button.OnClick += (a, b) => {
+					button.OnLeftClick += (a, b) => {
 						//selectedShader = textureEntry.Value;
 						currentShader.SetText("Current: " + textureEntry);
 
@@ -682,7 +682,7 @@ technique Technique1
 					panel.Append(button);
 
 					button = new UITextPanel<string>("Compile", 0.7f);
-					button.OnClick += (a, b) => {
+					button.OnLeftClick += (a, b) => {
 						string path = Path.Combine(ModdersToolkit.ModSourcePath, selectedMod.Name, textureEntry + ".fx");
 						if (File.Exists(path)) {
 							Main.NewText($"Manually compiling {path}.");

@@ -53,7 +53,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			mainPanel.Append(privateFieldsCheckbox);
 
 			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear Tweaks");
-			resetButton.OnClick += (a, b) => {
+			resetButton.OnLeftClick += (a, b) => {
 				QuickTweakTool.tweaks.Clear();
 				updateNeeded = true;
 			};
@@ -63,7 +63,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 
 			// Separate page for common things? Save load?
 			UIImageButton mountButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Edit current mount");
-			mountButton.OnClick += (a, b) => {
+			mountButton.OnLeftClick += (a, b) => {
 				if (Main.LocalPlayer.mount._active) {
 					//foreach (var field in typeof(Mount.MountData).GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)) {
 						QuickTweak.QuickTweakTool.AddTweak(Main.LocalPlayer.mount._data, "");
@@ -76,7 +76,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			mainPanel.Append(mountButton);
 
 			UIImageButton modPlayersButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Edit ModPlayers");
-			modPlayersButton.OnClick += (a, b) => {
+			modPlayersButton.OnLeftClick += (a, b) => {
 				FieldInfo modPlayersField = typeof(Player).GetField("modPlayers", BindingFlags.Instance | BindingFlags.NonPublic);
 				ModPlayer[] modPlayers = (ModPlayer[])modPlayersField.GetValue(Main.LocalPlayer);
 				foreach (var modPlayer in modPlayers) {
@@ -89,7 +89,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 			mainPanel.Append(modPlayersButton);
 
 			UIImageButton nearestNPCButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Nearest NPC");
-			nearestNPCButton.OnClick += (a, b) => {
+			nearestNPCButton.OnLeftClick += (a, b) => {
 				NPC closest = null;
 				float minDistance = float.MaxValue;
 				for (int k = 0; k < 200; k++) {
@@ -159,7 +159,7 @@ namespace ModdersToolkit.Tools.QuickTweak
 				// Additional buttons, separate from the actual data representation.
 				// How should this be done in other contexts?
 				UIImageButton removeButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Remove");
-				removeButton.OnClick += (a, b) => {
+				removeButton.OnLeftClick += (a, b) => {
 					QuickTweakTool.tweaks.Remove(tweakEntry);
 					updateNeeded = true;
 				};

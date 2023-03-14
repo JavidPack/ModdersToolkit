@@ -343,13 +343,13 @@ namespace ModdersToolkit.Tools.UIPlayground
 			top += 20;
 
 			UIImageButton eyeDropperButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/eyedropper", ReLogic.Content.AssetRequestMode.ImmediateLoad), "UI Selector");
-			eyeDropperButton.OnClick += EyeDropperButton_OnClick;
+			eyeDropperButton.OnLeftClick += EyeDropperButton_OnClick;
 			eyeDropperButton.Top.Set(top - 6, 0f);
 			eyeDropperButton.Left.Set(0, 0f);
 			tweakPanel.Append(eyeDropperButton);
 
 			UIImageButton resetButton = new UIHoverImageButton(ModContent.Request<Texture2D>("Terraria/Images/UI/ButtonDelete", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Clear UI Selections");
-			resetButton.OnClick += (a, b) => {
+			resetButton.OnLeftClick += (a, b) => {
 				UIPlaygroundTool.selectedUIElements.Clear();
 				updateNeeded = true;
 			};
@@ -358,7 +358,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 			tweakPanel.Append(resetButton);
 
 			UIHoverImageButton copyCodeButton = new UIHoverImageButton(ModdersToolkit.Instance.Assets.Request<Texture2D>("UIElements/CopyCodeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Copy code of selected element to clipboard");
-			copyCodeButton.OnClick += CopyCodeButton_OnClick;
+			copyCodeButton.OnLeftClick += CopyCodeButton_OnClick;
 			copyCodeButton.Top.Set(top - 6, 0f);
 			copyCodeButton.Left.Set(60, 0f);
 			tweakPanel.Append(copyCodeButton);
@@ -452,7 +452,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 					continue;
 
 				var header = new UIText(modUIElementType.Name);
-				header.OnClick += (a, b) => InstantiateUIElement(modUIElementType);
+				header.OnLeftClick += (a, b) => InstantiateUIElement(modUIElementType);
 				//toolboxList.Add(header);
 				header.Recalculate();
 
@@ -583,7 +583,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 				// TODO: Use UniqueId? What was this for before?
 				//var header = new UIText($"{(string.IsNullOrEmpty(uiElement.Id) ? "" : uiElement.Id + ": ")}{uiElement.ToString()}:");
 				var header = new UIText($"{uiElement.ToString()}:");
-				header.OnClick += (a, b) => {
+				header.OnLeftClick += (a, b) => {
 					UIPlaygroundTool.SelectUIElement(uiElement);
 					//UIPlaygroundTool.lastSelectedUIElement = uiElement;
 					panel.BackgroundColor = Terraria.ModLoader.UI.UICommon.DefaultUIBlue;
@@ -595,7 +595,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 				if (uiElement.Parent != null && !(uiElement.Parent is UIState)) {
 					var parent = new UIText("->Parent", 0.85f);
 					parent.Top.Set(top, 0f);
-					parent.OnClick += (a, b) => {
+					parent.OnLeftClick += (a, b) => {
 						UIPlaygroundTool.AddTweakUIElement(uiElement.Parent);
 						UIPlaygroundTool.lastSelectedUIElement = uiElement.Parent;
 						// GOTO happens before parent is added to list, too early.
@@ -633,7 +633,7 @@ namespace ModdersToolkit.Tools.UIPlayground
 					foreach (var element in elements2) {
 						var child = new UIText(element.ToString(), 0.85f);
 						//parent.Top.Set(top, 0f);
-						child.OnClick += (a, b) => {
+						child.OnLeftClick += (a, b) => {
 							UIPlaygroundTool.AddTweakUIElement(element);
 							UIPlaygroundTool.lastSelectedUIElement = element;
 						};

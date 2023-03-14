@@ -35,9 +35,9 @@ namespace ModdersToolkit.UIElements
 			//BorderColor = Color.White;
 		}
 
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			Focus();
-			base.Click(evt);
+			base.LeftClick(evt);
 		}
 
 		public void SetUnfocusKeys(bool unfocusOnEnter, bool unfocusOnTab) {

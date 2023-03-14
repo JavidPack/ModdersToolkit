@@ -29,7 +29,7 @@ namespace ModdersToolkit.UIElements
 			}
 		}
 
-		public override void Click(UIMouseEvent evt) {
+		public override void LeftClick(UIMouseEvent evt) {
 			if (!partOfGroup) {
 				Selected = !Selected;
 				Recalculate();
