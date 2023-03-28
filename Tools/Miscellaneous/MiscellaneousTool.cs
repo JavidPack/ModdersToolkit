@@ -113,13 +113,13 @@ namespace ModdersToolkit.Tools.Miscellaneous
 
 		public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone) {
 			if (MiscellaneousTool.showNPCInfo) {
-				Main.NewText($"Damage: {hit.Damage,5:##0.0}   knockback: {hit.KnockBack,5:##0.0}   hitDirection: {hit.HitDirection}");
+				Main.NewText($"Damage: {hit.Damage,5:##0.0}   knockback: {hit.Knockback,5:##0.0}   hitDirection: {hit.HitDirection}");
 			}
 		}
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone) {
 			if (MiscellaneousTool.showNPCInfo) {
-				Main.NewText($"Damage: {hit.Damage,5:##0.0}   knockback: {hit.KnockBack,5:##0.0}   hitDirection: {hit.HitDirection}");
+				Main.NewText($"Damage: {hit.Damage,5:##0.0}   knockback: {hit.Knockback,5:##0.0}   hitDirection: {hit.HitDirection}");
 			}
 		}
 
