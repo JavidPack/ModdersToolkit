@@ -247,10 +247,11 @@ namespace ModdersToolkit.Tools.Items
 
 		private void PrintItemInfo_OnClick(UIMouseEvent evt, UIElement listeningElement) {
 			// TODO: Double check that this enumeration is correct with AppliesToEntity
-			Instanced<GlobalItem>[] globalItems = ((Instanced<GlobalItem>[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
+			var globalItems = Main.LocalPlayer.HeldItem.EntityGlobals;
+			//Instanced<GlobalItem>[] globalItems = ((Instanced<GlobalItem>[])(ItemTool.globalItemsField.GetValue(Main.LocalPlayer.HeldItem)));
 
 			for (int i = 0; i < globalItems.Length; i++) {
-				GlobalItem param = globalItems[i].Instance;
+				GlobalItem param = globalItems[i];
 				if (param.Name == "MysteryGlobalItem")
 					continue;
 				Main.NewText("Object type: " + param.GetType());

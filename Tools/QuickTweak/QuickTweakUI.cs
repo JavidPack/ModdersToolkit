@@ -107,10 +107,11 @@ namespace ModdersToolkit.Tools.QuickTweak
 						QuickTweak.QuickTweakTool.AddTweak(closest.ModNPC, closest.GivenOrTypeName + " modNPC");
 				}
 				FieldInfo globalNPCsField = typeof(NPC).GetField("globalNPCs", BindingFlags.Instance | BindingFlags.NonPublic);
-				Instanced<GlobalNPC>[] globalNPCs = (Instanced<GlobalNPC>[])globalNPCsField.GetValue(closest);
+				var globalNPCs = closest.EntityGlobals;
+				//Instanced<GlobalNPC>[] globalNPCs = (Instanced<GlobalNPC>[])globalNPCsField.GetValue(closest);
 				// TODO: Double check that this enumeration is correct with AppliesToEntity
 				foreach (var globalNPC in globalNPCs) {
-					QuickTweak.QuickTweakTool.AddTweak(globalNPC.Instance, "");
+					QuickTweak.QuickTweakTool.AddTweak(globalNPC, "");
 				}
 				updateNeeded = true;
 			};

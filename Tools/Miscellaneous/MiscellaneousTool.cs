@@ -64,7 +64,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				y += 20;
 				spriteBatch.DrawString(font, $"localAI:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
 				y += 20;
-				for (int i = 0; i < 2; i++) {
+				for (int i = 0; i < Projectile.maxAI; i++) {
 					spriteBatch.DrawString(font, $"{projectile.ai[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 5), Color.Black);
 					spriteBatch.DrawString(font, $"{projectile.localAI[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 25), Color.Black);
 				}
@@ -147,7 +147,7 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					y += 20;
 					spriteBatch.DrawString(font, $"localAI:", infoRectangle.TopLeft() + new Vector2(5, y), Color.Black);
 					y += 20;
-					for (int i = 0; i < 4; i++) {
+					for (int i = 0; i < NPC.maxAI; i++) {
 						spriteBatch.DrawString(font, $"{npc.ai[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 5), Color.Black);
 						spriteBatch.DrawString(font, $"{npc.localAI[i],5:##0.0}", infoRectangle.TopLeft() + new Vector2(5 + 65 + i * 50, 25), Color.Black);
 					}
