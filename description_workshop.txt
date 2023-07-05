@@ -1,0 +1,33 @@
+﻿[img]https://i.imgur.com/W2c5CX6.gif[/img]
+
+ModdersToolkit is a toolkit for modders, hence the name.
+
+Current Tools
+-C# REPL, evaluate and run code interactively (on server console as well)
+-Hitbox visualizer
+-Dust tool
+-Item defaults tool
+-Projectile spawner
+-Player layer viewer
+-Interface layer viewer.
+-NPC Spawn Calculator
+-Fishing Result Calculator (Thanks direwolf420)
+-Texture updating/editing tool
+-Shader updating/editing tool (w/ Webmilio) (see wiki for usage instructions)
+-UI Playground
+-Background Tool
+-Miscellaneous (NPC info, tile grid, chunk calculator)
+
+Planned Tools
+-WorldGen tools
+-Sound explorer/tester
+-NPC Loot validator
+-NPC Spawn validator
+-NPC kill visualizer
+
+[h1]Links[/h1]
+Source code hosted on [url=github.com/JavidPack/ModdersToolkit]GitHub[/url], collaboration welcome
+For questions or suggestions, come to my Discord: [url=discord.gg/w8Hcwby][img]https://discordapp.com/api/guilds/276235094622994433/widget.png?style=shield[/img][/url]
+Bug reports in the comments here will not be seen, come to Discord or Github to report issues.
+If you'd like to support my mods, I have a Patreon [url=www.patreon.com/jopojelly][img]https://i.imgur.com/xII2DwJ.png[/img][/url]
+[url=https://steamcommunity.com/profiles/76561198025715866/myworkshopfiles/?appid=1281930]Check out all my mods[/url]

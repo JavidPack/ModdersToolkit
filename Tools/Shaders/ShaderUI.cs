@@ -385,7 +385,7 @@ technique Technique1
 			RunShaderCompileCommand(shaderFilePath);
 		}
 
-		private const int fxcompilerVersion = 1;
+		private const int fxcompilerVersion = 2;
 		private bool fxCompilerUpToDate = false;
 		private void RunShaderCompileCommand(string file) {
 			// Ensure shader compiler exists
