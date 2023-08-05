@@ -1,1 +1,9 @@
 en-US, 0/0, NaN, missing 0
+de-DE, 0/0, NaN, missing 0
+it-IT, 0/0, NaN, missing 0
+fr-FR, 0/0, NaN, missing 0
+es-ES, 0/0, NaN, missing 0
+ru-RU, 0/0, NaN, missing 0
+zh-Hans, 0/0, NaN, missing 0
+pt-BR, 0/0, NaN, missing 0
+pl-PL, 0/0, NaN, missing 0
