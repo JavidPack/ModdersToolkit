@@ -261,6 +261,7 @@ namespace ModdersToolkit.Tools.Textures
 						file.GetData<Color>(c, 0, c.Length);
 						selectedTexture2D.SetData<Color>(c);
 						Main.NewText("Texture updated from watch file.");
+						Main.instance.TilePaintSystem.Reset(); // should reset tile paints. TODO, could be more efficient, check if tile texture.
 					}
 					watchedFileChanged = false;
 				}
@@ -300,6 +301,7 @@ namespace ModdersToolkit.Tools.Textures
 						file.GetData<Color>(c, 0, c.Length);
 						modTexture.SetData<Color>(c);
 						Main.NewText("Texture updated from watch ModSources folder: " + selectedMod.Name + Path.DirectorySeparatorChar + innername);
+						Main.instance.TilePaintSystem.Reset(); // should reset tile paints. TODO, could be more efficient, check if tile texture.
 					}
 				}
 			}
