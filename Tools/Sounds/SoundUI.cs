@@ -171,11 +171,15 @@ namespace ModdersToolkit.Tools.Sounds
 				Main.NewText("No sound selected");
 			}
 			else {
-				string modname = selectedSoundEffectAsset.Value.modname == "ModLoader" ? "Terraria" : selectedSoundEffectAsset.Value.modname;
-				var style = new SoundStyle(modname + "/" + selectedSoundEffectAsset.Value.sound.Name/*.Replace("\\", "/")*/);
-				style = style with { Volume = volumeProperty.Data, PitchVariance = pitchVarianceProperty.Data, IsLooped = false, Pitch = pitchProperty.Data, MaxInstances = maxInstancesProperty.Data};
-				SoundEngine.PlaySound(style);
+				PlaySelectedSound();
 			}
+		}
+
+		private void PlaySelectedSound() {
+			string modname = selectedSoundEffectAsset.Value.modname == "ModLoader" ? "Terraria" : selectedSoundEffectAsset.Value.modname;
+			var style = new SoundStyle(modname + "/" + selectedSoundEffectAsset.Value.sound.Name/*.Replace("\\", "/")*/);
+			style = style with { Volume = volumeProperty.Data, PitchVariance = pitchVarianceProperty.Data, IsLooped = false, Pitch = pitchProperty.Data, MaxInstances = maxInstancesProperty.Data };
+			SoundEngine.PlaySound(style);
 		}
 
 		private void PlayNextButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
@@ -315,6 +319,7 @@ namespace ModdersToolkit.Tools.Sounds
 							}
 							selectedSoundEffectAsset = (selectedMod.Name, soundEntry);
 							selectedSoundEffectElement = button;
+							PlaySelectedSound(); 
 							currentSound.SetText("Current: " + soundEntry.Name);
 							updateneeded = true;
 						}
