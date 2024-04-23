@@ -23,7 +23,7 @@ namespace ModdersToolkit.Tools.Fishing
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			Main.instance.LoadItem(itemType);
+			Utilities.LoadItem(itemType);
 			Texture2D itemTexture = TextureAssets.Item[itemType].Value;
 
 			int width = itemTexture.Width;

@@ -261,7 +261,7 @@ namespace ModdersToolkit.Tools.Projectiles
 			this.Width.Set(backgroundTexture.Width * scale, 0f);
 			this.Height.Set(backgroundTexture.Height * scale, 0f);
 
-			Main.instance.LoadProjectile(type);
+			Utilities.LoadProjectile(type);
 		}
 
 		internal int frameCounter = 0;
