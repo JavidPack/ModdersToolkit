@@ -109,7 +109,7 @@ namespace ModdersToolkit
 		}
 
 		public void UpdateUI(GameTime gameTime) {
-			tools?.ForEach(tool => tool.UIUpdate());
+			tools?.ForEach(tool => tool.UIUpdate(gameTime));
 		}
 
 		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {

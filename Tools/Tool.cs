@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Microsoft.Xna.Framework;
+using System.Reflection;
 using Terraria;
 using Terraria.UI;
 
@@ -35,9 +36,9 @@ namespace ModdersToolkit.Tools
 			Interface?.Recalculate();
 		}
 
-		internal virtual void UIUpdate() {
+		internal virtual void UIUpdate(GameTime time) {
 			if (Visible) {
-				Interface?.Update(Main._drawInterfaceGameTime);
+				Interface?.Update(time);
 			}
 		}
 
