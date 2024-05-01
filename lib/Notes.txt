@@ -1,1 +1,7 @@
 Microsoft.CodeAnalysis.Scripting.dll actually in Microsoft.CodeAnalysis.Scripting.Common nuget, not Microsoft.CodeAnalysis.Scripting
+
+Download, then open as zip and find dll in lib folder
+https://www.nuget.org/packages/Microsoft.CodeAnalysis.Scripting.Common
+https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.Scripting
+
+Was v4.2.0 on .net 6. Now v4.9.2 on .net 8
