@@ -251,7 +251,6 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				var screenCenter = Main.ScreenSize.ToVector2() / 2f;
 				var zoom = Main.GameViewMatrix.Zoom;
 				var mousePos = (Main.MouseScreen - screenCenter) / zoom + Main.screenPosition + screenCenter;
-				Main.NewText(mousePos);
 				bool can = Collision.CanHitLine(Main.LocalPlayer.Center, 0, 0, mousePos, 0, 0);
 				Color color = can ? Color.Green : Color.Red;
 				Utils.DrawLine(Main.spriteBatch, Main.LocalPlayer.Center, Main.MouseWorld, color, color, 1);
