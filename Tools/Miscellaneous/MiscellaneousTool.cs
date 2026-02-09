@@ -231,10 +231,10 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					var Width2 = 0;
 					var Height1 = 0;
 					var Height2 = 0;
-					int num = (int)((Position1.X + (float)(Width1 / 2)) / 16f);
-					int num2 = (int)((Position1.Y + (float)(Height1 / 2)) / 16f);
-					int num3 = (int)((Position2.X + (float)(Width2 / 2)) / 16f);
-					int num4 = (int)((Position2.Y + (float)(Height2 / 2)) / 16f);
+					int num = (int)((Position1.X + (Width1 / 2f)) / 16f);
+					int num2 = (int)((Position1.Y + (Height1 / 2f)) / 16f);
+					int num3 = (int)((Position2.X + (Width2 / 2f)) / 16f);
+					int num4 = (int)((Position2.Y + (Height2 / 2f)) / 16f);
 
 					Vector2 actualCheck = new Vector2(num3, num4) * 16;
 					if (showTileCorners) {
@@ -247,9 +247,12 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				Main.spriteBatch.End();
 			}
 			if (MiscellaneousTool.showCanHitLine) {
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-				bool can = Collision.CanHitLine(Main.LocalPlayer.Center, 0, 0, Main.MouseWorld, 0, 0);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null);
+				var screenCenter = Main.ScreenSize.ToVector2() / 2f;
+				var zoom = Main.GameViewMatrix.Zoom;
+				var mousePos = (Main.MouseScreen - screenCenter) / zoom + Main.screenPosition + screenCenter;
+				Main.NewText(mousePos);
+				bool can = Collision.CanHitLine(Main.LocalPlayer.Center, 0, 0, mousePos, 0, 0);
 				Color color = can ? Color.Green : Color.Red;
 				Utils.DrawLine(Main.spriteBatch, Main.LocalPlayer.Center, Main.MouseWorld, color, color, 1);
 				Main.spriteBatch.End();
