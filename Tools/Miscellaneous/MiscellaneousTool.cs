@@ -231,10 +231,10 @@ namespace ModdersToolkit.Tools.Miscellaneous
 					var Width2 = 0;
 					var Height1 = 0;
 					var Height2 = 0;
-					int num = (int)((Position1.X + (Width1 / 2f)) / 16f);
-					int num2 = (int)((Position1.Y + (Height1 / 2f)) / 16f);
-					int num3 = (int)((Position2.X + (Width2 / 2f)) / 16f);
-					int num4 = (int)((Position2.Y + (Height2 / 2f)) / 16f);
+					int num = (int)((Position1.X + (float)(Width1 / 2)) / 16f);
+					int num2 = (int)((Position1.Y + (float)(Height1 / 2)) / 16f);
+					int num3 = (int)((Position2.X + (float)(Width2 / 2)) / 16f);
+					int num4 = (int)((Position2.Y + (float)(Height2 / 2)) / 16f);
 
 					Vector2 actualCheck = new Vector2(num3, num4) * 16;
 					if (showTileCorners) {
