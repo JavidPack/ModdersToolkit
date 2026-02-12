@@ -27,6 +27,7 @@ namespace ModdersToolkit.Tools.Textures
 		public UIList textureList;
 		public UIText currentTexture;
 		public Mod selectedMod;
+		private string selectedModSourceFolder;
 		private Texture2D selectedTexture2D;
 
 		internal FileSystemWatcher watcher;
@@ -149,13 +150,13 @@ namespace ModdersToolkit.Tools.Textures
 			}
 
 			if (watchModSources.Selected) {
-				if (!Directory.Exists(ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name)) {
+				if (!Directory.Exists(selectedModSourceFolder)) {
 					Main.NewText("Error somehow");
 					return;
 				}
 
 				modSourcesWatcher = new FileSystemWatcher();
-				modSourcesWatcher.Path = ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+				modSourcesWatcher.Path = selectedModSourceFolder + Path.DirectorySeparatorChar;
 				/* Watch for changes in LastAccess and LastWrite times, and
 				   the renaming of files or directories. */
 				modSourcesWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
@@ -272,7 +273,7 @@ namespace ModdersToolkit.Tools.Textures
 					watcherCooldownSources--;
 				if (watcherCooldownSources == 0) {
 					watchedFileChangedSources = false;
-					string dir = ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name + Path.DirectorySeparatorChar;
+					string dir = selectedModSourceFolder + Path.DirectorySeparatorChar;
 					string innername = watchedFileChangedSourcesFileName.Substring(dir.Length);
 					string innernamenoext = System.IO.Path.ChangeExtension(innername, null);
 					//innernamenoext = innernamenoext.Replace("\\", "/");
@@ -316,7 +317,8 @@ namespace ModdersToolkit.Tools.Textures
 						selectedMod = otherMod;
 						updateneeded = true;
 						watchModSources.Selected = false;
-						watchModSources.Clickable = Directory.Exists(ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + otherMod.Name);
+						selectedModSourceFolder = !string.IsNullOrWhiteSpace(selectedMod.SourceFolder) ? selectedMod.SourceFolder : ModdersToolkit.ModSourcePath + Path.DirectorySeparatorChar + selectedMod.Name;
+						watchModSources.Clickable = Directory.Exists(selectedModSourceFolder);
 						if (watchModSources.Clickable)
 							watchModSources.Selected = true;
 					};
