@@ -247,9 +247,11 @@ namespace ModdersToolkit.Tools.Miscellaneous
 				Main.spriteBatch.End();
 			}
 			if (MiscellaneousTool.showCanHitLine) {
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-				bool can = Collision.CanHitLine(Main.LocalPlayer.Center, 0, 0, Main.MouseWorld, 0, 0);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null);
+				var screenCenter = Main.ScreenSize.ToVector2() / 2f;
+				var zoom = Main.GameViewMatrix.Zoom;
+				var mousePos = (Main.MouseScreen - screenCenter) / zoom + Main.screenPosition + screenCenter;
+				bool can = Collision.CanHitLine(Main.LocalPlayer.Center, 0, 0, mousePos, 0, 0);
 				Color color = can ? Color.Green : Color.Red;
 				Utils.DrawLine(Main.spriteBatch, Main.LocalPlayer.Center, Main.MouseWorld, color, color, 1);
 				Main.spriteBatch.End();
